@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>🚢 MSC Musica — Méditerranée 2026</title>
+<style>
+:root {
+  --sea: #0077b6;
+  --deep: #023e8a;
+  --sky: #90e0ef;
+  --sand: #f4e4c1;
+  --gold: #ffd166;
+  --coral: #ef476f;
+  --green: #06d6a0;
+  --white: #ffffff;
+  --dark: #1a1a2e;
+  --gray: #6b7280;
+  --lightgray: #f1f5f9;
+  --shadow: 0 4px 20px rgba(0,0,0,0.1);
+  --radius: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--lightgray);
+  color: var(--dark);
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, var(--deep) 0%, var(--sea) 60%, #48cae4 100%);
+  color: white;
+  padding: 20px 16px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.header h1 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.header h1 span { font-size: 1.6rem; }
+.header .subtitle {
+  font-size: 0.78rem;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+.itinerary-badge {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  text-align: right;
+  line-height: 1.5;
+}
+.itinerary-badge strong { font-size: 0.9rem; }
+
+/* PORT PILLS SCROLL */
+.port-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.port-scroll::-webkit-scrollbar { display: none; }
+.port-btn {
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.3);
+  color: white;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.port-btn.active {
+  background: var(--gold);
+  color: var(--dark);
+  border-color: var(--gold);
+}
+.port-btn:hover { opacity: 0.85; }
+
+/* PLAN COUNTER BADGE */
+.plan-count {
+  display: inline-block;
+  background: var(--coral);
+  color: white;
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* CONTENT */
+.content { padding: 16px; display: none; }
+.content.active { display: block; }
+
+/* HOME */
+.hero-route {
+  background: white;
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.hero-route h2 {
+  font-size: 1rem;
+  color: var(--sea);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+.route-timeline {
+  position: relative;
+}
+.route-stop {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  position: relative;
+}
+.route-stop:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 32px;
+  bottom: -8px;
+  width: 2px;
+  background: var(--sky);
+}
+.stop-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.stop-dot.sea-day { background: var(--sky); }
+.stop-dot.port { background: var(--gold); }
+.stop-dot.special { background: var(--coral); color: white; }
+.stop-info { flex: 1; }
+.stop-info .stop-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--dark);
+}
+.stop-info .stop-date { font-size: 0.75rem; color: var(--gray); }
+.stop-info .stop-hours {
+  font-size: 0.78rem;
+  background: var(--lightgray);
+  border-radius: 6px;
+  padding: 2px 8px;
+  display: inline-block;
+  margin-top: 3px;
+  font-weight: 600;
+  color: var(--sea);
+}
+.goto-btn {
+  background: var(--sea);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.goto-btn:hover { background: var(--deep); }
+
+/* PORT SECTION */
+.port-header {
+  background: white;
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.port-flag { font-size: 2.5rem; }
+.port-title h2 { font-size: 1.1rem; font-weight: 800; color: var(--dark); }
+.port-title .port-date { font-size: 0.78rem; color: var(--gray); }
+.port-title .port-time {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--sea);
+  background: #e0f2fe;
+  border-radius: 6px;
+  padding: 2px 8px;
+  display: inline-block;
+  margin-top: 3px;
+}
+.port-distance {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: var(--gray);
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* CATEGORY FILTER */
+.cat-filter {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 0 0 10px;
+  scrollbar-width: none;
+  margin-bottom: 4px;
+}
+.cat-filter::-webkit-scrollbar { display: none; }
+.cat-pill {
+  flex-shrink: 0;
+  background: white;
+  border: 1.5px solid #dde;
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.cat-pill.active {
+  background: var(--sea);
+  color: white;
+  border-color: var(--sea);
+}
+
+/* ATTRACTION CARD */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (min-width: 500px) {
+  .cards-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.attr-card {
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+.attr-card.selected {
+  box-shadow: 0 0 0 2.5px var(--gold), var(--shadow);
+}
+.attr-card:active { transform: scale(0.97); }
+.card-img-wrap {
+  position: relative;
+  height: 110px;
+  overflow: hidden;
+}
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+.attr-card:hover .card-img { transform: scale(1.05); }
+.card-img-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, var(--sea), var(--deep));
+  color: white;
+}
+.card-cat-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: rgba(0,0,0,0.65);
+  color: white;
+  border-radius: 8px;
+  padding: 2px 7px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+.card-sel-check {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  border: 2px solid #ccc;
+  transition: all 0.2s;
+}
+.attr-card.selected .card-sel-check {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--dark);
+}
+.card-body { padding: 8px; }
+.card-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.chip {
+  font-size: 0.62rem;
+  background: var(--lightgray);
+  border-radius: 6px;
+  padding: 2px 5px;
+  color: var(--gray);
+  font-weight: 600;
+}
+.chip.dist { color: var(--sea); background: #e0f2fe; }
+.chip.cost { color: var(--green); background: #d1fae5; }
+.chip.dur { color: #7c3aed; background: #ede9fe; }
+.card-desc {
+  font-size: 0.72rem;
+  color: var(--gray);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* NAVIGATION MODAL */
+.nav-modal {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 30px rgba(0,0,0,0.2);
+  z-index: 200;
+  padding: 16px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.nav-modal.open { display: block; }
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 199;
+}
+.modal-overlay.open { display: block; }
+.modal-handle {
+  width: 40px;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+.modal-title {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.modal-subtitle {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin-bottom: 16px;
+}
+.nav-buttons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--lightgray);
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--dark);
+  transition: all 0.2s;
+}
+.nav-btn:hover { background: var(--sea); color: white; }
+.nav-btn .nav-icon { font-size: 1.4rem; }
+.nav-btn .nav-info { text-align: left; line-height: 1.3; }
+.nav-btn .nav-info small { font-weight: 400; color: var(--gray); font-size: 0.68rem; }
+.nav-btn:hover .nav-info small { color: rgba(255,255,255,0.8); }
+.modal-close-btn {
+  width: 100%;
+  background: var(--lightgray);
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+/* MON PLAN */
+.plan-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--gray);
+}
+.plan-empty .plan-empty-icon { font-size: 3rem; margin-bottom: 12px; }
+.plan-empty p { font-size: 0.9rem; line-height: 1.6; }
+
+.plan-port-group {
+  background: white;
+  border-radius: var(--radius);
+  margin-bottom: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.plan-port-header {
+  background: linear-gradient(90deg, var(--deep), var(--sea));
+  color: white;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.plan-port-header .port-hours {
+  margin-left: auto;
+  font-size: 0.72rem;
+  opacity: 0.8;
+  font-weight: 400;
+}
+.plan-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--lightgray);
+}
+.plan-item:last-child { border-bottom: none; }
+.plan-item-emoji { font-size: 1.4rem; flex-shrink: 0; }
+.plan-item-info { flex: 1; }
+.plan-item-name { font-size: 0.85rem; font-weight: 700; }
+.plan-item-meta { font-size: 0.72rem; color: var(--gray); margin-top: 2px; }
+.plan-nav-btn {
+  background: var(--sea);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.plan-nav-btn:hover { background: var(--deep); }
+.plan-remove-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--gray);
+  padding: 4px;
+}
+.plan-summary {
+  background: white;
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.plan-summary h3 { font-size: 0.9rem; color: var(--gray); margin-bottom: 4px; }
+.plan-summary .count { font-size: 2rem; font-weight: 800; color: var(--sea); }
+
+/* SEA DAY */
+.sea-card {
+  background: linear-gradient(135deg, var(--sky), var(--sea));
+  color: white;
+  border-radius: var(--radius);
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.sea-card h2 { font-size: 1.5rem; margin-bottom: 8px; }
+.sea-card p { opacity: 0.9; font-size: 0.9rem; line-height: 1.6; }
+
+/* FULLSCREEN IMAGE */
+.fullscreen-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.fullscreen-overlay.open { display: flex; flex-direction: column; }
+.fullscreen-overlay img {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 12px;
+  object-fit: contain;
+}
+.fullscreen-overlay .fs-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fullscreen-overlay .fs-title {
+  color: white;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #eee;
+  display: flex;
+  z-index: 99;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+}
+.bnav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 2px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--gray);
+  gap: 2px;
+  transition: color 0.2s;
+}
+.bnav-btn .bnav-icon { font-size: 1.3rem; line-height: 1; }
+.bnav-btn.active { color: var(--sea); }
+.bnav-btn.plan-btn { color: var(--coral); font-weight: 700; }
+.bnav-btn.plan-btn.active { color: var(--coral); }
+
+/* TIPS BANNER */
+.tip-banner {
+  background: linear-gradient(90deg, #fff7ed, #fff3cd);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  font-size: 0.78rem;
+  color: #7c4a00;
+  line-height: 1.5;
+}
+.tip-banner strong { font-weight: 800; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-top">
+    <div>
+      <h1><span>🚢</span> MSC Musica</h1>
+      <div class="subtitle">Méditerranée Occidentale · 28 Avr – 5 Mai 2026</div>
+    </div>
+    <div class="itinerary-badge">
+      <div>Gênes ➜ Marseille</div>
+      <div>Valencia ➜ Ibiza</div>
+      <div>Cagliari ➜ Rome</div>
+    </div>
+  </div>
+  <div class="port-scroll" id="portScroll">
+    <button class="port-btn active" onclick="showPort('home')">🏠 Accueil</button>
+    <button class="port-btn" onclick="showPort('marseille')">🇫🇷 Marseille</button>
+    <button class="port-btn" onclick="showPort('valencia')">🇪🇸 Valencia</button>
+    <button class="port-btn" onclick="showPort('ibiza')">🏝️ Ibiza</button>
+    <button class="port-btn" onclick="showPort('seaday')">🌊 En Mer</button>
+    <button class="port-btn" onclick="showPort('cagliari')">🇮🇹 Cagliari</button>
+    <button class="port-btn" onclick="showPort('rome')">🏛️ Rome</button>
+    <button class="port-btn plan-btn" onclick="showPort('plan')">📋 Mon Plan <span class="plan-count" id="planCount">0</span></button>
+  </div>
+</header>
+
+<!-- FULLSCREEN IMAGE -->
+<div class="fullscreen-overlay" id="fsOverlay" onclick="closeFull()">
+  <button class="fs-close" onclick="closeFull()">✕</button>
+  <img id="fsImg" src="" alt="">
+  <div class="fs-title" id="fsTitle"></div>
+</div>
+
+<!-- OVERLAY -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+
+<!-- NAV MODAL -->
+<div class="nav-modal" id="navModal">
+  <div class="modal-handle"></div>
+  <div class="modal-title" id="modalTitle">Navigation</div>
+  <div class="modal-subtitle" id="modalSubtitle"></div>
+  <div class="nav-buttons-grid" id="navBtnsGrid"></div>
+  <button class="modal-close-btn" onclick="closeModal()">Fermer</button>
+</div>
+
+<!-- ================== HOME ================== -->
+<div class="content active" id="home">
+  <div class="hero-route">
+    <h2>🗺️ Votre itinéraire</h2>
+    <div class="route-timeline">
+
+      <div class="route-stop">
+        <div class="stop-dot special">⚓</div>
+        <div class="stop-info">
+          <div class="stop-name">Gênes · Embarquement</div>
+          <div class="stop-date">Lundi 28 Avril 2026</div>
+          <span class="stop-hours">Embarquement · Départ 18:00</span>
+        </div>
+      </div>
+
+      <div class="route-stop">
+        <div class="stop-dot port">🇫🇷</div>
+        <div class="stop-info">
+          <div class="stop-name">Marseille, France</div>
+          <div class="stop-date">Mardi 29 Avril 2026</div>
+          <span class="stop-hours">07:00 – 18:00</span>
+        </div>
+        <button class="goto-btn" onclick="showPort('marseille')">Explorer →</button>
+      </div>
+
+      <div class="route-stop">
+        <div class="stop-dot port">🇪🇸</div>
+        <div class="stop-info">
+          <div class="stop-name">Valencia, Espagne</div>
+          <div class="stop-date">Mercredi 30 Avril 2026</div>
+          <span class="stop-hours">10:00 – 20:00</span>
+        </div>
+        <button class="goto-btn" onclick="showPort('valencia')">Explorer →</button>
+      </div>
+
+      <div class="route-stop">
+        <div class="stop-dot port">🏝️</div>
+        <div class="stop-info">
+          <div class="stop-name">Ibiza, Espagne</div>
+          <div class="stop-date">Jeudi 1er Mai 2026</div>
+          <span class="stop-hours">11:30 – 23:59</span>
+        </div>
+        <button class="goto-btn" onclick="showPort('ibiza')">Explorer →</button>
+      </div>
+
+      <div class="route-stop">
+        <div class="stop-dot sea-day">🌊</div>
+        <div class="stop-info">
+          <div class="stop-name">Journée en mer</div>
+          <div class="stop-date">Vendredi 2 Mai 2026</div>
+          <span class="stop-hours">Détente à bord</span>
+        </div>
+      </div>
+
+      <div class="route-stop">
+        <div class="stop-dot port">🇮🇹</div>
+        <div class="stop-info">
+          <div class="stop-name">Cagliari, Sardaigne</div>
+          <div class="stop-date">Samedi 3 Mai 2026</div>
+          <span class="stop-hours">08:00 – 17:00</span>
+        </div>
+        <button class="goto-btn" onclick="showPort('cagliari')">Explorer →</button>
+      </div>
+
+      <div class="route-stop">
+        <div class="stop-dot port">🏛️</div>
+        <div class="stop-info">
+          <div class="stop-name">Civitavecchia / Rome</div>
+          <div class="stop-date">Dimanche 4 Mai 2026</div>
+          <span class="stop-hours">08:00 – 19:00</span>
+        </div>
+        <button class="goto-btn" onclick="showPort('rome')">Explorer →</button>
+      </div>
+
+      <div class="route-stop">
+        <div class="stop-dot special">🏠</div>
+        <div class="stop-info">
+          <div class="stop-name">Retour à Gênes</div>
+          <div class="stop-date">Lundi 5 Mai 2026</div>
+          <span class="stop-hours">Arrivée 08:00</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="tip-banner">
+    <strong>💡 Comment utiliser ce guide :</strong> Tapez sur une carte pour voir les détails. Cochez ✓ pour ajouter à votre plan. Dans <em>Mon Plan</em>, accédez directement à Google Maps pour le trajet !
+  </div>
+</div>
+
+<!-- ================== MARSEILLE ================== -->
+<div class="content" id="marseille">
+  <div class="port-header">
+    <div class="port-flag">🇫🇷</div>
+    <div class="port-title">
+      <h2>Marseille</h2>
+      <div class="port-date">Mardi 29 Avril 2026</div>
+      <span class="port-time">⏰ À quai : 07:00 – 18:00</span>
+    </div>
+    <div class="port-distance">Port de<br>la Joliette<br>📍Centre-ville 15 min</div>
+  </div>
+  <div class="cat-filter" id="cat-marseille">
+    <button class="cat-pill active" onclick="filterCat('marseille','all',this)">Tout</button>
+    <button class="cat-pill" onclick="filterCat('marseille','monument',this)">🏛️ Monuments</button>
+    <button class="cat-pill" onclick="filterCat('marseille','plage',this)">🏖️ Plages</button>
+    <button class="cat-pill" onclick="filterCat('marseille','marche',this)">🛒 Marchés</button>
+    <button class="cat-pill" onclick="filterCat('marseille','restaurant',this)">🍽️ Restos</button>
+    <button class="cat-pill" onclick="filterCat('marseille','panorama',this)">🌄 Panoramas</button>
+    <button class="cat-pill" onclick="filterCat('marseille','nature',this)">🌿 Nature</button>
+    <button class="cat-pill" onclick="filterCat('marseille','culture',this)">🎭 Culture</button>
+    <button class="cat-pill" onclick="filterCat('marseille','snack',this)">🍦 Snacks</button>
+  </div>
+  <div class="cards-grid" id="cards-marseille"></div>
+</div>
+
+<!-- ================== VALENCIA ================== -->
+<div class="content" id="valencia">
+  <div class="port-header">
+    <div class="port-flag">🇪🇸</div>
+    <div class="port-title">
+      <h2>Valencia</h2>
+      <div class="port-date">Mercredi 30 Avril 2026</div>
+      <span class="port-time">⏰ À quai : 10:00 – 20:00</span>
+    </div>
+    <div class="port-distance">Port de Valencia<br>📍Centre 20 min</div>
+  </div>
+  <div class="cat-filter" id="cat-valencia">
+    <button class="cat-pill active" onclick="filterCat('valencia','all',this)">Tout</button>
+    <button class="cat-pill" onclick="filterCat('valencia','monument',this)">🏛️ Monuments</button>
+    <button class="cat-pill" onclick="filterCat('valencia','plage',this)">🏖️ Plages</button>
+    <button class="cat-pill" onclick="filterCat('valencia','marche',this)">🛒 Marchés</button>
+    <button class="cat-pill" onclick="filterCat('valencia','restaurant',this)">🍽️ Restos</button>
+    <button class="cat-pill" onclick="filterCat('valencia','culture',this)">🎭 Culture</button>
+    <button class="cat-pill" onclick="filterCat('valencia','snack',this)">🍦 Snacks</button>
+    <button class="cat-pill" onclick="filterCat('valencia','shopping',this)">🛍️ Shopping</button>
+  </div>
+  <div class="cards-grid" id="cards-valencia"></div>
+</div>
+
+<!-- ================== IBIZA ================== -->
+<div class="content" id="ibiza">
+  <div class="port-header">
+    <div class="port-flag">🏝️</div>
+    <div class="port-title">
+      <h2>Ibiza</h2>
+      <div class="port-date">Jeudi 1er Mai 2026</div>
+      <span class="port-time">⏰ À quai : 11:30 – 23:59</span>
+    </div>
+    <div class="port-distance">Port d'Eivissa<br>📍Dalt Vila 5 min</div>
+  </div>
+  <div class="cat-filter" id="cat-ibiza">
+    <button class="cat-pill active" onclick="filterCat('ibiza','all',this)">Tout</button>
+    <button class="cat-pill" onclick="filterCat('ibiza','monument',this)">🏛️ Monuments</button>
+    <button class="cat-pill" onclick="filterCat('ibiza','plage',this)">🏖️ Plages</button>
+    <button class="cat-pill" onclick="filterCat('ibiza','marche',this)">🛒 Marchés</button>
+    <button class="cat-pill" onclick="filterCat('ibiza','restaurant',this)">🍽️ Restos</button>
+    <button class="cat-pill" onclick="filterCat('ibiza','nature',this)">🌿 Nature</button>
+    <button class="cat-pill" onclick="filterCat('ibiza','culture',this)">🎭 Culture</button>
+    <button class="cat-pill" onclick="filterCat('ibiza','snack',this)">🍦 Snacks</button>
+    <button class="cat-pill" onclick="filterCat('ibiza','shopping',this)">🛍️ Shopping</button>
+  </div>
+  <div class="cards-grid" id="cards-ibiza"></div>
+</div>
+
+<!-- ================== SEA DAY ================== -->
+<div class="content" id="seaday">
+  <div class="sea-card">
+    <h2>🌊 Journée en mer</h2>
+    <p>Vendredi 2 Mai 2026</p>
+    <br>
+    <p>Profitez de toutes les installations à bord du MSC Musica : piscines, restaurants, spa, spectacles en soirée…</p>
+    <br>
+    <p>🏊 Piscines &nbsp;·&nbsp; 🎭 Shows &nbsp;·&nbsp; 🍹 Bar &nbsp;·&nbsp; 💆 Spa<br>🎮 Casino &nbsp;·&nbsp; 🎯 Mini Golf &nbsp;·&nbsp; 🛍️ Boutiques</p>
+  </div>
+</div>
+
+<!-- ================== CAGLIARI ================== -->
+<div class="content" id="cagliari">
+  <div class="port-header">
+    <div class="port-flag">🇮🇹</div>
+    <div class="port-title">
+      <h2>Cagliari · Sardaigne</h2>
+      <div class="port-date">Samedi 3 Mai 2026</div>
+      <span class="port-time">⏰ À quai : 08:00 – 17:00</span>
+    </div>
+    <div class="port-distance">Porto di Cagliari<br>📍Centre 15 min</div>
+  </div>
+  <div class="cat-filter" id="cat-cagliari">
+    <button class="cat-pill active" onclick="filterCat('cagliari','all',this)">Tout</button>
+    <button class="cat-pill" onclick="filterCat('cagliari','monument',this)">🏛️ Monuments</button>
+    <button class="cat-pill" onclick="filterCat('cagliari','plage',this)">🏖️ Plages</button>
+    <button class="cat-pill" onclick="filterCat('cagliari','marche',this)">🛒 Marchés</button>
+    <button class="cat-pill" onclick="filterCat('cagliari','restaurant',this)">🍽️ Restos</button>
+    <button class="cat-pill" onclick="filterCat('cagliari','panorama',this)">🌄 Panoramas</button>
+    <button class="cat-pill" onclick="filterCat('cagliari','nature',this)">🌿 Nature</button>
+    <button class="cat-pill" onclick="filterCat('cagliari','snack',this)">🍦 Snacks</button>
+  </div>
+  <div class="cards-grid" id="cards-cagliari"></div>
+</div>
+
+<!-- ================== ROME ================== -->
+<div class="content" id="rome">
+  <div class="port-header">
+    <div class="port-flag">🏛️</div>
+    <div class="port-title">
+      <h2>Civitavecchia / Rome</h2>
+      <div class="port-date">Dimanche 4 Mai 2026</div>
+      <span class="port-time">⏰ À quai : 08:00 – 19:00</span>
+    </div>
+    <div class="port-distance">Civitavecchia<br>📍Rome 90 min train</div>
+  </div>
+  <div class="tip-banner">
+    <strong>⚠️ Attention :</strong> Rome est à 90 min de train. Prévoyez de repartir du centre de Rome avant 15h30 pour être de retour à bord avant 19h. Réservez les billets <a href="https://www.trenitalia.com" target="_blank" style="color:var(--sea)">Trenitalia</a> à l'avance !
+  </div>
+  <div class="cat-filter" id="cat-rome">
+    <button class="cat-pill active" onclick="filterCat('rome','all',this)">Tout</button>
+    <button class="cat-pill" onclick="filterCat('rome','monument',this)">🏛️ Monuments</button>
+    <button class="cat-pill" onclick="filterCat('rome','marche',this)">🛒 Marchés</button>
+    <button class="cat-pill" onclick="filterCat('rome','restaurant',this)">🍽️ Restos</button>
+    <button class="cat-pill" onclick="filterCat('rome','panorama',this)">🌄 Panoramas</button>
+    <button class="cat-pill" onclick="filterCat('rome','nature',this)">🌿 Nature</button>
+    <button class="cat-pill" onclick="filterCat('rome','snack',this)">🍦 Snacks</button>
+    <button class="cat-pill" onclick="filterCat('rome','shopping',this)">🛍️ Shopping</button>
+  </div>
+  <div class="cards-grid" id="cards-rome"></div>
+</div>
+
+<!-- ================== MON PLAN ================== -->
+<div class="content" id="plan">
+  <div id="planContent"></div>
+</div>
+
+<!-- ============ BOTTOM NAV ============ -->
+<nav class="bottom-nav">
+  <button class="bnav-btn active" onclick="showPort('home')" id="bnav-home">
+    <span class="bnav-icon">🏠</span>Accueil
+  </button>
+  <button class="bnav-btn" onclick="showPort('marseille')" id="bnav-marseille">
+    <span class="bnav-icon">🇫🇷</span>Marseille
+  </button>
+  <button class="bnav-btn" onclick="showPort('valencia')" id="bnav-valencia">
+    <span class="bnav-icon">🇪🇸</span>Valencia
+  </button>
+  <button class="bnav-btn" onclick="showPort('ibiza')" id="bnav-ibiza">
+    <span class="bnav-icon">🏝️</span>Ibiza
+  </button>
+  <button class="bnav-btn" onclick="showPort('cagliari')" id="bnav-cagliari">
+    <span class="bnav-icon">🇮🇹</span>Cagliari
+  </button>
+  <button class="bnav-btn" onclick="showPort('rome')" id="bnav-rome">
+    <span class="bnav-icon">🏛️</span>Rome
+  </button>
+  <button class="bnav-btn plan-btn" onclick="showPort('plan')" id="bnav-plan">
+    <span class="bnav-icon">📋</span>Mon Plan
+  </button>
+</nav>
+
+<script>
+// ===================== DATA =====================
+const PORTS_META = {
+  marseille: { name: 'Marseille 🇫🇷', hours: '07:00 – 18:00', portLat: 43.3037, portLng: 5.3686 },
+  valencia:  { name: 'Valencia 🇪🇸', hours: '10:00 – 20:00', portLat: 39.4576, portLng: -0.3101 },
+  ibiza:     { name: 'Ibiza 🏝️', hours: '11:30 – 23:59', portLat: 38.9067, portLng: 1.4358 },
+  cagliari:  { name: 'Cagliari 🇮🇹', hours: '08:00 – 17:00', portLat: 39.2121, portLng: 9.1098 },
+  rome:      { name: 'Rome / Civitavecchia 🏛️', hours: '08:00 – 19:00', portLat: 42.0930, portLng: 11.7935 }
+};
+
+const ATTRACTIONS = {
+  marseille: [
+    {
+      id: 'm1', name: 'Notre-Dame de la Garde', cat: 'monument',
+      emoji: '⛪', dur: '1h30', cost: 'Gratuit', dist: '15 min bus',
+      lat: 43.2840, lng: 5.3754,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Notre-Dame_de_la_Garde_%28Marseille%29_-_panoramio_%2813%29.jpg/640px-Notre-Dame_de_la_Garde_%28Marseille%29_-_panoramio_%2813%29.jpg',
+      desc: "La basilique emblématique de Marseille au sommet d'une colline. Vue panoramique à 360° sur la ville, le port et les îles. Architecture Romano-Byzantine époustouflante.",
+      tips: 'Bus 60 depuis le Vieux-Port. Idéal tôt le matin pour éviter la chaleur et les foules.'
+    },
+    {
+      id: 'm2', name: 'Vieux-Port', cat: 'panorama',
+      emoji: '⚓', dur: '1h', cost: 'Gratuit', dist: '20 min tram',
+      lat: 43.2956, lng: 5.3745,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Vieux-Port_de_Marseille_%28vue_a%C3%A9rienne%29.jpg/640px-Vieux-Port_de_Marseille_%28vue_a%C3%A9rienne%29.jpg',
+      desc: "Cœur historique de Marseille. Les pêcheurs vendent leur pêche du matin sur le quai. Ambiance authentique, terrasses, restaurants de fruits de mer.",
+      tips: 'Arriver tôt pour voir le marché aux poissons (jusqu\'à 13h). Prendre le ferry pour le Château d\'If depuis ici.'
+    },
+    {
+      id: 'm3', name: 'MuCEM', cat: 'culture',
+      emoji: '🏗️', dur: '2h', cost: '11€', dist: '20 min tram',
+      lat: 43.2960, lng: 5.3623,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/MuCEM.jpg/640px-MuCEM.jpg',
+      desc: "Le Musée des Civilisations de l'Europe et de la Méditerranée. Architecture spectaculaire avec sa façade en résille de béton. Pont suspendu vers le Fort Saint-Jean.",
+      tips: 'Visite extérieure gratuite. Fermé le mardi. La terrasse offre une vue magnifique.'
+    },
+    {
+      id: 'm4', name: 'Le Panier', cat: 'culture',
+      emoji: '🏘️', dur: '1h30', cost: 'Gratuit', dist: '20 min à pied',
+      lat: 43.2988, lng: 5.3710,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Marseille_Le_Panier.jpg/640px-Marseille_Le_Panier.jpg',
+      desc: "Le plus vieux quartier de Marseille (600 av. J-C). Ruelles colorées, street-art, ateliers d'artistes, petites boutiques et cafés branchés.",
+      tips: 'Idéal pour se perdre et découvrir ! Nombreuses galeries d\'art et boutiques de créateurs.'
+    },
+    {
+      id: 'm5', name: 'Château d\'If', cat: 'monument',
+      emoji: '🏰', dur: '2h', cost: '12€ + ferry', dist: '30 min ferry',
+      lat: 43.2797, lng: 5.3256,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Chateau_if.jpg/640px-Chateau_if.jpg',
+      desc: "La forteresse du Comte de Monte-Cristo ! Prison emblématique sur une île, rendue célèbre par Alexandre Dumas. Cellules historiques et vue imprenable sur Marseille.",
+      tips: 'Ferry depuis le Vieux-Port toutes les heures. Prévoir 2h30 aller-retour minimum.'
+    },
+    {
+      id: 'm6', name: 'Marché aux Poissons', cat: 'marche',
+      emoji: '🐟', dur: '45 min', cost: 'Gratuit', dist: '20 min tram',
+      lat: 43.2951, lng: 5.3754,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Marseille_fishmarket_vieux_port.jpg/640px-Marseille_fishmarket_vieux_port.jpg',
+      desc: "Marché emblématique sur le Quai des Belges depuis des siècles. Pêcheurs marseillais proposant leur pêche du jour dès l'aube. Ambiance colorée et sonore !",
+      tips: 'Ouvert dès 6h jusqu\'à 13h. Le plus animé entre 8h et 11h.'
+    },
+    {
+      id: 'm7', name: 'Corniche Kennedy', cat: 'panorama',
+      emoji: '🌅', dur: '1h', cost: 'Gratuit', dist: '20 min bus',
+      lat: 43.2793, lng: 5.3583,
+      img: 'https://source.unsplash.com/600x300/?marseille,corniche,mediterranean',
+      desc: "La promenade mythique de Marseille longeant la mer sur 5 km. Baigneurs sur les rochers, vue sur les îles du Frioul, jeux de lumière sur la Méditerranée.",
+      tips: 'Bus 83 depuis le Vieux-Port. Le Vallon des Auffes (crique charmante) est à mi-chemin.'
+    },
+    {
+      id: 'm8', name: 'Bouillabaisse au Miramar', cat: 'restaurant',
+      emoji: '🍲', dur: '1h30', cost: '45-80€/pers', dist: '20 min tram',
+      lat: 43.2951, lng: 5.3756,
+      img: 'https://source.unsplash.com/600x300/?bouillabaisse,marseille,fish-soup',
+      desc: "LA soupe de poisson mythique de Marseille. Le Miramar sur le Vieux-Port prépare une bouillabaisse authentique : rouget, rascasse, saint-pierre avec rouille maison.",
+      tips: 'Réservation conseillée. Prévoir 1h30 minimum. C\'est LE plat emblématique !'
+    },
+    {
+      id: 'm9', name: 'Pastis & Apéro Marseillais', cat: 'snack',
+      emoji: '🥃', dur: '30 min', cost: '5-10€', dist: '20 min tram',
+      lat: 43.2960, lng: 5.3740,
+      img: 'https://source.unsplash.com/600x300/?pastis,aperitif,france',
+      desc: "Une terrasse au bord du Vieux-Port avec un pastis ! L'apéro marseillais par excellence : Ricard ou Pastis 51, olives, tapenade. L'art de vivre méditerranéen.",
+      tips: 'Nombreux bars sur le quai du Port et rive Neuve. Spécialités : navettes au citron, calissons.'
+    },
+    {
+      id: 'm10', name: 'Calanques de Sormiou', cat: 'nature',
+      emoji: '🏔️', dur: '3h', cost: 'Gratuit', dist: '45 min bus',
+      lat: 43.2138, lng: 5.4272,
+      img: 'https://source.unsplash.com/600x300/?calanques,marseille,creek',
+      desc: "Les calanques : fjords calcaires au bord de la Méditerranée. Eaux turquoise cristallines, falaises blanches. Sormiou est la plus accessible.",
+      tips: '⚠️ Accès en voiture limité en été. Bus 23 depuis Castellane. Prévoir chaussures de marche.'
+    }
+  ],
+
+  valencia: [
+    {
+      id: 'v1', name: 'Cité des Arts et Sciences', cat: 'monument',
+      emoji: '🔭', dur: '2-3h', cost: '15-30€', dist: '10 min taxi',
+      lat: 39.4538, lng: -0.3503,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Ciudad_de_las_Artes_y_las_Ciencias_-_01.jpg/640px-Ciudad_de_las_Artes_y_las_Ciencias_-_01.jpg',
+      desc: "Le chef-d'œuvre futuriste de Santiago Calatrava. Complexe comprenant le Palais des Arts, le Musée des Sciences interactif, le Planétarium et l'Oceanogràfic. Idéal pour ados !",
+      tips: 'Planetarium + Science Museum = 22€. L\'Oceanogràfic est le + grand aquarium d\'Europe : 30€.'
+    },
+    {
+      id: 'v2', name: 'Marché Central de Valencia', cat: 'marche',
+      emoji: '🏪', dur: '1h', cost: 'Gratuit', dist: '20 min bus',
+      lat: 39.4740, lng: -0.3780,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Valencia_Mercado_Central.jpg/640px-Valencia_Mercado_Central.jpg',
+      desc: "Le plus grand marché couvert de produits frais en Europe. Bâtiment Art Nouveau magnifique de 1928. 1000 stands : fruits exotiques, charcuteries ibériques, fromages, poissons.",
+      tips: 'Ouvert lun-sam 7h-15h. La structure en fer et vitraux est splendide. Ne pas rater les oranges de Valencia !'
+    },
+    {
+      id: 'v3', name: 'Oceanogràfic Valencia', cat: 'culture',
+      emoji: '🦈', dur: '3h', cost: '30€', dist: '10 min taxi',
+      lat: 39.4540, lng: -0.3503,
+      img: 'https://source.unsplash.com/600x300/?aquarium,ocean,shark',
+      desc: "Le plus grand aquarium d'Europe avec plus de 45 000 animaux marins. Tunnel sous-marin avec requins, dauphins, bélugas, walrus. Un incontournable avec des ados !",
+      tips: 'Compter 3-4h minimum. Spectacle de dauphins inclus. Réserver en ligne pour éviter la file.'
+    },
+    {
+      id: 'v4', name: 'La Lonja de la Seda (UNESCO)', cat: 'monument',
+      emoji: '🏛️', dur: '1h', cost: '2€', dist: '25 min bus',
+      lat: 39.4728, lng: -0.3791,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Lonja_de_Valencia%2C_exterior.jpg/640px-Lonja_de_Valencia%2C_exterior.jpg',
+      desc: "La Loge de la Soie, chef-d'œuvre gothique du 15e siècle classé UNESCO. La Salle des Contrats avec ses colonnes hélicoïdales est époustouflante. Symbole de la puissance commerciale de Valencia.",
+      tips: 'Juste à côté du Marché Central. Très rapide à visiter mais magnifique. Entrée quasi gratuite.'
+    },
+    {
+      id: 'v5', name: 'Plage Malvarrosa', cat: 'plage',
+      emoji: '🏖️', dur: '1h30', cost: 'Gratuit', dist: '15 min tram',
+      lat: 39.4782, lng: -0.3233,
+      img: 'https://source.unsplash.com/600x300/?valencia,beach,malvarrosa',
+      desc: "La plage urbaine de Valencia : 3 km de sable doré avec nombreux restaurants et bars de plage. Eau propre et tempérée en mai. Ambiance locale décontractée.",
+      tips: 'Tram T4 depuis la gare. Nombreux restaurants proposant d\'excellentes paellas les pieds dans le sable.'
+    },
+    {
+      id: 'v6', name: 'Paella Valenciana', cat: 'restaurant',
+      emoji: '🥘', dur: '1h30', cost: '15-25€', dist: '15 min tram',
+      lat: 39.4780, lng: -0.3240,
+      img: 'https://source.unsplash.com/600x300/?paella,valencia,spanish-food',
+      desc: "Valencia est le berceau de la paella ! La vraie : poulet, lapin, haricots verts, sauce tomate sur riz Calasparra. Les meilleurs restaurants sont à Malvarrosa et Las Arenas.",
+      tips: 'La Casa Carmela (Las Arenas) ou El Palmar (village sur l\'Albufera) pour la paella authentique.'
+    },
+    {
+      id: 'v7', name: 'Cathédrale & La Migueleta', cat: 'monument',
+      emoji: '⛪', dur: '1h', cost: '5€', dist: '25 min bus',
+      lat: 39.4756, lng: -0.3754,
+      img: 'https://source.unsplash.com/600x300/?valencia,cathedral,spain',
+      desc: "La cathédrale gothique abrite le Saint Graal (la coupe utilisée par Jésus selon la légende). La tour La Migueleta (207 marches) offre une vue magnifique sur les toits de Valencia.",
+      tips: 'Monter La Migueleta pour la vue panoramique. Marché en plein air juste à côté les matins.'
+    },
+    {
+      id: 'v8', name: 'Jardins de Turia', cat: 'nature',
+      emoji: '🌿', dur: '1h', cost: 'Gratuit', dist: '15 min bus',
+      lat: 39.4700, lng: -0.3750,
+      img: 'https://source.unsplash.com/600x300/?valencia,garden,park',
+      desc: "9 km de jardins dans l'ancien lit du fleuve Turia. Zones sportives, terrains de jeux, fontaines. Relie le centre-ville à la Cité des Arts et Sciences. Vélos en libre-service disponibles.",
+      tips: 'Idéal pour se déplacer à vélo (location Valenbisi) entre le centre et la Cité des Arts.'
+    },
+    {
+      id: 'v9', name: 'Horchata & Fartons', cat: 'snack',
+      emoji: '🥛', dur: '20 min', cost: '3-5€', dist: '25 min bus',
+      lat: 39.4740, lng: -0.3780,
+      img: 'https://source.unsplash.com/600x300/?horchata,drink,spain',
+      desc: "La boisson emblématique de Valencia : horchata de chufa (lait de souchet glacé) accompagnée de fartons (petits gâteaux allongés). Fraîche, sucrée et unique !",
+      tips: 'Horchateria Santa Catalina près du Marché Central, fondée en 1836. Incontournable !'
+    }
+  ],
+
+  ibiza: [
+    {
+      id: 'i1', name: 'Dalt Vila (Vieille Ville)', cat: 'monument',
+      emoji: '🏰', dur: '2h', cost: 'Gratuit', dist: '5 min à pied',
+      lat: 38.9076, lng: 1.4347,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Dalt_Vila_Ibiza_2.jpg/640px-Dalt_Vila_Ibiza_2.jpg',
+      desc: "Le joyau d'Ibiza, classé UNESCO. La vieille ville fortifiée domine le port. Remparts du 16e siècle, ruelles pavées, la cathédrale Santa Maria et une vue spectaculaire sur la baie.",
+      tips: 'À seulement 5 min à pied du port. La montée est raide mais la vue en vaut la peine !'
+    },
+    {
+      id: 'i2', name: 'Marché Hippie Las Dalias', cat: 'marche',
+      emoji: '🌸', dur: '2h', cost: 'Gratuit (entrée)', dist: '30 min taxi',
+      lat: 39.0431, lng: 1.5481,
+      img: 'https://source.unsplash.com/600x300/?ibiza,market,hippy,colorful',
+      desc: "Le marché hippie le plus célèbre de l'île depuis 1954 ! Bijoux artisanaux, vêtements bohème, huiles essentielles, accessoires colorés. Ambiance unique avec musiciens et artistes.",
+      tips: 'Les samedis toute l\'année + soirées nocturnes en été. Taxi depuis le port : ~20€ A/R.'
+    },
+    {
+      id: 'i3', name: 'Plage Talamanca', cat: 'plage',
+      emoji: '🏖️', dur: '2h', cost: 'Gratuit', dist: '15 min à pied',
+      lat: 38.9163, lng: 1.4464,
+      img: 'https://source.unsplash.com/600x300/?ibiza,beach,talamanca',
+      desc: "La plage la plus proche du port. Sable doré, eau turquoise protégée, ambiance familiale. Nombreux bars de plage (chiringuitos) et restaurants de fruits de mer.",
+      tips: 'Idéal avec des ados : eau calme, activités nautiques (paddle, kayak), restaurants accessibles.'
+    },
+    {
+      id: 'i4', name: 'Plage Cala Vadella', cat: 'plage',
+      emoji: '🌊', dur: '2h', cost: 'Gratuit', dist: '30 min taxi',
+      lat: 38.8624, lng: 1.2424,
+      img: 'https://source.unsplash.com/600x300/?ibiza,cove,turquoise,beach',
+      desc: "L'une des plus belles criques d'Ibiza. Eau turquoise protégée du vent, plage de sable fin, falaises dorées. Restaurants en bord de mer. Idéale pour snorkeling.",
+      tips: 'Taxi depuis le port ~30€ A/R. Eau idéale pour snorkeling (fond rocheux coloré).'
+    },
+    {
+      id: 'i5', name: 'Grottes de Can Marçà', cat: 'nature',
+      emoji: '🦇', dur: '45 min', cost: '12€', dist: '30 min taxi',
+      lat: 39.0847, lng: 1.4370,
+      img: 'https://source.unsplash.com/600x300/?cave,stalactite,cave-tour',
+      desc: "Grottes marines spectaculaires utilisées autrefois comme cachette de contrebandiers. Show son et lumière sur les stalactites et stalagmites. Fascinant pour les enfants et ados !",
+      tips: 'Visite guidée de 35 min. Superbe spectacle son et lumière inclus. Températures fraîches à l\'intérieur.'
+    },
+    {
+      id: 'i6', name: 'Promenade du Port (Marina)', cat: 'panorama',
+      emoji: '🛥️', dur: '1h', cost: 'Gratuit', dist: '5 min à pied',
+      lat: 38.9067, lng: 1.4330,
+      img: 'https://source.unsplash.com/600x300/?ibiza,port,marina,boats',
+      desc: "La marina d'Ibiza : yachts luxueux, bateaux colorés, bars et restaurants branchés. Ambiance unique entre authenticité et jet-set. Idéal pour les photos.",
+      tips: 'À quelques pas du bateau. Parfait pour les premières heures d\'escale ou en soirée.'
+    },
+    {
+      id: 'i7', name: 'Formentera (île voisine)', cat: 'nature',
+      emoji: '🏝️', dur: 'Journée', cost: '25€ ferry', dist: '30 min ferry',
+      lat: 38.7008, lng: 1.4517,
+      img: 'https://source.unsplash.com/600x300/?formentera,island,turquoise',
+      desc: "L'île paradisiaque à 30 min de ferry ! Plages aux eaux turquoise (Ses Illetes ressemble aux Caraïbes). Idéal en vélo pour explorer. L'une des eaux les plus pures de Méditerranée.",
+      tips: '⚠️ Prévoir la journée entière. Ferry depuis le port d\'Ibiza : 25€ A/R. Location vélo sur place.'
+    },
+    {
+      id: 'i8', name: 'Paella & Fruits de mer', cat: 'restaurant',
+      emoji: '🦞', dur: '1h30', cost: '25-50€', dist: '5 min à pied',
+      lat: 38.9067, lng: 1.4350,
+      img: 'https://source.unsplash.com/600x300/?paella,seafood,ibiza',
+      desc: "Ca n\'Alfredo dans la vieille ville : légendaire restaurant proposant la meilleure paella au homard d'Ibiza depuis 1934. Cuisine ibizienne traditionnelle dans un cadre authentique.",
+      tips: 'Réservation INDISPENSABLE. Autres bons restaurants sur la Marina Botafoch pour une vue port.'
+    },
+    {
+      id: 'i9', name: 'Es Vedrà (point de vue)', cat: 'panorama',
+      emoji: '🪨', dur: '1h', cost: 'Gratuit', dist: '30 min taxi',
+      lat: 38.8629, lng: 1.2002,
+      img: 'https://source.unsplash.com/600x300/?ibiza,es-vedra,rock,sunset',
+      desc: "Le rocher mystique d'Ibiza : un îlot rocheux qui émerge des eaux comme une forteresse naturelle. Considéré comme un lieu magique chargé d'énergie. Vue à couper le souffle.",
+      tips: 'Mirador Torre des Savinar pour la meilleure vue. En soirée pour un coucher de soleil mémorable !'
+    },
+    {
+      id: 'i10', name: 'Glaces & Crêpes', cat: 'snack',
+      emoji: '🍦', dur: '20 min', cost: '3-6€', dist: '5 min à pied',
+      lat: 38.9070, lng: 1.4345,
+      img: 'https://source.unsplash.com/600x300/?gelato,ice-cream,ibiza',
+      desc: "Sur la promenade du port, plusieurs glaciers artisanaux proposent des saveurs méditerranéennes : figues de Barbarie, amandes, citron. Parfait pour les ados et la chaleur !",
+      tips: 'Gelateria Italiana sur le Port. Spécialité locale : sorbets aux figues et aux amandes d\'Ibiza.'
+    }
+  ],
+
+  cagliari: [
+    {
+      id: 'c1', name: 'Bastione di Saint Remy', cat: 'panorama',
+      emoji: '🌄', dur: '1h', cost: 'Gratuit', dist: '15 min à pied',
+      lat: 39.2161, lng: 9.1077,
+      img: 'https://source.unsplash.com/600x300/?cagliari,panorama,sardinia',
+      desc: "Le belvédère emblématique de Cagliari. Ascenseur panoramique gratuit depuis la Piazza Costituzione. Vue à 360° sur la vieille ville, le port et la lagune. Construit entre 1899 et 1902.",
+      tips: 'Ascenseur panoramique gratuit ! Le meilleur point de vue de Cagliari. Idéal en matinée.'
+    },
+    {
+      id: 'c2', name: 'Quartier Castello', cat: 'culture',
+      emoji: '🏰', dur: '1h30', cost: 'Gratuit', dist: '15 min à pied',
+      lat: 39.2180, lng: 9.1074,
+      img: 'https://source.unsplash.com/600x300/?cagliari,castello,medieval',
+      desc: "Le cœur médiéval de Cagliari perché sur la colline. Ruelles pavées, remparts, la cathédrale Santa Maria, des musées et des terrasses offrant des vues magnifiques sur la ville.",
+      tips: 'On y accède à pied, en ascenseur ou par les escaliers depuis le Bastione. Très authentique !'
+    },
+    {
+      id: 'c3', name: 'Cathédrale Santa Maria', cat: 'monument',
+      emoji: '⛪', dur: '45 min', cost: 'Gratuit', dist: '20 min à pied',
+      lat: 39.2183, lng: 9.1065,
+      img: 'https://source.unsplash.com/600x300/?cagliari,cathedral,sardinia',
+      desc: "La cathédrale de Cagliari, consacrée en 1258. Façade Romane-Gothique avec des bandes horizontales de marbre blanc et noir. Intérieur baroque richement décoré.",
+      tips: 'Intérieur gratuit. Dans le quartier Castello, proche du Bastione.'
+    },
+    {
+      id: 'c4', name: 'Plage de Poetto', cat: 'plage',
+      emoji: '🏖️', dur: '2h', cost: 'Gratuit', dist: '20 min bus',
+      lat: 39.2134, lng: 9.1468,
+      img: 'https://source.unsplash.com/600x300/?cagliari,poetto,beach,sardinia',
+      desc: "La plage mythique de Cagliari : 8 km de sable blanc et fin, eau turquoise, nombreux bars de plage. Très appréciée des locaux. Vue sur le Diavolo (promontoire rocheux).",
+      tips: 'Bus CTM PF depuis le port (~15 min). Transats/parasols à louer. Restaurants sur la plage.'
+    },
+    {
+      id: 'c5', name: 'Marché San Benedetto', cat: 'marche',
+      emoji: '🐟', dur: '1h', cost: 'Gratuit', dist: '20 min à pied',
+      lat: 39.2215, lng: 9.1224,
+      img: 'https://source.unsplash.com/600x300/?market,fish,italy,sardinia',
+      desc: "Le plus grand marché couvert d'Italie sur deux niveaux : poissons et fruits de mer frais au rez-de-chaussée, viandes, légumes et spécialités sardes au premier. Impressionnant !",
+      tips: 'Ouvert tôt le matin (6h-13h). Ferme à 13h. Goûter la bottarga (œufs de mulet séchés) !'
+    },
+    {
+      id: 'c6', name: 'Flamants roses de Molentargius', cat: 'nature',
+      emoji: '🦩', dur: '1h30', cost: 'Gratuit', dist: '25 min taxi',
+      lat: 39.2244, lng: 9.1576,
+      img: 'https://source.unsplash.com/600x300/?flamingo,pink,lagoon,sardinia',
+      desc: "Parc naturel régional avec plus de 11 000 flamants roses ! La lagune attire aussi 180 autres espèces d'oiseaux. Un spectacle rose fabuleux à quelques minutes de Cagliari.",
+      tips: 'Taxi depuis le port (~15€). Les flamants sont présents toute l\'année. Prévoir jumelles.'
+    },
+    {
+      id: 'c7', name: 'Musée Archéologique National', cat: 'culture',
+      emoji: '🏺', dur: '1h30', cost: '7€', dist: '15 min à pied',
+      lat: 39.2185, lng: 9.1100,
+      img: 'https://source.unsplash.com/600x300/?archaeological,museum,sardinia,nuraghe',
+      desc: "Le musée le plus important de Sardaigne avec 4000+ artefacts sur 7000 ans d'histoire. Les statuettes nuragiques en bronze sont uniques au monde. Civilisation fascinante !",
+      tips: 'Dans le quartier Castello. Fermé le lundi. Les bronzetti nuragiques sont remarquables.'
+    },
+    {
+      id: 'c8', name: 'Sebadas & Mirto', cat: 'snack',
+      emoji: '🍮', dur: '30 min', cost: '5-10€', dist: '15 min à pied',
+      lat: 39.2135, lng: 9.1133,
+      img: 'https://source.unsplash.com/600x300/?sardinian,dessert,pastry,italy',
+      desc: "Les sebadas : spécialité sucrée sarde. Beignets de fromage pecorino frais frits, nappés de miel de myrte. Un paradis pour les papilles ! Accompagnés d'un Mirto (liqueur de myrte).",
+      tips: 'Dans tous les restaurants locaux. Incontournable ! Aussi goûter les pardulas (gâteaux au fromage).'
+    },
+    {
+      id: 'c9', name: 'Spaghetti alle Vongole', cat: 'restaurant',
+      emoji: '🍝', dur: '1h30', cost: '15-25€', dist: '15 min à pied',
+      lat: 39.2100, lng: 9.1130,
+      img: 'https://source.unsplash.com/600x300/?spaghetti,clams,italian,seafood',
+      desc: "Cagliari est renommée pour ses fruits de mer. Spaghetti aux palourdes fraîches, poulpes grillés, langoustes de Sardaigne. Les restaurants du quartier Marina sont excellents.",
+      tips: 'Quartier Marina (proche du port) pour les meilleurs restaurants. Il Fantasma et Su Tzilleri sont réputés.'
+    }
+  ],
+
+  rome: [
+    {
+      id: 'r1', name: 'Colisée de Rome', cat: 'monument',
+      emoji: '🏛️', dur: '2-3h', cost: '18€', dist: '90 min train+métro',
+      lat: 41.8902, lng: 12.4922,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/640px-Colosseo_2020.jpg',
+      desc: "L'amphithéâtre le plus célèbre du monde ! 50 000 spectateurs admiraient jadis les gladiateurs. Construit en 70-80 ap. J-C. Symbole absolu de Rome et de l'Empire romain.",
+      tips: '⚠️ RÉSERVATION OBLIGATOIRE sur coopculture.it. Sans réservation = 2h de file ! 90 min de train Civitavecchia-Roma Termini.'
+    },
+    {
+      id: 'r2', name: 'Vatican & Chapelle Sixtine', cat: 'monument',
+      emoji: '✝️', dur: '3-4h', cost: '20€', dist: '90 min train+métro',
+      lat: 41.9030, lng: 12.4534,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Piazza_san_pietro.jpg/640px-Piazza_san_pietro.jpg',
+      desc: "La Basilique Saint-Pierre (gratuite) et les Musées du Vatican avec la Chapelle Sixtine de Michel-Ange. Le plus petit État du monde et l'un des plus grands trésors artistiques.",
+      tips: '⚠️ File IMMENSE. Réserver online obligatoire. Épaules et genoux couverts (robe/foulard). Compter 3-4h.'
+    },
+    {
+      id: 'r3', name: 'Fontaine de Trevi', cat: 'monument',
+      emoji: '⛲', dur: '30 min', cost: 'Gratuit', dist: '90 min train',
+      lat: 41.9009, lng: 12.4833,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Fontana_di_Trevi_detail.jpg/640px-Fontana_di_Trevi_detail.jpg',
+      desc: "La plus célèbre fontaine baroque du monde (1762). Jeter une pièce = revenir à Rome. En mai, avant les grandes chaleurs, l'ambiance est magique. Chef-d'œuvre de Nicola Salvi.",
+      tips: 'Éviter l\'heure du déjeuner (trop bondé). Se combiner avec le Panthéon (10 min à pied).'
+    },
+    {
+      id: 'r4', name: 'Panthéon', cat: 'monument',
+      emoji: '🔵', dur: '45 min', cost: '5€', dist: '90 min train',
+      lat: 41.8986, lng: 12.4769,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Pantheon_rome_2005may.jpg/640px-Pantheon_rome_2005may.jpg',
+      desc: "Le monument romain le mieux conservé au monde (125 ap. J-C). L'oculus (trou dans le plafond) laisse entrer la lumière naturelle. Tombeaux de Raphaël et du roi d'Italie.",
+      tips: 'À 10 min à pied de la Fontaine de Trevi. Fermé le dimanche matin (offices religieux).'
+    },
+    {
+      id: 'r5', name: 'Piazza Navona', cat: 'panorama',
+      emoji: '🎨', dur: '45 min', cost: 'Gratuit', dist: '90 min train',
+      lat: 41.8992, lng: 12.4730,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Piazza_navona_HD.jpg/640px-Piazza_navona_HD.jpg',
+      desc: "La plus belle piazza baroque de Rome sur l'ancien stade de Domitien. Fontaine des Quatre Fleuves du Bernin, artistes de rue, concerts, cafés et gelaterias. Ambiance incroyable !",
+      tips: 'À 15 min à pied du Panthéon. Nombreux artistes. Café Tre Scalini pour la meilleure tartufo (glace) de Rome.'
+    },
+    {
+      id: 'r6', name: 'Campo de\' Fiori', cat: 'marche',
+      emoji: '🌸', dur: '1h', cost: 'Gratuit', dist: '90 min train',
+      lat: 41.8957, lng: 12.4720,
+      img: 'https://source.unsplash.com/600x300/?campo-dei-fiori,rome,market',
+      desc: "La place vivante de Rome ! Marché coloré le matin (fleurs, fruits, épices). Terrasses animées toute la journée. Lieu de rencontre des Romains et des voyageurs.",
+      tips: 'Marché ouvert lun-sam 8h-14h. À 10 min à pied de Piazza Navona. Ambiance très locale.'
+    },
+    {
+      id: 'r7', name: 'Ostia Antica (Pompéi de Rome)', cat: 'culture',
+      emoji: '🏚️', dur: '2-3h', cost: '12€', dist: '45 min train',
+      lat: 41.7479, lng: 12.2954,
+      img: 'https://source.unsplash.com/600x300/?ostia-antica,ruins,rome,ancient',
+      desc: "Le Pompéi de Rome ! L'ancienne ville portuaire fondée au 4e siècle av. J-C. Mosaïques colorées, théâtre, bains romains, temples. Beaucoup moins bondé que les autres sites !",
+      tips: 'Train Roma Ostiense depuis Civitavecchia (45 min total). Excellent rapport qualité/temps. Peu de touristes !'
+    },
+    {
+      id: 'r8', name: 'Forte Michelangelo', cat: 'monument',
+      emoji: '🏯', dur: '45 min', cost: 'Gratuit (ext.)', dist: '10 min à pied',
+      lat: 42.0941, lng: 11.7899,
+      img: 'https://source.unsplash.com/600x300/?civitavecchia,fortress,medieval',
+      desc: "La forteresse Renaissance de Civitavecchia, dessinée par Bramante et Michel-Ange au 16e siècle. 4 tours quadrangulaires. À explorer si vous n'allez pas à Rome.",
+      tips: 'À 10 min à pied du port. Idéal si vous préférez rester à Civitavecchia plutôt qu\'aller à Rome.'
+    },
+    {
+      id: 'r9', name: 'Gelato Artigianale', cat: 'snack',
+      emoji: '🍨', dur: '15 min', cost: '3-4€', dist: '90 min train',
+      lat: 41.8980, lng: 12.4730,
+      img: 'https://source.unsplash.com/600x300/?gelato,rome,italian,ice-cream',
+      desc: "Le vrai gelato artigianale romain ! Saveurs : pistache de Sicile, stracciatella, fruit de la passion, tiramisu. Repérer les enseignes 'Produzione Propria' (fait maison).",
+      tips: 'Giolitti (via Uffici del Vicario) ou Fatamorgana pour les saveurs créatives. Éviter les glaces colorées (colorants) !'
+    },
+    {
+      id: 'r10', name: 'Pasta Cacio e Pepe', cat: 'restaurant',
+      emoji: '🍝', dur: '1h', cost: '12-20€', dist: '90 min train',
+      lat: 41.8970, lng: 12.4750,
+      img: 'https://source.unsplash.com/600x300/?cacio-e-pepe,pasta,rome,italian',
+      desc: "La pasta romaine par excellence : spaghetti, pecorino romano et poivre noir. Simple, intense et délicieux. À déguster dans une vraie trattoria de Trastevere ou du Centro Storico.",
+      tips: 'Da Enzo al 29 (Trastevere), Tonnarello ou Flavio al Velavevodetto pour une expérience locale authentique.'
+    },
+    {
+      id: 'r11', name: 'Piazza de la Plage Pirgo', cat: 'plage',
+      emoji: '🌊', dur: '1h30', cost: 'Gratuit', dist: '15 min bus',
+      lat: 42.1083, lng: 11.7726,
+      img: 'https://source.unsplash.com/600x300/?civitavecchia,beach,italy',
+      desc: "La plage de Civitavecchia pour ceux qui restent en ville. Pier ornementé, club de plage avec transats. Moins spectaculaire que Rome mais agréable si on préfère se détendre.",
+      tips: 'Bus depuis le port. Bonne option si certains de la famille préfèrent la plage à Rome.'
+    }
+  ]
+};
+
+// ===================== STATE =====================
+const selected = JSON.parse(localStorage.getItem('croisiere_selected') || '{}');
+let currentModal = null;
+
+function saveState() {
+  localStorage.setItem('croisiere_selected', JSON.stringify(selected));
+}
+
+// ===================== RENDER =====================
+function getCatLabel(cat) {
+  const labels = {
+    monument: '🏛️ Monument', plage: '🏖️ Plage', marche: '🛒 Marché',
+    restaurant: '🍽️ Restaurant', panorama: '🌄 Panorama', nature: '🌿 Nature',
+    culture: '🎭 Culture', snack: '🍦 Snack/Glacier', shopping: '🛍️ Shopping'
+  };
+  return labels[cat] || cat;
+}
+
+function renderCards(portKey, filterCat) {
+  const grid = document.getElementById('cards-' + portKey);
+  if (!grid) return;
+  const attrs = ATTRACTIONS[portKey] || [];
+  const filtered = filterCat === 'all' ? attrs : attrs.filter(a => a.cat === filterCat);
+  grid.innerHTML = filtered.map(a => {
+    const isSel = selected[a.id];
+    return `
+    <div class="attr-card ${isSel ? 'selected' : ''}" id="card-${a.id}" onclick="openCardDetail('${a.id}','${portKey}')">
+      <div class="card-img-wrap">
+        <img class="card-img" src="${a.img}" alt="${a.name}"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          onclick="event.stopPropagation();openFullscreen('${a.img.replace(/'/g,'\\\'').replace(/"/g,'&quot;')}','${a.name.replace(/'/g,'\\\'')}')" />
+        <div class="card-img-fallback" style="display:none;">${a.emoji}</div>
+        <div class="card-cat-badge">${getCatLabel(a.cat)}</div>
+        <div class="card-sel-check">${isSel ? '✓' : '+'}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${a.name}</div>
+        <div class="card-meta">
+          <span class="chip dist">📍 ${a.dist}</span>
+          <span class="chip dur">⏱ ${a.dur}</span>
+          <span class="chip cost">💶 ${a.cost}</span>
+        </div>
+        <div class="card-desc">${a.desc}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openCardDetail(attrId, portKey) {
+  const a = findAttr(attrId);
+  if (!a) return;
+  const port = PORTS_META[portKey];
+  const isSel = selected[attrId];
+
+  document.getElementById('modalTitle').textContent = a.emoji + ' ' + a.name;
+  document.getElementById('modalSubtitle').innerHTML =
+    `<strong>${getCatLabel(a.cat)}</strong> &nbsp;·&nbsp; ${a.dist} &nbsp;·&nbsp; ${a.dur} &nbsp;·&nbsp; ${a.cost}<br>
+    <span style="color:#374151;font-size:0.8rem;margin-top:4px;display:block">${a.desc}</span>
+    ${a.tips ? `<span style="color:#b45309;font-size:0.76rem;display:block;margin-top:6px;background:#fff7ed;padding:6px 8px;border-radius:8px">💡 ${a.tips}</span>` : ''}`;
+
+  const grid = document.getElementById('navBtnsGrid');
+  const modes = [
+    { mode: 'walking', icon: '🚶', label: 'À pied', info: 'Google Maps' },
+    { mode: 'transit', icon: '🚌', label: 'Bus / Tram', info: 'Transports publics' },
+    { mode: 'driving', icon: '🚕', label: 'Taxi / Voiture', info: 'Itinéraire routier' },
+    { mode: 'transit', icon: '🚆', label: 'Train', info: 'depuis la gare' }
+  ];
+
+  // Toggle button
+  const toggleHtml = `
+    <div style="grid-column:1/-1;margin-bottom:6px">
+      <button onclick="toggleSelect('${attrId}','${portKey}');updateModalToggle('${attrId}')"
+        id="modal-toggle-${attrId}"
+        style="width:100%;padding:12px;border-radius:12px;border:none;font-size:0.9rem;font-weight:800;cursor:pointer;
+        background:${isSel ? '#fee2e2' : '#d1fae5'};color:${isSel ? '#991b1b' : '#065f46'}">
+        ${isSel ? '✕ Retirer de mon plan' : '✓ Ajouter à mon plan'}
+      </button>
+    </div>`;
+
+  grid.innerHTML = toggleHtml + modes.map(m => {
+    const url = `https://www.google.com/maps/dir/?api=1&origin=${port.portLat},${port.portLng}&destination=${a.lat},${a.lng}&travelmode=${m.mode}`;
+    return `<a class="nav-btn" href="${url}" target="_blank">
+      <span class="nav-icon">${m.icon}</span>
+      <div class="nav-info">${m.label}<br><small>${m.info}</small></div>
+    </a>`;
+  }).join('');
+
+  currentModal = { attrId, portKey };
+  document.getElementById('navModal').classList.add('open');
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function updateModalToggle(attrId) {
+  const btn = document.getElementById('modal-toggle-' + attrId);
+  if (!btn) return;
+  const isSel = selected[attrId];
+  btn.style.background = isSel ? '#fee2e2' : '#d1fae5';
+  btn.style.color = isSel ? '#991b1b' : '#065f46';
+  btn.textContent = isSel ? '✕ Retirer de mon plan' : '✓ Ajouter à mon plan';
+}
+
+function toggleSelect(attrId, portKey) {
+  if (selected[attrId]) {
+    delete selected[attrId];
+  } else {
+    selected[attrId] = portKey;
+  }
+  saveState();
+  // Update card
+  const card = document.getElementById('card-' + attrId);
+  if (card) {
+    card.classList.toggle('selected', !!selected[attrId]);
+    const check = card.querySelector('.card-sel-check');
+    if (check) check.textContent = selected[attrId] ? '✓' : '+';
+  }
+  // Update plan count
+  updatePlanCount();
+  if (document.getElementById('plan').classList.contains('active')) {
+    renderPlan();
+  }
+}
+
+function closeModal() {
+  document.getElementById('navModal').classList.remove('open');
+  document.getElementById('modalOverlay').classList.remove('open');
+  currentModal = null;
+}
+
+function updatePlanCount() {
+  const count = Object.keys(selected).length;
+  document.getElementById('planCount').textContent = count;
+}
+
+// ===================== FILTER =====================
+function filterCat(portKey, cat, btn) {
+  const container = document.getElementById('cat-' + portKey);
+  container.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards(portKey, cat);
+}
+
+// ===================== NAVIGATION =====================
+function showPort(portKey) {
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.port-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+
+  const el = document.getElementById(portKey);
+  if (el) el.classList.add('active');
+
+  // Header pills
+  const scrollBtns = document.querySelectorAll('.port-scroll .port-btn');
+  scrollBtns.forEach(b => {
+    if (b.getAttribute('onclick').includes("'" + portKey + "'")) {
+      b.classList.add('active');
+    }
+  });
+
+  // Bottom nav
+  const bnavBtn = document.getElementById('bnav-' + portKey);
+  if (bnavBtn) bnavBtn.classList.add('active');
+
+  if (portKey === 'plan') renderPlan();
+
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+
+// ===================== PLAN =====================
+function renderPlan() {
+  const container = document.getElementById('planContent');
+  const totalSel = Object.keys(selected).length;
+
+  if (totalSel === 0) {
+    container.innerHTML = `
+      <div class="plan-empty">
+        <div class="plan-empty-icon">🗺️</div>
+        <p>Votre plan est vide pour l'instant.<br>Parcourez les escales et tapez <strong>+ Ajouter à mon plan</strong> sur les activités qui vous intéressent !</p>
+      </div>`;
+    return;
+  }
+
+  const portOrder = ['marseille', 'valencia', 'ibiza', 'cagliari', 'rome'];
+  const byPort = {};
+  Object.entries(selected).forEach(([id, portKey]) => {
+    if (!byPort[portKey]) byPort[portKey] = [];
+    byPort[portKey].push(id);
+  });
+
+  let html = `<div class="plan-summary">
+    <h3>Activités sélectionnées</h3>
+    <div class="count">${totalSel}</div>
+  </div>`;
+
+  portOrder.forEach(portKey => {
+    if (!byPort[portKey] || byPort[portKey].length === 0) return;
+    const meta = PORTS_META[portKey];
+    html += `<div class="plan-port-group">
+      <div class="plan-port-header">
+        <span>${meta.name}</span>
+        <span class="port-hours">⏰ ${meta.hours}</span>
+      </div>`;
+
+    byPort[portKey].forEach(id => {
+      const a = findAttr(id);
+      if (!a) return;
+      const navUrl = `https://www.google.com/maps/dir/?api=1&origin=${meta.portLat},${meta.portLng}&destination=${a.lat},${a.lng}&travelmode=transit`;
+      html += `<div class="plan-item">
+        <div class="plan-item-emoji">${a.emoji}</div>
+        <div class="plan-item-info">
+          <div class="plan-item-name">${a.name}</div>
+          <div class="plan-item-meta">${a.dist} · ${a.dur} · ${a.cost}</div>
+        </div>
+        <a class="plan-nav-btn" href="${navUrl}" target="_blank">🗺️ Y aller</a>
+        <button class="plan-remove-btn" onclick="toggleSelect('${id}','${portKey}')">✕</button>
+      </div>`;
+    });
+
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function findAttr(id) {
+  for (const portKey of Object.keys(ATTRACTIONS)) {
+    const found = ATTRACTIONS[portKey].find(a => a.id === id);
+    if (found) return found;
+  }
+  return null;
+}
+
+// ===================== FULLSCREEN IMAGE =====================
+function openFullscreen(imgSrc, title) {
+  document.getElementById('fsImg').src = imgSrc;
+  document.getElementById('fsTitle').textContent = title;
+  document.getElementById('fsOverlay').classList.add('open');
+}
+function closeFull() {
+  document.getElementById('fsOverlay').classList.remove('open');
+}
+
+// ===================== INIT =====================
+window.addEventListener('DOMContentLoaded', () => {
+  ['marseille', 'valencia', 'ibiza', 'cagliari', 'rome'].forEach(p => renderCards(p, 'all'));
+  updatePlanCount();
+});
+</script>
+</body>
+</html>
