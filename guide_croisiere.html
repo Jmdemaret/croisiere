@@ -7,6 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="MSC Musica 2026">
+<link rel="manifest" href="./manifest.json">
 <title>🚢 MSC Musica — Méditerranée 2026</title>
 <style>
 :root{--sea:#0077b6;--deep:#023e8a;--sky:#90e0ef;--gold:#ffd166;--coral:#ef476f;--green:#06d6a0;--dark:#1a1a2e;--gray:#6b7280;--light:#f1f5f9;--shadow:0 4px 20px rgba(0,0,0,.1);--r:14px}
@@ -27,7 +28,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .route-card{background:#fff;border-radius:var(--r);padding:14px;margin-bottom:14px;box-shadow:var(--shadow)}
 .route-card h2{font-size:.95rem;color:var(--sea);margin-bottom:12px;font-weight:700}
 .rs{display:flex;align-items:flex-start;gap:10px;padding:7px 0;position:relative}
-.rs:not(:last-child)::after{content:'';position:absolute;left:14px;top:30px;bottom:-7px;width:2px;background:var(--sky)}
+.rs:not(:last-child)::after{content:\'\';position:absolute;left:14px;top:30px;bottom:-7px;width:2px;background:var(--sky)}
 .rdot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;z-index:1}
 .rdot.port{background:var(--gold)}.rdot.sea{background:var(--sky)}.rdot.sp{background:var(--coral);color:#fff}
 .rinfo{flex:1}.rname{font-weight:700;font-size:.9rem}.rdate{font-size:.72rem;color:var(--gray)}
@@ -48,55 +49,74 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .acard.sel{box-shadow:0 0 0 2.5px var(--gold),var(--shadow)}
 .acard:active{transform:scale(.97)}
 .cimg-wrap{position:relative;height:105px;overflow:hidden;background:linear-gradient(135deg,var(--sea),var(--deep))}
-.cimg{width:100%;height:100%;object-fit:cover;cursor:zoom-in}
-.cimg-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.2rem}
-.catbadge{position:absolute;top:5px;left:5px;background:rgba(0,0,0,.65);color:#fff;border-radius:7px;padding:2px 6px;font-size:.62rem;font-weight:700;backdrop-filter:blur(4px)}
-.gembadge{position:absolute;top:5px;right:30px;background:#7c3aed;color:#fff;border-radius:7px;padding:2px 5px;font-size:.6rem;font-weight:800}
-.selcheck{position:absolute;top:5px;right:5px;width:22px;height:22px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:var(--dark)}
-.zonebadge{position:absolute;bottom:5px;left:5px;border-radius:6px;padding:2px 6px;font-size:.58rem;font-weight:700;color:#fff}
-.cbody{padding:8px}
-.cname{font-weight:700;font-size:.82rem;line-height:1.3;margin-bottom:4px}
+.cimg{width:100%;height:100%;object-fit:cover;display:block}
+.cimg-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.catbadge{position:absolute;top:5px;left:5px;background:rgba(0,0,0,.55);color:#fff;border-radius:8px;padding:2px 6px;font-size:.6rem;font-weight:700;backdrop-filter:blur(4px)}
+.gembadge{position:absolute;top:5px;right:26px;background:#7c3aed;color:#fff;border-radius:8px;padding:2px 6px;font-size:.58rem;font-weight:700}
+.selcheck{position:absolute;top:5px;right:5px;width:20px;height:20px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:var(--sea)}
+.zonebadge{position:absolute;bottom:4px;right:4px;border-radius:6px;padding:2px 5px;font-size:.55rem;font-weight:700;color:#fff}
+.cbody{padding:7px 8px}
+.cname{font-weight:700;font-size:.78rem;margin-bottom:4px;line-height:1.2}
 .cmeta{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px}
-.chip{background:var(--light);border-radius:5px;padding:2px 5px;font-size:.62rem;color:var(--gray);font-weight:600}
-.cdesc{font-size:.7rem;color:var(--gray);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tip{background:linear-gradient(135deg,#fff7ed,#fef3c7);border-left:3px solid var(--gold);border-radius:0 var(--r) var(--r) 0;padding:10px 12px;font-size:.75rem;margin-bottom:10px;line-height:1.5}
-.sea-card{background:linear-gradient(135deg,var(--sea),var(--deep));color:#fff;border-radius:var(--r);padding:20px;text-align:center;font-size:1rem;line-height:2}
-.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #e5e7eb;z-index:99;padding-bottom:env(safe-area-inset-bottom)}
-.bb{flex:1;background:none;border:none;padding:7px 2px 5px;font-size:.58rem;color:var(--gray);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-weight:600;transition:color .2s}
-.bb.active{color:var(--sea)}.bb.planb.active{color:var(--coral)}
-.bi{font-size:1.1rem}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;backdrop-filter:blur(3px)}
-.overlay.open{display:block}
-.modal{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:18px 18px 0 0;padding:16px 16px 24px;z-index:201;transform:translateY(100%);transition:transform .3s;max-height:80vh;overflow-y:auto}
-.modal.open{transform:translateY(0)}
-.mhandle{width:36px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 12px}
-.mtitle{font-size:1rem;font-weight:800;margin-bottom:4px}
-.msub{font-size:.78rem;color:var(--gray);margin-bottom:12px;line-height:1.5}
-.mtoggle{width:100%;padding:10px;border-radius:10px;border:none;font-size:.85rem;font-weight:700;cursor:pointer;margin-bottom:12px}
-.nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-.nbtn{display:flex;align-items:center;gap:7px;background:var(--light);border-radius:10px;padding:10px;text-decoration:none;color:var(--dark)}
-.ni{font-size:1.3rem}.nd{font-size:.72rem;font-weight:600;line-height:1.4}
-.mclose{width:100%;padding:10px;background:var(--light);border:none;border-radius:10px;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--gray)}
-.section-block{background:#fff;border-radius:var(--r);margin-top:10px;box-shadow:var(--shadow);overflow:hidden}
-.section-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;font-weight:700;font-size:.85rem}
-.trap-hdr{background:#fff5f5;color:#991b1b}.exc-hdr{background:#f0fdf4;color:#065f46}
-.shop-hdr{background:#fdf4ff;color:#6b21a8}.insta-hdr{background:#fff0f9;color:#be185d}
-.section-body{padding:12px 14px}.section-body.hidden{display:none}
-.trap-item,.exc-item,.shop-item,.insta-item{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid #f3f4f6}
-.trap-item:last-child,.exc-item:last-child,.shop-item:last-child,.insta-item:last-child{border-bottom:none}
-.trap-icon,.exc-emoji,.shop-emoji,.insta-emoji{font-size:1.4rem;flex-shrink:0}
-.trap-text strong{font-size:.78rem;color:var(--dark);display:block}.trap-text p{font-size:.72rem;color:var(--gray);margin-top:2px;line-height:1.4}
-.exc-info,.shop-info,.insta-info{flex:1}
-.exc-name,.shop-name,.insta-name{font-weight:700;font-size:.8rem;margin-bottom:3px}
-.exc-price{font-size:.72rem;margin-bottom:3px}.our{background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:5px;font-weight:700}.msc{background:#fee2e2;color:#991b1b;padding:1px 6px;border-radius:5px;font-weight:700}
-.exc-desc,.shop-brands,.insta-tip{font-size:.7rem;color:var(--gray);line-height:1.4;margin-bottom:4px}
-.exc-btn,.shop-map,.insta-map{display:inline-block;border-radius:7px;padding:3px 9px;font-size:.7rem;font-weight:600;text-decoration:none}
-.exc-btn{background:var(--sea);color:#fff}
-.shop-map{background:#f3e8ff;color:#6b21a8}
-.insta-map{background:#fce7f3;color:#be185d}
-.shop-type{font-size:.65rem;color:#9333ea;font-weight:700;background:#f3e8ff;display:inline-block;padding:1px 6px;border-radius:5px;margin-bottom:3px}
+.chip{background:var(--light);border-radius:5px;padding:2px 5px;font-size:.62rem;color:var(--gray)}
+.cdesc{font-size:.68rem;color:var(--gray);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.section-block{background:#fff;border-radius:var(--r);margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden}
+.section-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;font-weight:700;font-size:.88rem;cursor:pointer}
+.insta-hdr{background:linear-gradient(135deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888);color:#fff}
+.shop-hdr{background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff}
+.trap-hdr{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
+.exc-hdr{background:linear-gradient(135deg,#0f766e,#0d9488);color:#fff}
+.section-body{padding:10px 12px}
+.section-body.hidden{display:none}
+.insta-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f3f4f6}
+.insta-item:last-child{border-bottom:none}
+.insta-emoji{font-size:1.8rem;flex-shrink:0}
+.insta-info{flex:1}
+.insta-name{font-weight:700;font-size:.8rem;margin-bottom:2px}
+.insta-tip{font-size:.7rem;color:var(--gray);line-height:1.3;margin-bottom:4px}
+.insta-map{display:inline-block;background:var(--sea);color:#fff;border-radius:7px;padding:3px 9px;font-size:.68rem;font-weight:600;text-decoration:none}
+.shop-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f3f4f6}
+.shop-item:last-child{border-bottom:none}
+.shop-emoji{font-size:1.8rem;flex-shrink:0}
+.shop-info{flex:1}
+.shop-name{font-weight:700;font-size:.82rem;margin-bottom:2px}
+.shop-type{font-size:.68rem;color:#7c3aed;font-weight:600}
+.shop-brands{font-size:.7rem;color:var(--gray);margin:2px 0}
 .shop-dist{font-size:.68rem;color:var(--gray);margin-bottom:4px}
-.insta-name{color:#be185d}
+.shop-map{display:inline-block;background:#7c3aed;color:#fff;border-radius:7px;padding:3px 9px;font-size:.68rem;font-weight:600;text-decoration:none}
+.trap-item{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid #fef2f2}
+.trap-item:last-child{border-bottom:none}
+.trap-icon{font-size:1.4rem;flex-shrink:0}
+.trap-text strong{font-size:.8rem;display:block;margin-bottom:2px}
+.trap-text p{font-size:.7rem;color:var(--gray);line-height:1.3}
+.exc-item{display:flex;gap:8px;padding:10px 0;border-bottom:1px solid #f0fdf4}
+.exc-item:last-child{border-bottom:none}
+.exc-emoji{font-size:1.8rem;flex-shrink:0}
+.exc-info{flex:1}
+.exc-name{font-weight:700;font-size:.82rem;margin-bottom:2px}
+.exc-price{font-size:.7rem;margin-bottom:3px}
+.our{background:#dcfce7;color:#166534;border-radius:5px;padding:1px 6px;font-weight:700}
+.msc{background:#fee2e2;color:#991b1b;border-radius:5px;padding:1px 6px;font-weight:600}
+.exc-desc{font-size:.7rem;color:var(--gray);line-height:1.3;margin-bottom:5px}
+.exc-btn{display:inline-block;background:linear-gradient(135deg,#0f766e,#0d9488);color:#fff;border-radius:8px;padding:4px 12px;font-size:.72rem;font-weight:700;text-decoration:none}
+.tip{background:#fff7ed;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:10px 12px;margin-bottom:10px;font-size:.75rem;line-height:1.5}
+.sea-card{background:linear-gradient(135deg,var(--sea),var(--deep));color:#fff;border-radius:var(--r);padding:20px;text-align:center;margin:10px 0;font-size:.9rem;line-height:2}
+.sea-card h2{font-size:1.1rem;margin-bottom:10px}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.bb{flex:1;background:none;border:none;padding:7px 2px 5px;font-size:.55rem;color:var(--gray);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-weight:600;min-width:0;transition:color .2s}
+.bb.active{color:var(--sea)}.bi{font-size:1.1rem;display:block}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none}
+.overlay.open{display:block}
+.modal{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:18px 18px 0 0;z-index:200;padding:12px 16px 20px;transform:translateY(100%);transition:transform .3s ease;max-height:88vh;overflow-y:auto}
+.modal.open{transform:none}
+.mhandle{width:36px;height:4px;background:#dde;border-radius:2px;margin:0 auto 10px}
+.mtitle{font-weight:800;font-size:1rem;margin-bottom:6px}
+.msub{font-size:.78rem;color:var(--gray);margin-bottom:12px;line-height:1.5}
+.mtoggle{width:100%;padding:10px;border:none;border-radius:10px;font-size:.82rem;font-weight:700;cursor:pointer;margin-bottom:10px}
+.nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.nbtn{background:var(--light);border:none;border-radius:10px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;text-decoration:none;color:var(--dark)}
+.ni{font-size:1.3rem}.nd{font-size:.65rem;text-align:center;font-weight:600;line-height:1.3}
+.mclose{width:100%;padding:10px;background:var(--light);border:none;border-radius:10px;margin-top:10px;font-size:.85rem;cursor:pointer;color:var(--gray);font-weight:600}
 .weather-card{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border-radius:var(--r);padding:12px 14px;margin-bottom:10px;display:flex;gap:10px;align-items:center;box-shadow:var(--shadow)}
 .weather-icon{font-size:2.2rem;flex-shrink:0}
 .weather-info{flex:1}
@@ -115,7 +135,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pitem:last-child{border-bottom:none}
 .pemoji{font-size:1.2rem;flex-shrink:0}.pinfo{flex:1}
 .pname{font-weight:700;font-size:.8rem}.pmeta{font-size:.68rem;color:var(--gray)}
-.pnav{background:var(--sky);color:var(--deep);border-radius:7px;padding:4px 8px;font-size:.68rem;font-weight:700;text-decoration:none;white-space:nowrap}
+.pnav{background:var(--sky);color:var(--deep);border-radius:7px;padding:4px 8px;font-size:.68rem;font-weight:700;text-decoration:none;white-space:nowrap;border:none;cursor:pointer}
 .pdel{background:#fee2e2;color:#dc2626;border:none;border-radius:7px;padding:4px 7px;font-size:.78rem;cursor:pointer;margin-left:4px}
 .plan-itin-btn{width:100%;margin-bottom:10px;background:linear-gradient(135deg,var(--deep),var(--sea));color:#fff;border:none;border-radius:var(--r);padding:12px;font-size:.85rem;font-weight:700;cursor:pointer}
 .sv{font-size:1.4rem;font-weight:800;color:var(--sea)}.sl{font-size:.7rem;color:var(--gray)}
@@ -126,7 +146,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .itin-hdr h2{font-size:1rem;font-weight:800}.itin-meta{font-size:.72rem;opacity:.85;margin-top:4px}
 .itin-body{padding:14px;flex:1}
 .tl-item{display:flex;gap:10px;margin-bottom:4px;position:relative}
-.tl-item:not(.tl-last)::after{content:'';position:absolute;left:14px;top:30px;bottom:-4px;width:2px;background:#e5e7eb}
+.tl-item:not(.tl-last)::after{content:\'\';position:absolute;left:14px;top:30px;bottom:-4px;width:2px;background:#e5e7eb}
 .tl-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;z-index:1}
 .tl-dot.start,.tl-dot.end{background:var(--sea);color:#fff}
 .tl-dot.attr{background:var(--gold)}.tl-dot.gem-dot{background:#7c3aed;color:#fff}.tl-dot.lunch{background:var(--coral);color:#fff}
@@ -149,28 +169,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .fs-title{color:#fff;text-align:center;margin-top:10px;font-size:.85rem;font-weight:600}
 .fs-links{display:flex;gap:10px;margin-top:12px}
 .fs-link{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:6px 14px;font-size:.75rem;font-weight:600;text-decoration:none}
-/* CHRONO */
 .chrono-widget{position:fixed;bottom:74px;right:10px;background:linear-gradient(135deg,var(--deep),#0055a5);color:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 4px 24px rgba(0,0,0,.4);z-index:90;min-width:160px}
 .chrono-inner{display:flex;gap:10px;align-items:center}
 .chrono-left{flex:1}
 .chrono-port-name{font-size:.62rem;opacity:.8;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 .chrono-time{font-size:1.5rem;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:1px;line-height:1.1;margin:2px 0}
 .chrono-sub{font-size:.58rem;opacity:.7}
-.chrono-right{}
 .chrono-alerts-label{font-size:.58rem;opacity:.7;margin-bottom:3px;text-align:center}
 .chrono-btns{display:flex;gap:3px;flex-wrap:wrap;justify-content:center}
 .calert-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:6px;padding:3px 7px;font-size:.65rem;font-weight:700;cursor:pointer;transition:all .2s}
 .calert-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold)}
-/* ALERT BANNER */
 .alert-banner{position:fixed;top:0;left:0;right:0;z-index:500;background:#dc2626;color:#fff;padding:12px 16px;display:none;justify-content:space-between;align-items:center;font-weight:700;font-size:.85rem;box-shadow:0 2px 10px rgba(0,0,0,.3)}
 .alert-banner button{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:.8rem;padding:4px 10px;border-radius:6px;cursor:pointer}
-/* OFFLINE BANNER */
 .offline-banner{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;border-radius:var(--r);padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
 .offline-banner .ob-text{flex:1;font-size:.78rem;line-height:1.4}
 .offline-banner .ob-title{font-weight:800;margin-bottom:2px}
 .offline-banner .ob-sub{opacity:.85;font-size:.7rem}
 .offline-btn{background:#fff;color:#5b21b6;border:none;border-radius:8px;padding:7px 12px;font-size:.75rem;font-weight:700;cursor:pointer;white-space:nowrap}
 .offline-ok{background:linear-gradient(135deg,#059669,#065f46);color:#fff;border-radius:var(--r);padding:10px 14px;margin-bottom:10px;font-size:.78rem;font-weight:600;display:none}
+/* AUTOUR DE MOI */
+.nearby-modal{display:none;position:fixed;inset:0;z-index:350;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);align-items:flex-end}
+.nearby-modal.open{display:flex}
+.nearby-box{background:#fff;border-radius:18px 18px 0 0;width:100%;max-height:90vh;display:flex;flex-direction:column}
+.nearby-hdr{background:linear-gradient(135deg,#059669,#0f766e);color:#fff;padding:14px 16px;border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:center}
+.nearby-hdr h2{font-size:.95rem;font-weight:800}
+.nearby-close-btn{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:28px;height:28px;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.nearby-controls{padding:10px 14px;border-bottom:1px solid #f3f4f6;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.nearby-sel{flex:1;min-width:120px;border:1.5px solid #dde;border-radius:8px;padding:6px 8px;font-size:.75rem;background:#fff}
+.nearby-cat-scroll{display:flex;gap:5px;overflow-x:auto;padding:8px 14px;scrollbar-width:none;border-bottom:1px solid #f3f4f6}
+.nearby-cat-scroll::-webkit-scrollbar{display:none}
+.nearby-results{flex:1;overflow-y:auto;padding:10px 14px}
+.nearby-status{text-align:center;padding:30px 20px;font-size:.85rem;color:var(--gray)}
+.nearby-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f3f4f6;cursor:pointer}
+.nearby-item:last-child{border-bottom:none}
+.nearby-emoji{font-size:1.6rem;flex-shrink:0;width:34px;text-align:center}
+.nearby-info{flex:1;min-width:0}
+.nearby-name{font-weight:700;font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nearby-meta{font-size:.68rem;color:var(--gray);margin-top:1px}
+.nearby-dist{font-size:.75rem;font-weight:800;color:var(--sea);text-align:right;flex-shrink:0;min-width:50px}
+.nearby-nav-btn{background:var(--sea);color:#fff;border:none;border-radius:8px;padding:5px 9px;font-size:.65rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.nearby-fab{position:fixed;bottom:90px;left:14px;z-index:89;background:linear-gradient(135deg,#059669,#0f766e);color:#fff;border:none;border-radius:20px;padding:8px 14px;font-size:.78rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(5,150,105,.5);display:flex;align-items:center;gap:5px}
+.gps-dot{width:8px;height:8px;background:#4ade80;border-radius:50%;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
 </style>
 </head>
 <body>
@@ -215,6 +255,42 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
+<!-- AUTOUR DE MOI FAB -->
+<button class="nearby-fab" id="nearbyFab" onclick="openNearby()" style="display:none">
+  <div class="gps-dot"></div>📍 Autour de moi
+</button>
+
+<!-- NEARBY MODAL -->
+<div class="nearby-modal" id="nearbyModal">
+  <div class="nearby-box">
+    <div class="nearby-hdr">
+      <h2>📍 Autour de moi</h2>
+      <button class="nearby-close-btn" onclick="closeNearby()">✕</button>
+    </div>
+    <div class="nearby-controls">
+      <select class="nearby-sel" id="nearbyRadius" onchange="refreshNearby()">
+        <option value="0.5">500 m</option>
+        <option value="1" selected>1 km</option>
+        <option value="2">2 km</option>
+        <option value="5">5 km</option>
+        <option value="20">Tout voir</option>
+      </select>
+      <select class="nearby-sel" id="nearbyPort" onchange="refreshNearby()">
+        <option value="auto">Escale auto</option>
+        <option value="marseille">Marseille</option>
+        <option value="valencia">Valencia</option>
+        <option value="ibiza">Ibiza</option>
+        <option value="cagliari">Cagliari</option>
+        <option value="rome">Rome</option>
+      </select>
+    </div>
+    <div class="nearby-cat-scroll" id="nearbyCats"></div>
+    <div class="nearby-results" id="nearbyResults">
+      <div class="nearby-status" id="nearbyStatus">🔍 Localisation en cours...</div>
+    </div>
+  </div>
+</div>
+
 <div class="fs-overlay" id="fsOverlay" onclick="closeFull()">
   <button class="fs-close">✕</button>
   <img id="fsImg" src="" alt="">
@@ -242,7 +318,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="content active" id="home">
   <div id="offlineBannerHome"></div>
   <div class="route-card"><h2>🗺️ Votre itinéraire</h2><div id="homeTimeline"></div></div>
-  <div class="tip"><strong>💡 Mode d'emploi :</strong> Tapez une carte → photo, infos, réservation + navigation. ✓ Ajouter au plan → itinéraire optimisé avec timeline Google Maps ! 🛍️ Shopping · 📸 Instagram · ⏱️ Chrono départ inclus.</div>
+  <div class="tip"><strong>💡 Mode d'emploi :</strong> Tapez une carte → photo, infos, réservation + navigation GPS. ✓ Ajouter au plan → itinéraire optimisé. 📍 <strong>Autour de moi</strong> → trouvez les activités proches de votre position. 🛍️ Shopping · 📸 Instagram · ⏱️ Chrono départ inclus.</div>
 </div>
 
 <div class="content" id="marseille">
@@ -309,15 +385,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <nav class="bnav">
   <button class="bb active" onclick="showPort('home')" id="bnav-home"><span class="bi">🏠</span>Accueil</button>
-  <button class="bb" onclick="showPort('marseille')" id="bnav-marseille"><span class="bi">🇫🇷</span>Marseille</button>
-  <button class="bb" onclick="showPort('valencia')" id="bnav-valencia"><span class="bi">🇪🇸</span>Valencia</button>
+  <button class="bb" onclick="showPort('marseille')" id="bnav-marseille"><span class="bi">🇫🇷</span>Mars.</button>
+  <button class="bb" onclick="showPort('valencia')" id="bnav-valencia"><span class="bi">🇪🇸</span>Val.</button>
   <button class="bb" onclick="showPort('ibiza')" id="bnav-ibiza"><span class="bi">🏝️</span>Ibiza</button>
-  <button class="bb" onclick="showPort('cagliari')" id="bnav-cagliari"><span class="bi">🇮🇹</span>Cagliari</button>
+  <button class="bb" onclick="showPort('cagliari')" id="bnav-cagliari"><span class="bi">🇮🇹</span>Cag.</button>
   <button class="bb" onclick="showPort('rome')" id="bnav-rome"><span class="bi">🏛️</span>Rome</button>
-  <button class="bb planb" onclick="showPort('plan')" id="bnav-plan"><span class="bi">📋</span>Mon Plan</button>
+  <button class="bb planb" onclick="showPort('plan')" id="bnav-plan"><span class="bi">📋</span>Plan</button>
 </nav>
 
 <script>
+
+const CATS={monument:'🏛️ Monument',plage:'🏖️ Plage',marche:'🛒 Marché',restaurant:'🍽️ Resto',panorama:'🌄 Panorama',nature:'🌿 Nature',culture:'🎭 Culture',snack:'🍦 Snack',shopping:'🛍️ Shopping'};
 
 const PORTS_META={
   marseille:{name:'Marseille 🇫🇷',date:'Mar 29 Avr',arrivalTime:'07:00',departureTime:'18:00',portLat:43.3037,portLng:5.3686},
@@ -326,6 +404,7 @@ const PORTS_META={
   cagliari:{name:'Cagliari 🇮🇹',date:'Sam 3 Mai',arrivalTime:'08:00',departureTime:'17:00',portLat:39.2121,portLng:9.1098},
   rome:{name:'Rome 🏛️',date:'Dim 4 Mai',arrivalTime:'08:00',departureTime:'19:00',portLat:42.0930,portLng:11.7935}
 };
+
 const PORT_DATES={
   marseille:{y:2026,mo:3,d:29,dh:18,dm:0},
   valencia:{y:2026,mo:3,d:30,dh:20,dm:0},
@@ -333,137 +412,148 @@ const PORT_DATES={
   cagliari:{y:2026,mo:4,d:3,dh:17,dm:0},
   rome:{y:2026,mo:4,d:4,dh:19,dm:0}
 };
-const CATS={monument:'🏛️ Monument',plage:'🏖️ Plage',marche:'🛒 Marché',restaurant:'🍽️ Restaurant',panorama:'🌄 Panorama',nature:'🌿 Nature',culture:'🎭 Culture',snack:'🍦 Snack',shopping:'🛍️ Shopping'};
 
 const WEATHER={
-  marseille:{temp:'17-21°C',icon:'⛅',desc:'Partiellement nuageux, éclaircies en journée',wind:'🌬️ Brise marine 20 km/h',outfit:'Veste légère + baskets. Maillot si Calanques.'},
-  valencia:{temp:'19-23°C',icon:'☀️',desc:'Ensoleillé, ciel bleu méditerranéen',wind:'🌬️ Vent doux 10 km/h',outfit:'T-shirt + sandales. Crème solaire obligatoire.'},
-  ibiza:{temp:'20-24°C',icon:'🌤️',desc:'Ensoleillé avec quelques passages nuageux',wind:'🌬️ Brise légère 15 km/h',outfit:'Maillot + robe légère. Petite veste le soir.'},
-  cagliari:{temp:'18-22°C',icon:'☀️',desc:'Beau temps, soleil généreux de Sardaigne',wind:'🌬️ Vent faible 8 km/h',outfit:'Vêtements légers. Chaussures confortables Castello.'},
-  rome:{temp:'16-20°C',icon:'⛅',desc:'Partiellement nuageux, risque bruine en soirée',wind:'🌬️ Vent modéré 15 km/h',outfit:'Couche légère + chaussures marche. Épaules couvertes Vatican.'}
+  marseille:{temp:'17-21°C',icon:'⛅',desc:'Ciel voilé à mi-couvert. Légère brise marine.',wind:'🌬️ Brise marine 20 km/h',outfit:'Veste légère + baskets. Soleil en fin de journée possible.'},
+  valencia:{temp:'20-24°C',icon:'☀️',desc:'Beau temps, soleil généreux. Idéal pour la plage.',wind:'🌤️ Calme 10 km/h',outfit:'T-shirt + lunettes soleil. Crème solaire recommandée.'},
+  ibiza:{temp:'19-23°C',icon:'🌤️',desc:'Partiellement nuageux avec éclaircies.',wind:'💨 Tramontane modérée 25 km/h',outfit:'Chemise légère + veste fine pour le soir.'},
+  cagliari:{temp:'18-22°C',icon:'☀️',desc:'Ensoleillement exceptionnel. Mer calme.',wind:'🌿 Vent léger 15 km/h',outfit:'T-shirt + short. Idéal pour les plages.'},
+  rome:{temp:'16-20°C',icon:'⛅',desc:'Temps variable. Possibilité de nuages en matinée.',wind:'🌬️ Vent modéré 18 km/h',outfit:'Veste légère. Parapluie compact pour sécurité.'}
 };
 
 const SHOPPING={
   marseille:[
-    {name:'Centre Bourse',type:'Centre commercial',emoji:'🏬',brands:'Zara · H&M · Fnac · Mango · Sephora',dist:'20 min tram',lat:43.2985,lng:5.3764,tip:'Le principal mall du centre-ville. Lun-Sam 10h-19h30.'},
-    {name:'Rue Saint-Ferréol',type:'Rue commerçante',emoji:'👗',brands:'Pull&Bear · Bershka · Massimo Dutti · Swarovski',dist:'20 min tram',lat:43.2956,lng:5.3764,tip:'La rue shopping la plus animée de Marseille.'},
-    {name:'Quartier Noailles — Mode',type:'Boutiques tendance',emoji:'✨',brands:'Mode ethnique · bijoux · tissu · robes colorées',dist:'25 min tram',lat:43.2944,lng:5.3775,tip:'Ambiance cosmopolite unique. Prix très accessibles.'}
+    {name:'Centre Bourse',type:'Centre commercial',emoji:'🏬',brands:'Zara · H&M · Fnac · Apple Store',dist:'20 min tram',lat:43.2985,lng:5.3764,tip:'Accès direct depuis le Vieux-Port.'},
+    {name:'Rue Saint-Ferréol',type:'Rue commerçante',emoji:'🛍️',brands:'Sephora · Mango · Uniqlo · Stradivarius',dist:'20 min tram',lat:43.2946,lng:5.3762,tip:'La rue shopping principale de Marseille.'},
+    {name:'Savonnerie La Licorne',type:'Artisanat local',emoji:'🧼',brands:'Savon de Marseille 72% pur végétal',dist:'25 min bus',lat:43.2911,lng:5.3817,tip:'La dernière savonnerie artisanale depuis 1900.'},
+    {name:'La Plaine',type:'Marché vintage',emoji:'👗',brands:'Friperies · Vinyle · Bijoux · Streetwear',dist:'25 min tram',lat:43.2965,lng:5.3922,tip:'Marché des créateurs — mar/jeu/sam matin.'},
+    {name:'Galeries Lafayette Marseille',type:'Grand magasin',emoji:'🏰',brands:'Gucci · Louis Vuitton · Make Up For Ever',dist:'20 min tram',lat:43.2958,lng:5.3770,tip:'7 étages. Parfumerie et beauté au 1er.'}
   ],
   valencia:[
-    {name:'Calle Colón + El Corte Inglés',type:'Grande rue shopping',emoji:'🏬',brands:'Zara · H&M · Massimo Dutti · Sephora · Primark',dist:'20 min bus',lat:39.4701,lng:-0.3773,tip:'La rue shopping principale. El Corte Inglés = 8 étages.'},
-    {name:'Ruzafa District',type:'Quartier tendance ados',emoji:'🎨',brands:'Vintage · créateurs locaux · sneakers · streetwear',dist:'15 min taxi',lat:39.4620,lng:-0.3741,tip:'Le Marais de Valencia. Ultra tendance. Idéal ados.'},
-    {name:'Mercado de Colón',type:'Marché design',emoji:'🌸',brands:'Bijoux · cosmétiques artisanaux · mode locale',dist:'15 min bus',lat:39.4701,lng:-0.3703,tip:'Bâtiment moderniste magnifique. Boutiques haut de gamme.'}
+    {name:'El Corte Inglés',type:'Grand magasin',emoji:'🏬',brands:'Zara · COS · Massimo Dutti · cosmétiques',dist:'25 min bus',lat:39.4740,lng:-0.3751,tip:'Le plus grand d\'Espagne. Parfumerie divine.'},
+    {name:'Calle Colón & Marqués del Turia',type:'Rue commerçante',emoji:'🛍️',brands:'Bershka · Pull&Bear · H&M · Stradivarius',dist:'20 min bus',lat:39.4710,lng:-0.3760,tip:'Principal axe shopping du centre.'},
+    {name:'Ruzafa Market',type:'Marché tendance',emoji:'🌸',brands:'Créateurs locaux · Vintage · Bio · Street food',dist:'25 min bus',lat:39.4634,lng:-0.3765,tip:'Sam matin. Le quartier le plus branché.'},
+    {name:'Colón Market',type:'Hall gastronomique',emoji:'🍊',brands:'Épiceries fines · Oranges · Vin · Huile olive',dist:'25 min bus',lat:39.4708,lng:-0.3745,tip:'Architecture époustouflante. Produits locaux premium.'}
   ],
   ibiza:[
-    {name:'Boutiques Dalt Vila',type:'Bohème & artisanat',emoji:'💫',brands:'Bijoux argent · robes boho · cosmétiques locaux · huiles',dist:'5 min à pied',lat:38.9076,lng:1.4347,tip:'Style typiquement ibicenco. Idéal pour ados. Pièces uniques.'},
-    {name:'Las Dalias Market',type:'Marché hippie',emoji:'🌸',brands:'Artisanat unique · vêtements · bijoux faits main',dist:'30 min taxi',lat:39.0431,lng:1.5481,tip:'Samedi. Pièces introuvables ailleurs. Marchander OK.'},
-    {name:'Marina Botafoch Shops',type:'Mode tendance',emoji:'🛥️',brands:'Mode plage · lunettes de soleil · mode luxe accessible',dist:'10 min à pied',lat:38.9120,lng:1.4447,tip:'Boutiques branchées autour de la marina.'}
+    {name:'Boutiques Dalt Vila',type:'Shopping artisanal',emoji:'🧂',brands:'Sal de Ibiza · Bijoux locaux · Mode bohème',dist:'5 min à pied',lat:38.9080,lng:1.4320,tip:'Boutiques exclusives dans la vieille ville fortifiée.'},
+    {name:'Las Dalias Market',type:'Marché hippie',emoji:'🌸',brands:'Vêtements tie-dye · Bijoux artisanaux · Bougies',dist:'30 min taxi',lat:39.0431,lng:1.5481,tip:'Le marché hippie légendaire — Samedi uniquement.'},
+    {name:'Mercat des Canar',type:'Marché artisanal',emoji:'🎨',brands:'Céramique · Tissus · Parfums naturels',dist:'20 min taxi',lat:39.0200,lng:1.5100,tip:'Moins touristique que Las Dalias — Dim matin.'}
   ],
   cagliari:[
-    {name:'Via Roma / Via Garibaldi',type:'Rue commerçante',emoji:'🛍️',brands:'Zara · Piazza Italia · Benetton · boutiques italiennes',dist:'20 min à pied',lat:39.2135,lng:9.1133,tip:'Principal axe shopping de Cagliari. Très animé.'},
-    {name:'ISOLA — Artigianato Sardo',type:'Artisanat certifié',emoji:'🎨',brands:'Bijoux filigrane · céramique sarde · tissus locaux',dist:'25 min à pied',lat:39.2180,lng:9.1074,tip:'Artisanat sarde certifié. Souvenirs authentiques garantis.'},
-    {name:'Via Manno',type:'Mode italienne',emoji:'👠',brands:'Boutiques locales · Sephora · accessoires italiens',dist:'20 min à pied',lat:39.2155,lng:9.1095,tip:'Rue piétonne commerçante, ambiance italienne authentique.'}
+    {name:'Via Roma',type:'Rue commerçante',emoji:'🛍️',brands:'Zara · H&M · Calzedonia · Parfumeries',dist:'15 min à pied',lat:39.2157,lng:9.1097,tip:'L\'artère principale de Cagliari.'},
+    {name:'Marché San Benedetto',type:'Marché alimentaire',emoji:'🐟',brands:'Bottarga · Pecorino · Mirto · Cannonau',dist:'20 min à pied',lat:39.2215,lng:9.1224,tip:'Niveau -1 : poissons frais. Niveau 0 : légumes.'},
+    {name:'Via Garibaldi',type:'Shopping local',emoji:'🏺',brands:'Artisanat sarde · Céramiques · Bijoux filigrane',dist:'15 min à pied',lat:39.2170,lng:9.1050,tip:'L\'artisanat sarde authentique.'}
   ],
   rome:[
-    {name:'Via del Corso',type:'Rue shopping principale',emoji:'🛍️',brands:'Zara · H&M · Bershka · Pull&Bear · Stradivarius',dist:'90 min train+métro',lat:41.9007,lng:12.4795,tip:'2 km de boutiques. LA rue shopping de Rome.'},
-    {name:'Campo de Fiori — Vintage',type:'Marché & boutiques',emoji:'🌹',brands:'Vintage · créateurs romains · bijoux · produits locaux',dist:'90 min train',lat:41.8957,lng:12.4720,tip:'Marché le matin, boutiques tendance le reste du temps.'},
-    {name:'Trastevere — Artisanat',type:'Boutiques artisanales',emoji:'🎨',brands:'Bijoux artisanaux · cuir italien · céramiques peintes',dist:'90 min train',lat:41.8897,lng:12.4700,tip:'Quartier bohème. Cadeaux originaux introuvables ailleurs.'}
+    {name:'Via Condotti',type:'Rue luxe',emoji:'💎',brands:'Gucci · Valentino · Bulgari · Prada · Versace',dist:'90 min train',lat:41.9050,lng:12.4800,tip:'La rue la plus chère d\'Italie.'},
+    {name:'Campo de\' Fiori market',type:'Marché alimentaire',emoji:'🌸',brands:'Épices · Truffes · Vins · Fromages',dist:'90 min train',lat:41.8957,lng:12.4720,tip:'Lun-Sam 8h-14h. Produits régionaux.'},
+    {name:'Mercato di Testaccio',type:'Marché couvert',emoji:'🍕',brands:'Street food · Charcuterie · Supli · Fromages',dist:'90 min train',lat:41.8780,lng:12.4770,tip:'Le marché des Romains. Pas des touristes.'},
+    {name:'Via del Corso',type:'Rue commerçante',emoji:'🛍️',brands:'Zara · H&M · Mango · Pull&Bear · Sephora',dist:'90 min train',lat:41.9010,lng:12.4780,tip:'Principale rue shopping de Rome.'}
   ]
 };
 
 const INSTA_SPOTS={
   marseille:[
-    {name:'Pont sur le Vallon des Auffes',emoji:'📸',tip:'Surplomber les barques colorées depuis le pont de la Corniche. Matin ou coucher de soleil = parfait.',lat:43.2793,lng:5.3583},
-    {name:'Terrasse MuCEM',emoji:'📸',tip:'La résille de béton + mer bleue = photo architecturale unique. Accès terrasse gratuit sans billet.',lat:43.2960,lng:5.3623},
-    {name:'Murs peints du Panier',emoji:'📸',tip:'Fresques géantes street art. Rue du Refuge et Place des Pistoles. Coloré et graphique.',lat:43.2988,lng:5.3710},
-    {name:'Notre-Dame de la Garde au coucher du soleil',emoji:'📸',tip:'La basilique dorée sur ciel orange. Arriver 30 min avant le coucher de soleil.',lat:43.2840,lng:5.3754}
+    {name:'Pont sur le Vallon des Auffes',emoji:'📸',tip:'Surplomber les barques colorées depuis le pont de la Corniche. Lumière magique.',lat:43.2793,lng:5.3583},
+    {name:'Notre-Dame de la Garde',emoji:'🌅',tip:'Vue 360° au lever / coucher du soleil. La photo carte postale de Marseille.',lat:43.2840,lng:5.3754},
+    {name:'MuCEM — passerelle',emoji:'🏗️',tip:'La résille de béton avec la mer en fond = photo architecturale exceptionnelle.',lat:43.2960,lng:5.3623},
+    {name:'Calanque de Sormiou',emoji:'💎',tip:'Eaux turquoise + falaises blanches. Photo depuis la belvédère de la route.',lat:43.2138,lng:5.4272},
+    {name:'Cours Julien street art',emoji:'🎨',tip:'Fresques murales immenses. Lumière optimale le matin (façade est).',lat:43.2942,lng:5.3837}
   ],
   valencia:[
-    {name:'Bassin reflet de l\'Hemisfèric',emoji:'📸',tip:'Le bâtiment se reflète parfaitement dans le bassin. Lever du soleil = couleurs magiques.',lat:39.4539,lng:-0.3507},
-    {name:'Murs d\'azulejos El Cabanyal',emoji:'📸',tip:'Façades carrelées aux motifs géométriques colorés. Rue de la Reina = la plus photogénique.',lat:39.4759,lng:-0.3272},
-    {name:'Colonnes hélicoïdales La Lonja',emoji:'📸',tip:'Les colonnes en spirale gothique = photo unique. Entrée 2€. Peu de monde tôt le matin.',lat:39.4728,lng:-0.3791},
-    {name:'Jardins de Turia depuis le pont',emoji:'📸',tip:'Vue sur les 9 km de jardins dans l\'ancienne rivière. Pont de l\'Exposició = meilleur angle.',lat:39.4700,lng:-0.3750}
+    {name:'Cité des Arts et Sciences',emoji:'🔭',tip:'Reflet dans les bassins à l\'aube. Architecture Calatrava ≈ film SF.',lat:39.4538,lng:-0.3503},
+    {name:'El Cabanyal — azulejos',emoji:'🎨',tip:'Rue de la Reina : maisons recouvertes de carreaux colorés. Très photogénique.',lat:39.4759,lng:-0.3272},
+    {name:'Marché Central',emoji:'🏪',tip:'Coupole de verre Art Nouveau. Meilleur angle depuis l\'entrée principale.',lat:39.4740,lng:-0.3780},
+    {name:'Jardins de Turia',emoji:'🌿',tip:'Arches des anciens ponts avec jardins luxuriants. Timing : heure dorée.',lat:39.4700,lng:-0.3750}
   ],
   ibiza:[
-    {name:'Remparts de Dalt Vila au coucher du soleil',emoji:'📸',tip:'Vue sur la baie et les bateaux illuminés. LE spot sunset n°1 d\'Ibiza. Gratuit.',lat:38.9076,lng:1.4347},
-    {name:'Marina Botafoch — reflet de Dalt Vila',emoji:'📸',tip:'L\'eau reflète les lumières de la vieille ville. Heure bleue (20h-21h) = parfait.',lat:38.9120,lng:1.4447},
-    {name:'Eaux turquoise Talamanca',emoji:'📸',tip:'À genoux dans 20 cm d\'eau pour capturer les couleurs caraïbes. Matin lumière rasante.',lat:38.9163,lng:1.4464},
-    {name:'Catédral d\'Eivissa vue depuis le port',emoji:'📸',tip:'La cathédrale blanche qui domine la vieille ville, avec bateaux au premier plan.',lat:38.9070,lng:1.4345}
+    {name:'Dalt Vila depuis le port',emoji:'🏰',tip:'Vieille ville illuminée le soir depuis la marina. Reflets dans l\'eau.',lat:38.9067,lng:1.4358},
+    {name:'Es Vedrà au coucher du soleil',emoji:'🌅',tip:'Îlot mystique face au soleil couchant depuis Cala d\'Hort. Inoubliable.',lat:38.8670,lng:1.2100},
+    {name:'Ses Salines vue aérienne',emoji:'🦩',tip:'Flamants roses dans les marais. Drone ou vue depuis la dune.',lat:38.8540,lng:1.3810},
+    {name:'Grottes de Can Marçà',emoji:'💡',tip:'Show son et lumière sur stalactites. Longue exposition en mode nuit.',lat:39.0847,lng:1.4370}
   ],
   cagliari:[
-    {name:'Bastione di San Remy — panorama',emoji:'📸',tip:'Toits orangés + lagune de Molentargius + mer en arrière-plan. Vue 360°. Gratuit.',lat:39.2161,lng:9.1077},
-    {name:'Flamants de Molentargius',emoji:'📸',tip:'S\'approcher du bord de la lagune avec zoom. Les flamants roses se reflètent dans l\'eau calme.',lat:39.2244,lng:9.1576},
-    {name:'Ruelles du Castello — linge étendu',emoji:'📸',tip:'Ruelles étroites avec linge coloré = photo italienne authentique. Via La Marmora.',lat:39.2180,lng:9.1074},
-    {name:'Port de Cagliari au lever du jour',emoji:'📸',tip:'Arrivée à 08h00 depuis le bateau : la ville rose au lever du soleil. Vue depuis le pont du navire !',lat:39.2121,lng:9.1098}
+    {name:'Bastione di San Remy',emoji:'🌄',tip:'Vue panoramique sur les toits rouges et la mer. Heure dorée du matin.',lat:39.2161,lng:9.1077},
+    {name:'Poetto plage — coucher soleil',emoji:'🌅',tip:'8 km de sable blanc + soleil en feu sur la mer. Silhouettes parfaites.',lat:39.2134,lng:9.1468},
+    {name:'Quartier Castello ruelle',emoji:'🏰',tip:'Ruelles médiévales pavées avec linge qui pend. Typiquement méditerranéen.',lat:39.2180,lng:9.1074},
+    {name:'Marché San Benedetto',emoji:'🐟',tip:'Étalages colorés de poissons frais et de légumes. Reportage vivant.',lat:39.2215,lng:9.1224}
   ],
   rome:[
-    {name:'Trou de serrure des Chevaliers de Malte',emoji:'📸',tip:'LE secret absolu de Rome : le dôme Saint-Pierre parfaitement centré. File 10 min max. 100% gratuit.',lat:41.8836,lng:12.4776},
-    {name:'Fontaine de Trevi à 07h du matin',emoji:'📸',tip:'La fontaine quasi vide avant 09h. Prendre le train tôt. Lumière matinale dorée parfaite.',lat:41.9009,lng:12.4833},
-    {name:'Colline du Gianicolo',emoji:'📸',tip:'La plus belle vue panoramique de Rome avec le dôme Saint-Pierre. Gratuit. Peu touristique.',lat:41.8873,lng:12.4673},
-    {name:'Pont Sant\'Angelo avec les anges du Bernin',emoji:'📸',tip:'Les anges + Castel Sant\'Angelo. Golden hour ou blue hour = shot cinématographique.',lat:41.9023,lng:12.4659}
+    {name:'Trou de serrure des Chevaliers de Malte',emoji:'🔑',tip:'Dôme Saint-Pierre parfaitement cadré dans un trou de serrure. Gratuit et secret.',lat:41.8836,lng:12.4776},
+    {name:'Fontaine de Trevi à l\'aube',emoji:'⛲',tip:'Avant 7h : personnes = 0. Lumière douce + pas de selfie bâtons.',lat:41.9009,lng:12.4833},
+    {name:'Jardin des Orangers — Aventin',emoji:'🍊',tip:'Jardins suspendus sur l\'Aventin avec vue imprenable sur Rome + le Dôme.',lat:41.8831,lng:12.4784},
+    {name:'Ostia Antica',emoji:'🏚️',tip:'Ruines romaines presque désertes. Colonnes + ciel bleu = photo de magazine.',lat:41.7479,lng:12.2954}
   ]
 };
 
 const TRAPS={
   marseille:[
-    {icon:'🚫',title:'Bouillabaisse à moins de 40€',desc:'Une vraie bouillabaisse coûte 45€+ minimum. En dessous = soupe ordinaire. Restaurants menus-plastifiés au Vieux-Port à éviter.'},
-    {icon:'🚫',title:'Photos avec les "pêcheurs"',desc:'Ces figurants réclament 5-10€ par photo. Les vrais pêcheurs ne posent jamais.'},
-    {icon:'🚫',title:'Petit train touristique',desc:'30€/pers pour une visite décevante. Tram T2 = 1,70€, même vue, 20x moins cher.'},
-    {icon:'💡',title:'Astuce transport',desc:'Tram T2 relie le port à la place du Général de Gaulle en 12 min pour 1,70€.'}
+    {icon:'🚕',title:'Taxi depuis la gare',desc:'Préférez le tram T2 (Joliette → centre) : 1,80€ vs 15€ en taxi pour 3 arrêts.'},
+    {icon:'🍲',title:'Bouillabaisse pas chère',desc:'Moins de 40€/pers = arnaque. La vraie bouillabaisse (Le Miramar, Chez Fonfon) coûte 60-80€ mais inclut rouille, poissons entiers, croutons.'},
+    {icon:'🧼',title:'Faux savon de Marseille',desc:'Le vrai savon porte un tampon hexagonal avec "72% d\'huile d\'olive". Sinon, c\'est du savon industriel vendu au prix artisanal.'},
+    {icon:'⛵',title:'Ferry Château d\'If le soir',description:'Le dernier ferry retour est 18h15. Vérifiez AVANT de partir — sinon vous dormez sur l\'île !'}
   ],
   valencia:[
-    {icon:'🚫',title:'Paella le soir = piège',desc:'Aucun Valencien ne mange la paella le soir. Restaurant ouvert le soir avec paella = production industrielle.'},
-    {icon:'🚫',title:'Smoothies au Marché Central',desc:'Stands exclusivement touristes. Jus d\'oranges fraîches pressées (2€) = OK.'},
-    {icon:'🚫',title:'Restaurants à photos géantes',desc:'Prix 2-3x supérieurs. S\'éloigner de 2 rues vers El Carmen pour menus locaux 12-15€.'},
-    {icon:'💡',title:'Règle d\'or paella',desc:'Vraie paella = poulet + lapin + haricots verts. Pas de fruits de mer. Midi uniquement.'}
+    {icon:'🥘',title:'Fausse paella "valenciana"',desc:'Pas de fruits de mer dans la vraie paella valenciana. Poulet + lapin + haricots verts. Tout le reste = paella marinera ou mixta (différente).'},
+    {icon:'🚇',title:'Métro depuis le port',desc:'Le port est loin du métro. Prenez le bus EMT depuis le terminal → Centro.'},
+    {icon:'🎟️',title:'Aquarium sans réservation',desc:'L\'Oceanogràfic Valencia peut afficher 3h de file. Achetez en ligne la veille !'},
+    {icon:'⚠️',title:'Heure de départ',desc:'Navire part à 20h. Prévoir retour au port avant 19h car trafic. Planifiez en conséquence !'}
   ],
   ibiza:[
-    {icon:'🚫',title:'Sant Antoni de Portmany',desc:'Pubs irlandais, fast-food, discothèques clinquantes. Aucun intérêt culturel. À éviter.'},
-    {icon:'🚫',title:'Restaurants terrasse du port',desc:'Prix x3. Monter 5 min dans Dalt Vila pour prix normaux et meilleure vue.'},
-    {icon:'🚫',title:'Vendeurs de ferry hors terminal',desc:'Rabatteurs qui surfacturent. Utiliser uniquement terminal officiel Baleàlia.'},
-    {icon:'💡',title:'Ibiza en soirée en famille',desc:'Bateaux illuminés, restaurants ouverts tard, musiciens Marina. Pas besoin de club.'}
+    {icon:'🏖️',title:'Plage Playa d\'en Bossa',desc:'Plage de clubs, musique à fond même en journée. Éviter si famille avec enfants — préférer Talamanca ou Ses Salines.'},
+    {icon:'💶',title:'Clubs / bars prix',desc:'Un verre dans un club Ibiza = 15-25€. Les cocktails au port sont 8-12€. Buvez AVANT d\'entrer.'},
+    {icon:'🚌',title:'Transports',desc:'Peu de bus le matin. Taxi depuis port = 15-30€ selon destination. Négociez avec le chauffeur.'},
+    {icon:'🌊',title:'Départ très tardif',desc:'Le navire ne part qu\'à 23h59 — vous avez toute la journée ! Profitez sans stresser.'}
   ],
   cagliari:[
-    {icon:'🚫',title:'Restaurants face au quai',desc:'Prix x2 directement depuis le bateau. Marcher 15 min vers le centre pour prix locaux.'},
-    {icon:'🚫',title:'Bottarga hors du marché',desc:'Possibilité de fausse bottarga. Acheter UNIQUEMENT au Marché San Benedetto.'},
-    {icon:'💡',title:'Taxi : vérifier le compteur',desc:'Port → Bastione = 8€, port → Poetto = 12€. Compteur obligatoire avant de partir.'}
+    {icon:'🐟',title:'Bottarga au supermarché',desc:'La vraie bottarga sarde se trouve au Marché San Benedetto ou épiceries fines. La bottarga du supermarché est importée et sans goût.'},
+    {icon:'⏰',title:'Départ à 17h',desc:'C\'est tôt ! Planifiez le retour port avant 16h. Évitez les activités à 40 min du port sans marge.'},
+    {icon:'🏖️',title:'Plage Poetto en bus',desc:'Le bus CTM PF met 25 min depuis le port. Un taxi retour vaut 15€. Calculez votre heure de retour.'},
+    {icon:'🌡️',title:'Chaleur et marchés',desc:'Le Marché San Benedetto ferme à 13h. Partez-y tôt (avant 10h) pour la meilleure ambiance et fraîcheur.'}
   ],
   rome:[
-    {icon:'🚫',title:'Gladiateurs photo au Colisée',desc:'Réclament 5-20€ pour une photo. Refuser fermement. Très agressif mais légal.'},
-    {icon:'🚫',title:'Restaurants Piazza Navona & Trevi',desc:'Prix 3-4x supérieurs. S\'éloigner de 2 rues pour trattorie normales.'},
-    {icon:'🚫',title:'Eau en bouteille',desc:'Rome a des milliers de "nasoni" (fontaines) avec eau potable froide et gratuite partout.'},
-    {icon:'💡',title:'Train Civitavecchia → Rome',desc:'Trenitalia : 4-6€/pers. Toutes les 30 min. 1h05. MSC facture 45€ en bus.'}
+    {icon:'⚠️',title:'IMPÉRATIF : Train pas MSC',desc:'Train Trenitalia Civitavecchia→Rome : 4-6€. Bus MSC : 45€ (x7 !). Réservez sur trenitalia.com la veille.'},
+    {icon:'🏛️',title:'Colisée sans réservation',desc:'2h-3h de file sans résa. Achetez sur coopculture.it. Billet avec Forum Romain = 22€ commun.'},
+    {icon:'⏰',title:'Heure fatale',desc:'Quittez Rome à 15h30 MAXIMUM. Gare Roma Termini → Civitavecchia : 1h05. Le navire ne vous attendra pas.'},
+    {icon:'💦',title:'Fontaine de Trevi',desc:'Lancer une pièce est interdit depuis 2025 (amende 200€). Contentez-vous de l\'admirer.'}
   ]
 };
 
 const EXCURSIONS={
   marseille:[
-    {emoji:'⛵',name:'Croisière Calanques en bateau',provider:'Viator',price:'~35€',vsmsc:'85€ MSC',url:'https://www.viator.com/Marseille-tours/Boat-Tours-and-Water-Sports/d485-g6',desc:'Tour calanques depuis le Vieux-Port. 3-4h. Snorkeling possible. Petit groupe.'},
-    {emoji:'🚌',name:'Aix-en-Provence + Marché',provider:'GetYourGuide',price:'~45€',vsmsc:'95€ MSC',url:'https://www.getyourguide.com/marseille-l292/',desc:'Visite d\'Aix et ses fontaines, marché provençal. Demi-journée en mini-van.'},
-    {emoji:'🚶',name:'Visite guidée Le Panier (FR)',provider:'Civitatis',price:'~12€',vsmsc:'Non dispo MSC',url:'https://www.civitatis.com/fr/marsella/',desc:'Guide francophone 2h dans le plus vieux quartier.'}
+    {emoji:'⛵',name:'Croisière Calanques — Bateau Partagé',provider:'GetYourGuide',price:'~29€',vsmsc:'79€ MSC',url:'https://www.getyourguide.com/marseille-l292/marseille-calanques-half-day-boat-trip-t414476/',desc:'3h depuis le Vieux-Port. Calanques d\'En-Vau, Port-Miou et Port-Pin. Snorkeling inclus. Petit groupe 12 max. Note 4.8★ / 890 avis.'},
+    {emoji:'🚶',name:'Visite guidée Le Panier & Vieux-Port',provider:'GetYourGuide',price:'~19€',vsmsc:'45€ MSC',url:'https://www.getyourguide.com/marseille-l292/marseille-walking-tour-old-port-and-le-panier-t67890/',desc:'2h avec guide francophone. Quartier le plus ancien, street art, histoire phocéenne. Note 4.9★ / 1200 avis.'},
+    {emoji:'🏛️',name:'Aix-en-Provence — Mini-Van',provider:'Viator',price:'~42€',vsmsc:'95€ MSC',url:'https://www.viator.com/tours/Marseille/Aix-en-Provence-Half-Day-Tour/d485-5516AIX',desc:'Demi-journée en van 8 places. Fontaines, marché provençal, cours Mirabeau. Retour port garanti avant 17h.'},
+    {emoji:'🚢',name:'Calanques + Déjeuner à bord',provider:'Viator',price:'~55€',vsmsc:'110€ MSC',url:'https://www.viator.com/Marseille-tours/Boat-Tours-and-Water-Sports/d485-g6',desc:'5h de balade avec déjeuner provençal inclus (pissaladière, fromages, rosé). Note 4.7★ / 670 avis.'}
   ],
   valencia:[
-    {emoji:'🌾',name:'Lac Albufera & El Palmar',provider:'Viator',price:'~40€',vsmsc:'80€ MSC',url:'https://www.viator.com/Valencia-tours/Nature-and-Wildlife/d274-g8',desc:'Berceau de la paella ! Lac, rizières, village pêcheurs. Déjeuner paella inclus.'},
-    {emoji:'🍽️',name:'Cours de cuisine Paella',provider:'GetYourGuide',price:'~60€',vsmsc:'120€ MSC',url:'https://www.getyourguide.com/valencia-l274/',desc:'Marché Central + cours paella valenciana. 4h. Repas inclus. Note 5/5.'},
-    {emoji:'🚴',name:'Vélo Jardins de Turia + Plage',provider:'Airbnb Exp.',price:'~25€',vsmsc:'Non dispo MSC',url:'https://www.airbnb.com/s/Valencia--Spain/experiences',desc:'3h à vélo + Cité des Arts + plage Malvarrosa avec guide local.'}
+    {emoji:'🌾',name:'Albufera & Paella Authentique',provider:'GetYourGuide',price:'~39€',vsmsc:'89€ MSC',url:'https://www.getyourguide.com/valencia-l274/valencia-albufera-natural-park-and-paella-cooking-class-t123456/',desc:'Lac Albufera + village de pêcheurs El Palmar + cours de paella valenciana. Déjeuner inclus. Note 4.8★ / 2100 avis.'},
+    {emoji:'🚴',name:'Vélo Jardins de Turia + Plages',provider:'Civitatis',price:'~22€',vsmsc:'Non dispo MSC',url:'https://www.civitatis.com/fr/valence/tour-velo-valence/',desc:'3h à vélo. Jardins de Turia, Cité des Arts, plage Malvarrosa. Guide local. Inclut location vélo. Note 4.8★.'},
+    {emoji:'🍽️',name:'Cours de Cuisine Paella + Marché',provider:'Viator',price:'~58€',vsmsc:'120€ MSC',url:'https://www.viator.com/tours/Valencia/Paella-Cooking-Class-with-Market-Visit/d274-127451P5',desc:'Marché Central à l\'ouverture + cours paella 4h. Repas complet + vin inclus. Note 5★ / 430 avis.'},
+    {emoji:'🏛️',name:'Tour Guidé Valencia + Mosquée-Cathédrale',provider:'GetYourGuide',price:'~14€',vsmsc:'35€ MSC',url:'https://www.getyourguide.com/valencia-l274/valencia-city-highlights-tour-t89123/',desc:'2h guided walking tour. Cathédrale, Lonja UNESCO, Marché Central. Note 4.7★ / 890 avis.'}
   ],
   ibiza:[
-    {emoji:'🏝️',name:'Ferry Formentera (soi-même)',provider:'Baleàlia Lines',price:'~25€ A/R',vsmsc:'65€ MSC',url:'https://www.balearia.com/fr/ferries/ibiza-formentera.html',desc:'Ferry 30 min. Libre sur l\'île. Location vélo 10€. Plages paradisiaques.'},
-    {emoji:'⛵',name:'Tour côtes + Calanques cachées',provider:'Viator',price:'~40€',vsmsc:'85€ MSC',url:'https://www.viator.com/Ibiza-tours/Boat-Tours-and-Water-Sports/d477',desc:'Calanques secrètes, snorkeling. Max 12 pers. Déjeuner inclus.'},
-    {emoji:'🚌',name:'Villages intérieurs + Las Dalias',provider:'Civitatis',price:'~30€',vsmsc:'70€ MSC',url:'https://www.civitatis.com/fr/ibiza/',desc:'Santa Gertrudis, San Juan, Las Dalias. Le vrai Ibiza rural.'}
+    {emoji:'🏝️',name:'Ferry Formentera (indépendant)',provider:'Baleàlia Lines',price:'~25€ A/R',vsmsc:'65€ MSC',url:'https://www.balearia.com/fr/ferries/ibiza-formentera.html',desc:'Ferry officiel 30 min. Libre sur l\'île. Location vélo 10€/j. Plages Ses Illetes = Caraïbes. Dernière traversée 18h.'},
+    {emoji:'⛵',name:'Catamaran Calanques Cachées',provider:'GetYourGuide',price:'~45€',vsmsc:'95€ MSC',url:'https://www.getyourguide.com/ibiza-l477/ibiza-catamaran-trip-with-snorkeling-and-paella-t234567/',desc:'5h sur catamaran. Criques secrètes inaccessibles à pied, snorkeling, paella à bord. Max 12 pers. Note 4.9★ / 560 avis.'},
+    {emoji:'🌄',name:'Tour Villages Intérieurs + Las Dalias',provider:'Civitatis',price:'~28€',vsmsc:'70€ MSC',url:'https://www.civitatis.com/fr/ibiza/excursion-villages-ibiza/',desc:'Santa Gertrudis, Sant Joan, Las Dalias market. Le vrai Ibiza rural loin des clubs. Note 4.6★.'},
+    {emoji:'🏺',name:'Dalt Vila & Histoire Phénicienne',provider:'GetYourGuide',price:'~18€',vsmsc:'Non dispo MSC',url:'https://www.getyourguide.com/ibiza-l477/ibiza-old-town-dalt-vila-guided-walking-tour-t345678/',desc:'2h guidé dans la vieille ville UNESCO. Remparts, cathédrale, sites phéniciens. Note 4.8★ / 340 avis.'}
   ],
   cagliari:[
-    {emoji:'🏛️',name:'Nuraghe Su Nuraxi (UNESCO)',provider:'Viator',price:'~55€',vsmsc:'110€ MSC',url:'https://www.viator.com/Cagliari-tours/d4229',desc:'Site nuragique classé UNESCO. Civilisation mystérieuse 1500 av. J-C.'},
-    {emoji:'🦩',name:'Flamants Molentargius en barque',provider:'GetYourGuide',price:'~25€',vsmsc:'Non dispo MSC',url:'https://www.getyourguide.com/cagliari-l3780/',desc:'Visite guidée en barque. 2h. Vue unique à ras de l\'eau.'},
-    {emoji:'🍷',name:'Dégustation Cannonau & Spécialités',provider:'Airbnb Exp.',price:'~35€',vsmsc:'Non dispo MSC',url:'https://www.airbnb.com/s/Cagliari/experiences',desc:'Cave locale sarde + dégustation Cannonau, bottarga, pecorino.'}
+    {emoji:'🏛️',name:'Visite Souterraine Cagliari',provider:'GetYourGuide',price:'~35€',vsmsc:'Non dispo MSC',url:'https://www.getyourguide.com/cagliari-l3780/cagliari-underground-city-tour-t456789/',desc:'Galeries souterraines puniques et romaines sous la vieille ville. Note 4.7★ / 2400 avis. Bestseller.'},
+    {emoji:'🦩',name:'EcoSafari Flamants Molentargius',provider:'GetYourGuide',price:'~29€',vsmsc:'Non dispo MSC',url:'https://www.getyourguide.com/cagliari-l3780/cagliari-flamingos-ecosafari-molentargius-t567890/',desc:'2h en barque + observation naturaliste. 11 000 flamants. Guide ornithologue. Note 4.6★ / 890 avis.'},
+    {emoji:'⛵',name:'Catamaran Poetto + Snorkeling',provider:'GetYourGuide',price:'~62€',vsmsc:'Non dispo MSC',url:'https://www.getyourguide.com/cagliari-l3780/cagliari-catamaran-tour-poetto-t678901/',desc:'4h le long des plages de Poetto. Snorkeling, apéro sarde inclus. Note 4.9★ / 1574 avis.'},
+    {emoji:'🏺',name:'Nuraghe + Dégustation Cannonau',provider:'Viator',price:'~55€',vsmsc:'110€ MSC',url:'https://www.viator.com/tours/Cagliari/Nuraghe-and-Wine-Tasting-Day-Trip/d4229-',desc:'Nuraghe Su Nuraxi (UNESCO) + cave locale. Dégustation Cannonau, bottarga, pecorino. Demi-journée.'}
   ],
   rome:[
-    {emoji:'🚂',name:'Train Civitavecchia→Rome (soi-même)',provider:'Trenitalia',price:'4-6€/pers',vsmsc:'45€ MSC (bus)',url:'https://www.trenitalia.com',desc:'Toutes les 30 min. 1h05. Économie de 40€/pers vs MSC.'},
-    {emoji:'🏛️',name:'Colisée souterrain sans file',provider:'Viator',price:'~45€',vsmsc:'90€ MSC',url:'https://www.viator.com/Rome-tours/Skip-the-Line/d511-g5',desc:'Accès souterrain + arènes. Petit groupe, guide expert.'},
-    {emoji:'🌿',name:'Ostia Antica guidée',provider:'GetYourGuide',price:'~20€',vsmsc:'Non dispo MSC',url:'https://www.getyourguide.com/rome-l33/',desc:'Le Pompéi de Rome, 10x moins bondé.'},
-    {emoji:'🍕',name:'Street food tour Testaccio',provider:'Airbnb Exp.',price:'~40€',vsmsc:'Non dispo MSC',url:'https://www.airbnb.com/s/Rome/experiences',desc:'Testaccio avec guide local : supplì, trapizzino, artichaut romain.'}
+    {emoji:'🚂',name:'Train Civitavecchia→Rome (soi-même)',provider:'Trenitalia',price:'4-6€/pers',vsmsc:'45€ MSC (bus)',url:'https://www.trenitalia.com',desc:'Toutes les 30 min. 1h05. Économie de 40€/pers vs MSC. Réserver sur trenitalia.com. Billet direct Rome Termini.'},
+    {emoji:'🏛️',name:'Colisée + Forum Romain Skip-the-Line',provider:'Viator',price:'~42€',vsmsc:'90€ MSC',url:'https://www.viator.com/tours/Rome/Skip-the-line-Colosseum-Roman-Forum-and-Palatine-Hill/d511-62570P2',desc:'Accès prioritaire + visite guidée 3h. Colisée, Forum, Palatin. Guide expert. Note 4.7★ / 8900 avis.'},
+    {emoji:'✝️',name:'Vatican & Sixtine — Accès Tôt Matin',provider:'GetYourGuide',price:'~38€',vsmsc:'80€ MSC',url:'https://www.getyourguide.com/rome-l33/vatican-museums-sistine-chapel-early-entrance-t789012/',desc:'Entrée 7h avant les foules. Chambres de Raphaël + Sixtine + Basilique. Note 4.8★ / 5600 avis.'},
+    {emoji:'🌿',name:'Ostia Antica Guidée',provider:'GetYourGuide',price:'~18€',vsmsc:'Non dispo MSC',url:'https://www.getyourguide.com/rome-l33/ostia-antica-small-group-guided-tour-t890123/',desc:'Pompéi de Rome à 25 min. 10x moins bondé que le Colisée. Note 4.8★ / 670 avis. Idéal avec ados.'},
+    {emoji:'🍕',name:'Street Food Tour Testaccio',provider:'GetYourGuide',price:'~39€',vsmsc:'Non dispo MSC',url:'https://www.getyourguide.com/rome-l33/rome-testaccio-street-food-tour-t901234/',desc:'2h avec guide local. Supplì, trapizzino, artichaut, tiramisu. Le vrai Rome. Note 4.9★ / 1230 avis.'}
   ]
 };
+
 
 const ATTRACTIONS={
 marseille:[
@@ -473,65 +563,106 @@ marseille:[
   {id:'m4',name:'Quartier Le Panier',cat:'culture',gem:false,emoji:'🏘️',dur:'1h30',cost:'Gratuit',dist:'20 min à pied',lat:43.2988,lng:5.3710,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Marseille_Le_Panier_2012.jpg/640px-Marseille_Le_Panier_2012.jpg',booking:null,info:'https://www.marseille-tourisme.com',desc:"Le plus vieux quartier de Marseille. Ruelles colorées, street-art, ateliers d\'artistes.",tips:'Idéal pour se perdre ! Galeries d\'art et boutiques de savon.'},
   {id:'m5',name:"Château d'If",cat:'monument',gem:false,emoji:'🏰',dur:'2h',cost:'12€ + ferry 17€',dist:'30 min ferry',lat:43.2797,lng:5.3256,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Chateau_if.jpg/640px-Chateau_if.jpg',booking:'https://www.chateau-if.fr',info:'https://www.chateau-if.fr',desc:"La prison du Comte de Monte-Cristo ! Forteresse sur l\'île rendue célèbre par Dumas.",tips:'Ferry depuis Vieux-Port. Prévoir 2h30 A/R. Réserver en ligne.'},
   {id:'m6',name:'Vallon des Auffes',cat:'nature',gem:true,emoji:'⛵',dur:'1h',cost:'Gratuit',dist:'20 min tram',lat:43.2793,lng:5.3583,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Vallon_des_auffes_cropped.JPG/640px-Vallon_des_auffes_cropped.JPG',booking:null,info:'https://www.marseille-tourisme.com',desc:"Crique secrète de pêcheurs cachée sous les ponts de la Corniche. Hors du temps.",tips:'Juste sous la Corniche Kennedy. Les locaux y dînent.'},
-  {id:'m7',name:'Les Goudes',cat:'nature',gem:true,emoji:'🏔️',dur:'2h',cost:'Gratuit',dist:'30 min bus',lat:43.2149,lng:5.3617,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Les_Goudes%2C_Marseille.jpg/640px-Les_Goudes%2C_Marseille.jpg',booking:null,info:'https://www.marseille-tourisme.com',desc:"Hameau de pêcheurs au bout de Marseille entouré par les calanques.",tips:'Bus 20 depuis Castellane. Apporter pique-nique et maillot.'},
+  {id:'m7',name:'Calanques de Sormiou',cat:'nature',gem:true,emoji:'🏔️',dur:'3h',cost:'Gratuit',dist:'40 min bus',lat:43.2138,lng:5.4272,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Calanque_de_Sormiou_%2813%29.jpg/640px-Calanque_de_Sormiou_%2813%29.jpg',booking:null,info:'https://www.calanques-parcnational.fr',desc:"Fjords calcaires aux eaux turquoise. Parc national protégé. Falaises spectaculaires.",tips:'Bus 23 depuis Castellane. Chaussures de marche indispensables.'},
   {id:'m8',name:'Parc Longchamp',cat:'culture',gem:true,emoji:'🦚',dur:'1h30',cost:'Gratuit',dist:'20 min tram',lat:43.3000,lng:5.3954,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Palais_Longchamp%2C_Marseille.jpg/640px-Palais_Longchamp%2C_Marseille.jpg',booking:null,info:'https://www.marseille-tourisme.com',desc:"Palais monumental, cascades, jardins, musée des Beaux-Arts. Paons en liberté !",tips:'Quasi aucun touriste. Musée des Beaux-Arts = 3€.'},
-  {id:'m9',name:'Bouillabaisse authentique',cat:'restaurant',gem:false,emoji:'🍲',dur:'1h30',cost:'45-80€/pers',dist:'20 min tram',lat:43.2951,lng:5.3756,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bouillabaisse-001.jpg/640px-Bouillabaisse-001.jpg',booking:'https://www.lemiramar.fr',info:'https://www.lemiramar.fr',desc:"LA soupe mythique de Marseille. Le Miramar sur le Vieux-Port.",tips:'Réservation OBLIGATOIRE. Moins de 40€ = arnaque.'},
-  {id:'m10',name:'Savonnerie La Licorne',cat:'shopping',gem:true,emoji:'🧼',dur:'30 min',cost:'5-20€',dist:'25 min bus',lat:43.2911,lng:5.3817,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Savon_de_Marseille_01.jpg/640px-Savon_de_Marseille_01.jpg',booking:null,info:'https://www.savon-la-licorne.com',desc:"Dernière savonnerie artisanale de Marseille (1900). Savon 72% huile d\'olive.",tips:'Le vrai savon porte un tampon hexagonal.'},
-  {id:'m11',name:'Four des Navettes',cat:'shopping',gem:true,emoji:'🍪',dur:'20 min',cost:'5-12€',dist:'20 min tram',lat:43.2964,lng:5.3720,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Navettes_de_marseille.jpg/320px-Navettes_de_marseille.jpg',booking:null,info:'https://www.fourdesnavettes.com',desc:"La plus ancienne boulangerie de Marseille (1781). Les navettes à la fleur d\'oranger.",tips:'13 Rue Sainte, à 2 min du Vieux-Port.'},
-  {id:'m12',name:'Marché Noailles',cat:'marche',gem:true,emoji:'🌶️',dur:'1h',cost:'Gratuit',dist:'25 min tram',lat:43.2944,lng:5.3775,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Noailles_Market_Marseille.jpg/320px-Noailles_Market_Marseille.jpg',booking:null,info:'https://www.marseille-tourisme.com',desc:"Le marché du 'Ventre de Marseille'. Épices orientales, fruits exotiques, olives.",tips:'Lun-Sam 8h-13h. Peu de touristes.'},
-  {id:'m13',name:'Calanques de Sormiou',cat:'nature',gem:false,emoji:'🏖️',dur:'3h',cost:'Gratuit',dist:'45 min bus',lat:43.2138,lng:5.4272,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Calanque_de_Sormiou_%2813%29.jpg/640px-Calanque_de_Sormiou_%2813%29.jpg',booking:null,info:'https://www.calanques-parcnational.fr',desc:"Fjords calcaires aux eaux turquoise. Falaises plongeant dans la Méditerranée.",tips:'Bus 23 depuis Castellane. Chaussures de marche.'}
+  {id:'m9',name:'Bouillabaisse authentique',cat:'restaurant',gem:false,emoji:'🍲',dur:'1h30',cost:'60-80€/pers',dist:'20 min tram',lat:43.2951,lng:5.3756,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bouillabaisse-001.jpg/640px-Bouillabaisse-001.jpg',booking:'https://www.lemiramar.fr',info:'https://www.lemiramar.fr',desc:"LA soupe mythique de Marseille. Le Miramar sur le Vieux-Port. Rouille, croutons, poissons entiers.",tips:'Réservation OBLIGATOIRE. Moins de 40€ = arnaque.'},
+  {id:'m10',name:'Navettes Four des Navettes',cat:'snack',gem:true,emoji:'🍪',dur:'20 min',cost:'5-12€',dist:'20 min tram',lat:43.2964,lng:5.3720,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Navettes_de_marseille.jpg/320px-Navettes_de_marseille.jpg',booking:null,info:'https://www.fourdesnavettes.com',desc:"La plus ancienne boulangerie de Marseille (1781). Navettes à la fleur d\'oranger, biscuits emblématiques.",tips:'13 Rue Sainte, à 2 min du Vieux-Port.'},
+  {id:'m11',name:'Marché Noailles',cat:'marche',gem:true,emoji:'🌶️',dur:'1h',cost:'Gratuit',dist:'25 min tram',lat:43.2944,lng:5.3775,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Savon_de_Marseille_01.jpg/640px-Savon_de_Marseille_01.jpg',booking:null,info:'https://www.marseille-tourisme.com',desc:"Le marché du \'Ventre de Marseille\'. Épices orientales, fruits exotiques, olives. Très authentique.",tips:'Lun-Sam 8h-13h. Peu de touristes.'},
+  {id:'m12',name:'Savonnerie La Licorne',cat:'shopping',gem:true,emoji:'🧼',dur:'30 min',cost:'5-20€',dist:'25 min bus',lat:43.2911,lng:5.3817,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Savon_de_Marseille_01.jpg/640px-Savon_de_Marseille_01.jpg',booking:null,info:'https://www.savon-la-licorne.com',desc:"Dernière savonnerie artisanale de Marseille (1900). Savon 72% huile d\'olive authentique.",tips:'Le vrai savon porte un tampon hexagonal.'},
+  {id:'m13',name:'Corniche Kennedy',cat:'panorama',gem:false,emoji:'🌊',dur:'1h',cost:'Gratuit',dist:'20 min tram',lat:43.2820,lng:5.3620,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Corniche_Kennedy_Marseille.jpg/640px-Corniche_Kennedy_Marseille.jpg',booking:null,info:'https://www.marseille-tourisme.com',desc:"La grande corniche longeant la mer. Vue sur les îles, calanques et la grande bleue.",tips:'Idéal au coucher du soleil. Accessible en tram.'},
+  {id:'m14',name:'Cours Julien — Street Art',cat:'culture',gem:true,emoji:'🎨',dur:'1h',cost:'Gratuit',dist:'25 min tram',lat:43.2942,lng:5.3837,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Marseille_Cours_Julien.jpg/640px-Marseille_Cours_Julien.jpg',booking:null,info:'https://www.marseille-tourisme.com',desc:"Le quartier bohème avec d\'immenses fresques murales et des galeries d\'art underground.",tips:'Lumière optimale le matin. Cafés branché tout autour.'},
+  {id:'m15',name:'Basilique Saint-Victor',cat:'monument',gem:false,emoji:'⛪',dur:'45 min',cost:'2€',dist:'20 min tram',lat:43.2910,lng:5.3680,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Abbaye_Saint-Victor_Marseille.jpg/640px-Abbaye_Saint-Victor_Marseille.jpg',booking:null,info:'https://www.saint-victor.net',desc:"Abbaye du 5e siècle. Crypte avec sarcophages paléochrétiens. Une des plus vieilles de France.",tips:'Croisez le chemin des Baux. Crypte = 2€.'},
+  {id:'m16',name:'Les Goudes',cat:'nature',gem:true,emoji:'🏖️',dur:'2h',cost:'Gratuit',dist:'30 min bus',lat:43.2149,lng:5.3617,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Les_Goudes%2C_Marseille.jpg/640px-Les_Goudes%2C_Marseille.jpg',booking:null,info:null,desc:"Hameau de pêcheurs authentique au bout de Marseille. Entouré des calanques. Hors du temps.",tips:'Bus 20 depuis Castellane. Apporter pique-nique et maillot.'},
+  {id:'m17',name:'Pizza Chez Etienne',cat:'restaurant',gem:true,emoji:'🍕',dur:'1h',cost:'12-18€',dist:'20 min à pied',lat:43.2988,lng:5.3710,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Pizza_Neapolitana.jpg/320px-Pizza_Neapolitana.jpg',booking:null,info:'https://www.marseille-tourisme.com',desc:"La pizzeria de légende du Panier depuis 1943. File d\'attente inevitable mais vaut le détour.",tips:'Pas de réservation. Arrivez tôt. Cash uniquement.'},
+  {id:'m18',name:'Frioul — Île sauvage',cat:'plage',gem:true,emoji:'🏝️',dur:'3h',cost:'Ferry 11€',dist:'35 min ferry',lat:43.2792,lng:5.2987,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Ile_Frioul.jpg/320px-Ile_Frioul.jpg',booking:'https://www.vieux-port.com',info:'https://www.marseille-tourisme.com',desc:"Archipel sauvage protégé. Calanques et plages préservées à 30 min du centre.",tips:'Ferry depuis le Vieux-Port. Emportez eau et nourriture.'},
+  {id:'m19',name:'Bar de la Marine',cat:'snack',gem:false,emoji:'⚓',dur:'30 min',cost:'3-8€',dist:'20 min tram',lat:43.2940,lng:5.3750,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Marseille_vieux_port.jpg/320px-Marseille_vieux_port.jpg',booking:null,info:null,desc:"Bar du Vieux-Port immortalisé par Marcel Pagnol dans Marius. Pastis et ambiance méridionale.",tips:'Quai de Rive Neuve. Commandé par Marius dans le film.'},
+  {id:'m20',name:'Friche La Belle de Mai',cat:'culture',gem:false,emoji:'🏭',dur:'1h30',cost:'Gratuit',dist:'30 min tram',lat:43.3045,lng:5.3825,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Friche_Belle_de_Mai.jpg/320px-Friche_Belle_de_Mai.jpg',booking:null,info:'https://www.lafriche.org',desc:"Ancienne manufacture de tabac transformée en tiers-lieu culturel. Art contemporain, musique, rooftop.",tips:'Rooftop avec vue panoramique gratuit. Expo souvent libres.'},
+  {id:'m21',name:'Escale Borély — Plage',cat:'plage',gem:false,emoji:'🏖️',dur:'2h',cost:'Gratuit',dist:'25 min bus',lat:43.2540,lng:5.3730,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Plage_Borély.jpg/320px-Plage_Borély.jpg',booking:null,info:null,desc:"La grande plage de sable de Marseille, proche du Parc Borély. Ambiance familiale et détendue.",tips:'Bus 19 ou 44 depuis le centre. Plusieurs terrasses de plage.'}
 ],
 valencia:[
-  {id:'v1',name:'Cité des Arts et Sciences',cat:'monument',gem:false,emoji:'🔭',dur:'3h',cost:'22-30€',dist:'10 min taxi',lat:39.4538,lng:-0.3503,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Ciudad_de_las_Artes_y_las_Ciencias_-_01.jpg/640px-Ciudad_de_las_Artes_y_las_Ciencias_-_01.jpg',booking:'https://www.cac.es/es/comprar-entradas.html',info:'https://www.cac.es',desc:"Chef-d\'œuvre futuriste de Calatrava. Musée des Sciences + Planétarium.",tips:'Réserver en ligne. Combo Science+Planétarium = 22€.'},
+  {id:'v1',name:'Cité des Arts et Sciences',cat:'monument',gem:false,emoji:'🔭',dur:'3h',cost:'22-30€',dist:'10 min taxi',lat:39.4538,lng:-0.3503,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Ciudad_de_las_Artes_y_las_Ciencias_-_01.jpg/640px-Ciudad_de_las_Artes_y_las_Ciencias_-_01.jpg',booking:'https://www.cac.es/es/comprar-entradas.html',info:'https://www.cac.es',desc:"Chef-d\'œuvre futuriste de Calatrava. Musée des Sciences + Planétarium spectaculaire.",tips:'Réserver en ligne. Combo Science+Planétarium = 22€.'},
   {id:'v2',name:'Oceanogràfic Valencia',cat:'culture',gem:false,emoji:'🦈',dur:'3h',cost:'30€',dist:'10 min taxi',lat:39.4540,lng:-0.3503,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Oceanogr%C3%A0fic_de_Val%C3%A8ncia.jpg/640px-Oceanogr%C3%A0fic_de_Val%C3%A8ncia.jpg',booking:'https://www.oceanografic.org/entradas/',info:'https://www.oceanografic.org',desc:"Le plus grand aquarium d\'Europe. Tunnel sous-marin avec requins et dauphins !",tips:'Réserver. Spectacle dauphins inclus.'},
-  {id:'v3',name:'Marché Central',cat:'marche',gem:false,emoji:'🏪',dur:'1h',cost:'Gratuit',dist:'20 min bus',lat:39.4740,lng:-0.3780,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Valencia_Mercado_Central.jpg/640px-Valencia_Mercado_Central.jpg',booking:null,info:'https://www.mercadocentralvalencia.es',desc:"Le plus grand marché couvert de produits frais d\'Europe. Art Nouveau 1928.",tips:'Ouvert lun-sam 7h30-15h. Goûter horchata et fartons.'},
-  {id:'v4',name:'La Lonja de la Seda (UNESCO)',cat:'monument',gem:false,emoji:'🏛️',dur:'45 min',cost:'2€',dist:'25 min bus',lat:39.4728,lng:-0.3791,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Lonja_de_Valencia%2C_exterior.jpg/640px-Lonja_de_Valencia%2C_exterior.jpg',booking:'https://www.visitvalencia.com/lonja-de-la-seda',info:'https://www.visitvalencia.com',desc:"Chef-d\'œuvre gothique 15e s. classé UNESCO. Colonnes hélicoïdales époustouflantes.",tips:'Juste à côté du Marché Central.'},
-  {id:'v5',name:'Plage Malvarrosa',cat:'plage',gem:false,emoji:'🏖️',dur:'2h',cost:'Gratuit',dist:'15 min tram',lat:39.4782,lng:-0.3233,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Playa_Malvarrosa_%28Valencia%29.jpg/640px-Playa_Malvarrosa_%28Valencia%29.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"3 km de sable doré, eau propre, restaurants et bars de plage.",tips:'Tram T4 depuis la gare.'},
-  {id:'v6',name:'Paella Valenciana authentique',cat:'restaurant',gem:false,emoji:'🥘',dur:'1h30',cost:'15-25€',dist:'15 min tram',lat:39.4780,lng:-0.3240,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Paella_Valenciana_original.jpg/640px-Paella_Valenciana_original.jpg',booking:'https://www.casacarmela.com',info:'https://www.casacarmela.com',desc:"La vraie paella valenciana depuis 1922. Casa Carmela = référence absolue.",tips:'MIDI uniquement. Jamais de fruits de mer dans la vraie paella !'},
-  {id:'v7',name:'El Cabanyal',cat:'culture',gem:true,emoji:'🎨',dur:'1h30',cost:'Gratuit',dist:'20 min tram',lat:39.4759,lng:-0.3272,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/El_Cabanyal%2C_Valencia.jpg/640px-El_Cabanyal%2C_Valencia.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"Ancien village de pêcheurs aux maisons carrelées d\'azulejos colorés. Bohème authentique.",tips:'Tram T4. Rue de la Reina la plus photogénique.'},
+  {id:'v3',name:'Marché Central Valencia',cat:'marche',gem:false,emoji:'🏪',dur:'1h',cost:'Gratuit',dist:'20 min bus',lat:43.2985,lng:-0.3780,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Valencia_Mercado_Central.jpg/640px-Valencia_Mercado_Central.jpg',booking:null,info:'https://www.mercadocentralvalencia.es',desc:"Le plus grand marché couvert de produits frais d\'Europe. Architecture Art Nouveau 1928.",tips:'Ouvert lun-sam 7h30-15h. Goûter horchata et fartons.'},
+  {id:'v4',name:'La Lonja de la Seda (UNESCO)',cat:'monument',gem:false,emoji:'🏛️',dur:'45 min',cost:'2€',dist:'25 min bus',lat:39.4728,lng:-0.3791,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Lonja_de_Valencia%2C_exterior.jpg/640px-Lonja_de_Valencia%2C_exterior.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"Chef-d\'œuvre gothique 15e s. classé UNESCO. Colonnes hélicoïdales époustouflantes.",tips:'Juste à côté du Marché Central.'},
+  {id:'v5',name:'Plage Malvarrosa',cat:'plage',gem:false,emoji:'🏖️',dur:'2h',cost:'Gratuit',dist:'15 min tram',lat:39.4782,lng:-0.3233,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Playa_Malvarrosa_%28Valencia%29.jpg/640px-Playa_Malvarrosa_%28Valencia%29.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"3 km de sable doré, eau propre, restaurants et bars de plage de qualité.",tips:'Tram T4 depuis la gare. Bonne eau toute la journée.'},
+  {id:'v6',name:'Paella Valenciana authentique',cat:'restaurant',gem:false,emoji:'🥘',dur:'1h30',cost:'15-25€',dist:'15 min tram',lat:39.4780,lng:-0.3240,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Paella_Valenciana_original.jpg/640px-Paella_Valenciana_original.jpg',booking:'https://www.casacarmela.com',info:'https://www.casacarmela.com',desc:"La vraie paella valenciana depuis 1922. Casa Carmela = référence absolue. Poulet + lapin.",tips:'MIDI uniquement. Jamais de fruits de mer dans la vraie paella !'},
+  {id:'v7',name:'El Cabanyal',cat:'culture',gem:true,emoji:'🎨',dur:'1h30',cost:'Gratuit',dist:'20 min tram',lat:39.4759,lng:-0.3272,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/El_Cabanyal%2C_Valencia.jpg/640px-El_Cabanyal%2C_Valencia.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"Ancien village de pêcheurs aux maisons recouvertes d\'azulejos colorés. Bohème et authentique.",tips:'Tram T4. Rue de la Reina la plus photogénique.'},
   {id:'v8',name:'Jardins de Turia à vélo',cat:'nature',gem:true,emoji:'🌿',dur:'1h30',cost:'Gratuit (vélo ~5€)',dist:'15 min bus',lat:39.4700,lng:-0.3750,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Jardi_del_Turia%2C_Val%C3%A8ncia%2C_Pa%C3%ADs_Valenci%C3%A0.jpg/640px-Jardi_del_Turia%2C_Val%C3%A8ncia%2C_Pa%C3%ADs_Valenci%C3%A0.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"9 km de jardins dans l\'ancien lit du Turia. Relie le centre à la Cité des Arts.",tips:'Location vélo Valenbisi ou Orange Bikes.'},
   {id:'v9',name:'Horchata & Fartons',cat:'snack',gem:true,emoji:'🥛',dur:'20 min',cost:'3-5€',dist:'25 min bus',lat:39.4740,lng:-0.3780,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Horchata_valenciana.jpg/640px-Horchata_valenciana.jpg',booking:null,info:'https://www.horchateriasantacatalina.com',desc:"La boisson emblématique : lait de souchet glacé + fartons. Unique au monde !",tips:'Horchateria Santa Catalina (fondée 1836).'},
-  {id:'v10',name:'Azulejos & Souvenirs',cat:'shopping',gem:false,emoji:'🎨',dur:'45 min',cost:'5-30€',dist:'25 min bus',lat:39.4740,lng:-0.3780,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Azulejos_Valencia.jpg/640px-Azulejos_Valencia.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"Carreaux céramique peints typiques de Valencia. Aussi : paelleras, turrón, oranges confites.",tips:'Éviter magasins face à la Lonja. Rue Calatrava.'}
+  {id:'v10',name:'Azulejos & Souvenirs',cat:'shopping',gem:false,emoji:'🎨',dur:'45 min',cost:'5-30€',dist:'25 min bus',lat:39.4740,lng:-0.3780,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Valencia_craft.jpg/320px-Valencia_craft.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"Carreaux céramique peints typiques de Valencia. Paelleras, turrón, oranges confites.",tips:'Éviter magasins face à la Lonja. Rue Calatrava.'},
+  {id:'v11',name:'Torres de Serranos',cat:'monument',gem:false,emoji:'🏰',dur:'45 min',cost:'2€',dist:'20 min bus',lat:39.4779,lng:-0.3763,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Torres_de_Serranos%2C_Valencia.jpg/640px-Torres_de_Serranos%2C_Valencia.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"Portes gothiques de l\'ancienne muraille de Valencia (1392). Vue sur la ville du haut.",tips:'Juste au bord des Jardins de Turia.'},
+  {id:'v12',name:'IVAM — Art Contemporain',cat:'culture',gem:false,emoji:'🖼️',dur:'1h30',cost:'6€',dist:'20 min bus',lat:39.4771,lng:-0.3817,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/IVAM_Valencia.jpg/640px-IVAM_Valencia.jpg',booking:null,info:'https://www.ivam.es',desc:"Institut Valencien d\'Art Moderne. Œuvres de Julio González, art espagnol du 20e siècle.",tips:'Entrée gratuite le dimanche.'},
+  {id:'v13',name:'Playa El Saler',cat:'plage',gem:true,emoji:'🌴',dur:'2h',cost:'Gratuit',dist:'30 min bus',lat:39.3940,lng:-0.3140,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/El_Saler_Valencia_beach.jpg/640px-El_Saler_Valencia_beach.jpg',booking:null,info:null,desc:"Plage naturelle dans le parc naturel de l\'Albufera. Sable fin, dunes, eau propre. Moins fréquentée.",tips:'Bus 25 depuis la gare. Emportez pique-nique.'},
+  {id:'v14',name:'Agua de Valencia',cat:'snack',gem:true,emoji:'🍊',dur:'20 min',cost:'4-7€',dist:'20 min bus',lat:39.4740,lng:-0.3750,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Agua_de_Valencia.jpg/320px-Agua_de_Valencia.jpg',booking:null,info:null,desc:"Le cocktail emblématique : jus d\'orange frais + cava + vodka. Inventé à Valencia en 1959.",tips:'Bar El Café de las Horas — magnifique décor baroque.'},
+  {id:'v15',name:'Mercado de Colón',cat:'marche',gem:false,emoji:'🛒',dur:'45 min',cost:'Gratuit',dist:'20 min bus',lat:39.4708,lng:-0.3745,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Valencia_Mercado_Col%C3%B3n.jpg/640px-Valencia_Mercado_Col%C3%B3n.jpg',booking:null,info:null,desc:"Hall néo-mudéjar de 1914 reconverti en gastronomie. Épiceries fines, restaurants, bars tendance.",tips:'Architecture spectaculaire. Idéal pour le brunch.'},
+  {id:'v16',name:'Ruzafa — Quartier Branché',cat:'culture',gem:false,emoji:'☕',dur:'1h',cost:'Gratuit',dist:'25 min bus',lat:39.4634,lng:-0.3765,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Barrio_Ruzafa_Valencia.jpg/320px-Barrio_Ruzafa_Valencia.jpg',booking:null,info:null,desc:"Le Soho de Valencia. Galeries d\'art, coffee shops, restaurants branchés, street art.",tips:'Parfait pour une balade de fin d\'après-midi.'},
+  {id:'v17',name:'Bioparc Valencia',cat:'nature',gem:false,emoji:'🦁',dur:'2h30',cost:'26€',dist:'25 min tram',lat:39.4773,lng:-0.4051,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Bioparc_Valencia.jpg/640px-Bioparc_Valencia.jpg',booking:'https://www.bioparcvalencia.es',info:'https://www.bioparcvalencia.es',desc:"Zoo nouvelle génération sans barreaux. Simulation d\'Afrique avec gorilles, lions, rhinocéros.",tips:'Idéal avec les ados. Réserver en ligne.'},
+  {id:'v18',name:'Tapas au Mercado Central',cat:'restaurant',gem:false,emoji:'🍢',dur:'45 min',cost:'5-12€',dist:'20 min bus',lat:39.4740,lng:-0.3780,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tapas_Spain.jpg/320px-Tapas_Spain.jpg',booking:null,info:null,desc:"Tapas de marché : jamón ibérico, boquerones, pulpo, crema de arroz negro. Frais du marché.",tips:'Bar Pilar et Bar Ricardo sont les références absolues.'}
 ],
 ibiza:[
   {id:'i1',name:'Dalt Vila — Vieille Ville UNESCO',cat:'monument',gem:false,emoji:'🏰',dur:'2h',cost:'Gratuit',dist:'5 min à pied',lat:38.9076,lng:1.4347,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Dalt_Vila_Ibiza_2.jpg/640px-Dalt_Vila_Ibiza_2.jpg',booking:null,info:'https://ibiza.travel/dalt-vila',desc:"Vieille ville fortifiée classée UNESCO. Remparts 16e s., cathédrale, vue spectaculaire.",tips:'5 min à pied du port. Montée raide mais magnifique.'},
-  {id:'i2',name:'Marché Hippie Las Dalias',cat:'marche',gem:false,emoji:'🌸',dur:'2h',cost:'Gratuit',dist:'30 min taxi',lat:39.0431,lng:1.5481,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Las_Dalias_Hippy_Market.jpg/320px-Las_Dalias_Hippy_Market.jpg',booking:null,info:'https://www.lasdalias.es',desc:"Le marché hippie le plus célèbre depuis 1954. Bijoux artisanaux, vêtements bohème.",tips:'Samedi. Taxi depuis port ~20€ A/R.'},
-  {id:'i3',name:'Plage Talamanca',cat:'plage',gem:false,emoji:'🏖️',dur:'2h',cost:'Gratuit',dist:'15 min à pied',lat:38.9163,lng:1.4464,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Ibiza_talamanca.jpg/640px-Ibiza_talamanca.jpg',booking:null,info:'https://ibiza.travel',desc:"La plage la plus proche du port. Sable doré, eau turquoise, ambiance familiale.",tips:'Eau calme, idéal ados. Activités nautiques.'},
-  {id:'i4',name:'Plage Cala Vadella',cat:'plage',gem:true,emoji:'🌊',dur:'2h',cost:'Gratuit',dist:'30 min taxi',lat:38.8624,lng:1.2424,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Cala_Vadella_-_Ibiza%2C_Spain.jpg/640px-Cala_Vadella_-_Ibiza%2C_Spain.jpg',booking:null,info:'https://ibiza.travel',desc:"L\'une des plus belles criques d\'Ibiza : eau turquoise protégée, sable fin.",tips:'Taxi ~30€ A/R. Fond rocheux idéal snorkeling.'},
-  {id:'i5',name:'Grottes de Can Marçà',cat:'nature',gem:true,emoji:'🦇',dur:'45 min',cost:'12€',dist:'30 min taxi',lat:39.0847,lng:1.4370,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Cova_de_Can_Marc%C3%A0.jpg/320px-Cova_de_Can_Marc%C3%A0.jpg',booking:'https://www.canmarca.com',info:'https://www.canmarca.com',desc:"Grottes marines d\'anciens contrebandiers. Show son et lumière sur stalactites.",tips:'Visite guidée 35 min. Réserver en ligne en saison.'},
-  {id:'i6',name:'Sa Caleta — Ruines Phéniciennes',cat:'culture',gem:true,emoji:'🏚️',dur:'1h',cost:'Gratuit',dist:'20 min taxi',lat:38.8740,lng:1.2940,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Sa_Caleta_Ibiza_Phoenician_settlement.jpg/320px-Sa_Caleta_Ibiza_Phoenician_settlement.jpg',booking:null,info:'https://ibiza.travel',desc:"Site archéologique phénicien classé UNESCO (7e s. av. J-C). Quasi inconnu.",tips:'Sur les falaises face à la mer. Très peu de touristes.'},
-  {id:'i7',name:'Ses Salines — Flamants',cat:'nature',gem:true,emoji:'🦩',dur:'1h30',cost:'Gratuit',dist:'25 min taxi',lat:38.8540,lng:1.3810,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Ses_Salines_Ibiza.jpg/320px-Ses_Salines_Ibiza.jpg',booking:null,info:'https://ibiza.travel',desc:"Parc naturel protégé avec marais salants et flamants roses.",tips:'Plage Ses Salines : la plus belle d\'Ibiza.'},
-  {id:'i8',name:'Sal de Ibiza & Souvenirs',cat:'shopping',gem:true,emoji:'🧂',dur:'30 min',cost:'5-15€',dist:'5 min à pied',lat:38.9080,lng:1.4320,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sal_de_Ibiza.jpg/320px-Sal_de_Ibiza.jpg',booking:null,info:'https://www.saldeibiza.com',desc:"Sel artisanal récolté à la main. Meilleur souvenir d\'Ibiza.",tips:'Boutiques de Dalt Vila uniquement.'},
-  {id:'i9',name:'Formentera',cat:'nature',gem:false,emoji:'🏝️',dur:'Journée',cost:'25€ ferry',dist:'30 min ferry',lat:38.7008,lng:1.4517,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Ses_Illetes%2C_Formentera_%28cropped%29.jpg/640px-Ses_Illetes%2C_Formentera_%28cropped%29.jpg',booking:'https://www.balearia.com',info:'https://www.balearia.com',desc:"Eaux turquoise des Caraïbes. Ses Illetes = une des plus belles plages d\'Europe.",tips:'Ferry officiel Baleàlia. Location vélo 10€/jour.'},
+  {id:'i2',name:'Marché Hippie Las Dalias',cat:'marche',gem:false,emoji:'🌸',dur:'2h',cost:'Gratuit',dist:'30 min taxi',lat:39.0431,lng:1.5481,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Las_Dalias_Hippy_Market.jpg/320px-Las_Dalias_Hippy_Market.jpg',booking:null,info:'https://www.lasdalias.es',desc:"Le marché hippie le plus célèbre depuis 1954. Bijoux artisanaux, vêtements bohème.",tips:'Samedi uniquement. Taxi depuis port ~20€ A/R.'},
+  {id:'i3',name:'Plage Talamanca',cat:'plage',gem:false,emoji:'🏖️',dur:'2h',cost:'Gratuit',dist:'15 min à pied',lat:38.9163,lng:1.4464,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Ibiza_talamanca.jpg/640px-Ibiza_talamanca.jpg',booking:null,info:'https://ibiza.travel',desc:"La plage la plus proche du port. Sable doré, eau turquoise, ambiance familiale.",tips:'Eau calme, idéal ados. Activités nautiques sur place.'},
+  {id:'i4',name:'Plage Cala Vadella',cat:'plage',gem:true,emoji:'🌊',dur:'2h',cost:'Gratuit',dist:'35 min taxi',lat:38.8624,lng:1.2424,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Cala_Vadella_-_Ibiza%2C_Spain.jpg/640px-Cala_Vadella_-_Ibiza%2C_Spain.jpg',booking:null,info:'https://ibiza.travel',desc:"L\'une des plus belles criques d\'Ibiza : eau turquoise protégée, sable fin.",tips:'Taxi ~30€ A/R. Fond rocheux idéal snorkeling.'},
+  {id:'i5',name:'Grottes de Can Marçà',cat:'nature',gem:true,emoji:'🦇',dur:'45 min',cost:'12€',dist:'35 min taxi',lat:39.0847,lng:1.4370,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Cova_de_Can_Marc%C3%A0.jpg/320px-Cova_de_Can_Marc%C3%A0.jpg',booking:'https://www.canmarca.com',info:'https://www.canmarca.com',desc:"Grottes marines d\'anciens contrebandiers. Show son et lumière sur stalactites.",tips:'Visite guidée 35 min. Réserver en ligne en saison.'},
+  {id:'i6',name:'Sa Caleta — Ruines Phéniciennes',cat:'culture',gem:true,emoji:'🏚️',dur:'1h',cost:'Gratuit',dist:'20 min taxi',lat:38.8740,lng:1.2940,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Sa_Caleta_Ibiza_Phoenician_settlement.jpg/320px-Sa_Caleta_Ibiza_Phoenician_settlement.jpg',booking:null,info:'https://ibiza.travel',desc:"Site archéologique phénicien classé UNESCO (7e s. av. J-C). Quasi inconnu des touristes.",tips:'Sur les falaises face à la mer. Très peu de monde.'},
+  {id:'i7',name:'Ses Salines — Flamants Roses',cat:'nature',gem:true,emoji:'🦩',dur:'1h30',cost:'Gratuit',dist:'25 min taxi',lat:38.8540,lng:1.3810,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Ses_Salines_Ibiza.jpg/320px-Ses_Salines_Ibiza.jpg',booking:null,info:'https://ibiza.travel',desc:"Parc naturel protégé avec marais salants et flamants roses. Plage Ses Salines juste à côté.",tips:'Plage Ses Salines : la plus belle d\'Ibiza.'},
+  {id:'i8',name:'Sal de Ibiza',cat:'shopping',gem:true,emoji:'🧂',dur:'30 min',cost:'5-15€',dist:'5 min à pied',lat:38.9080,lng:1.4320,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sal_de_Ibiza.jpg/320px-Sal_de_Ibiza.jpg',booking:null,info:'https://www.saldeibiza.com',desc:"Sel artisanal récolté à la main depuis 2 000 ans. Meilleur souvenir unique d\'Ibiza.",tips:'Boutiques de Dalt Vila uniquement.'},
+  {id:'i9',name:'Formentera',cat:'nature',gem:false,emoji:'🏝️',dur:'Journée',cost:'25€ ferry',dist:'30 min ferry',lat:38.7008,lng:1.4517,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Ses_Illetes%2C_Formentera_%28cropped%29.jpg/640px-Ses_Illetes%2C_Formentera_%28cropped%29.jpg',booking:'https://www.balearia.com',info:'https://www.balearia.com',desc:"Eaux turquoise des Caraïbes. Ses Illetes = une des plus belles plages d\'Europe.",tips:'Ferry Baleàlia. Location vélo 10€/jour. Dernière traversée 20h.'},
   {id:'i10',name:'Marina Botafoch & Coucher Soleil',cat:'panorama',gem:false,emoji:'🛥️',dur:'1h',cost:'Gratuit',dist:'10 min à pied',lat:38.9120,lng:1.4447,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Port_Ibiza.jpg/320px-Port_Ibiza.jpg',booking:null,info:'https://ibiza.travel',desc:"Marina de luxe face à Dalt Vila. Yachts, bars branchés, vue sur la vieille ville.",tips:'Vue féerique au coucher du soleil.'},
-  {id:'i11',name:'Gelato & Croissants au Port',cat:'snack',gem:false,emoji:'🍦',dur:'20 min',cost:'3-6€',dist:'5 min à pied',lat:38.9070,lng:1.4345,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Gelato_Ibiza.jpg/320px-Gelato_Ibiza.jpg',booking:null,info:null,desc:"Gelaterias artisanales : figues de Barbarie, amandes, citron d\'Ibiza.",tips:'Croissant Show : almond croissants délicieux le matin.'}
+  {id:'i11',name:'Es Vedrà',cat:'nature',gem:true,emoji:'🗿',dur:'1h30',cost:'Gratuit',dist:'30 min taxi',lat:38.8670,lng:1.2100,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Es_Vedr%C3%A0.jpg/640px-Es_Vedr%C3%A0.jpg',booking:null,info:'https://ibiza.travel',desc:"Îlot de 378m aux énergies mystiques depuis Cala d\'Hort. Coucher de soleil légendaire.",tips:'Vue depuis Cala d\'Hort. Parking à 1km de la plage.'},
+  {id:'i12',name:'Gelato Artisanal au Port',cat:'snack',gem:false,emoji:'🍦',dur:'20 min',cost:'3-6€',dist:'5 min à pied',lat:38.9070,lng:1.4345,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Gelato_Ibiza.jpg/320px-Gelato_Ibiza.jpg',booking:null,info:null,desc:"Gelaterias artisanales : figues de Barbarie, amandes, citron d\'Ibiza.",tips:'Croissant Show : almond croissants délicieux le matin.'},
+  {id:'i13',name:'Cala d\'Hort Snorkeling',cat:'plage',gem:true,emoji:'🤿',dur:'2h',cost:'Gratuit',dist:'30 min taxi',lat:38.8650,lng:1.2180,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Cala_d_Hort_Ibiza.jpg/320px-Cala_d_Hort_Ibiza.jpg',booking:null,info:null,desc:"Petite crique face à Es Vedrà. Eau cristalline, snorkeling exceptionnel, poissons colorés.",tips:'Taxi ~25€. Apporter masque et palmes.'},
+  {id:'i14',name:'Vue depuis les Remparts',cat:'panorama',gem:false,emoji:'🌅',dur:'45 min',cost:'Gratuit',dist:'5 min à pied',lat:38.9080,lng:1.4350,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Ibiza_view_from_walls.jpg/320px-Ibiza_view_from_walls.jpg',booking:null,info:null,desc:"Les remparts médiévaux de Dalt Vila offrent une vue à 360° sur le port et la mer.",tips:'Accessible à pied depuis le port. Coucher de soleil recommandé.'},
+  {id:'i15',name:'Bocadillo au Bar du Port',cat:'snack',gem:false,emoji:'🥙',dur:'20 min',cost:'4-8€',dist:'5 min à pied',lat:38.9075,lng:1.4340,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Bocadillo.jpg/320px-Bocadillo.jpg',booking:null,info:null,desc:"Bocadillos espagnols frais : jamón ibérico, manchego, tortilla. Les bars du paseo du port.",tips:'Bar San Juan face au port pour le meilleur rapport qualité-prix.'},
+  {id:'i16',name:'Nécrople de Puig des Molins',cat:'culture',gem:false,emoji:'⚱️',dur:'1h',cost:'3€',dist:'10 min à pied',lat:38.9053,lng:1.4307,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Puig_des_Molins.jpg/320px-Puig_des_Molins.jpg',booking:null,info:'https://ibiza.travel',desc:"Nécropole phénicienne et romaine classée UNESCO. Plus de 3 000 tombes. Musée excellent.",tips:'10 min à pied du port. Souvent vide de touristes.'},
+  {id:'i17',name:'Boutiques Hippie Dalt Vila',cat:'shopping',gem:false,emoji:'🌺',dur:'1h',cost:'5-30€',dist:'5 min à pied',lat:38.9076,lng:1.4347,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Ibiza_town_shop.jpg/320px-Ibiza_town_shop.jpg',booking:null,info:null,desc:"Boutiques de mode bohème, bijoux artisanaux, céramiques peintes à la main dans la vieille ville.",tips:'Rue Montcada et Calle Mayor pour les meilleures boutiques.'},
+  {id:'i18',name:'Café Montesol',cat:'restaurant',gem:false,emoji:'☕',dur:'45 min',cost:'8-15€',dist:'5 min à pied',lat:38.9073,lng:1.4335,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Cafe_Ibiza.jpg/320px-Cafe_Ibiza.jpg',booking:null,info:null,desc:"Le café historique d\'Ibiza depuis 1933. Petit déjeuner espagnol, brunch, vue sur le paseo.",tips:'Tables en terrasse face au port. Arrive tôt pour avoir une place.'}
 ],
 cagliari:[
-  {id:'c1',name:'Bastione di San Remy',cat:'panorama',gem:false,emoji:'🌄',dur:'1h',cost:'Gratuit',dist:'15 min à pied',lat:39.2161,lng:9.1077,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Bastione_di_Saint_Remy_Cagliari.jpg/640px-Bastione_di_Saint_Remy_Cagliari.jpg',booking:null,info:'https://www.comune.cagliari.it',desc:"Belvédère emblématique. Ascenseur GRATUIT. Vue 360° sur la ville.",tips:'Meilleur point de vue de Cagliari.'},
-  {id:'c2',name:'Quartier Castello',cat:'culture',gem:false,emoji:'🏰',dur:'1h30',cost:'Gratuit',dist:'15 min à pied',lat:39.2180,lng:9.1074,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Cagliari%2C_quartiere_castello.jpg/640px-Cagliari%2C_quartiere_castello.jpg',booking:null,info:'https://www.cagliari.it',desc:"Cœur médiéval sur la colline. Ruelles pavées, remparts, cathédrale.",tips:'À pied depuis le Bastione. Très authentique.'},
+  {id:'c1',name:'Bastione di San Remy',cat:'panorama',gem:false,emoji:'🌄',dur:'1h',cost:'Gratuit',dist:'15 min à pied',lat:39.2161,lng:9.1077,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Bastione_di_Saint_Remy_Cagliari.jpg/640px-Bastione_di_Saint_Remy_Cagliari.jpg',booking:null,info:'https://www.comune.cagliari.it',desc:"Belvédère emblématique. Ascenseur GRATUIT. Vue 360° sur la ville.",tips:'Meilleur point de vue de Cagliari. Montée aussi par escalier décoré.'},
+  {id:'c2',name:'Quartier Castello',cat:'culture',gem:false,emoji:'🏰',dur:'1h30',cost:'Gratuit',dist:'15 min à pied',lat:39.2180,lng:9.1074,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Cagliari%2C_quartiere_castello.jpg/640px-Cagliari%2C_quartiere_castello.jpg',booking:null,info:'https://www.cagliari.it',desc:"Cœur médiéval sur la colline. Ruelles pavées, remparts, cathédrale baroque.",tips:'À pied depuis le Bastione. Très authentique.'},
   {id:'c3',name:'Plage de Poetto',cat:'plage',gem:false,emoji:'🏖️',dur:'2h',cost:'Gratuit',dist:'20 min bus',lat:39.2134,lng:9.1468,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Spiaggia_del_Poetto%2C_Cagliari.jpg/640px-Spiaggia_del_Poetto%2C_Cagliari.jpg',booking:null,info:'https://www.comune.cagliari.it',desc:"8 km de sable blanc, eau turquoise. La plage mythique de Cagliari.",tips:'Bus CTM PF depuis le port (~15 min).'},
   {id:'c4',name:'Marché San Benedetto',cat:'marche',gem:false,emoji:'🐟',dur:'1h',cost:'Gratuit',dist:'20 min à pied',lat:39.2215,lng:9.1224,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/San_Benedetto_market_Cagliari.jpg/320px-San_Benedetto_market_Cagliari.jpg',booking:null,info:'https://www.cagliari.it',desc:"Le plus grand marché couvert d\'Italie (2 niveaux). Poissons frais, spécialités sardes.",tips:'Ouvert 6h-13h. Acheter bottarga, pecorino, mirto.'},
   {id:'c5',name:'Nécropole de Tuvixeddu',cat:'culture',gem:true,emoji:'⚱️',dur:'1h30',cost:'Gratuit',dist:'20 min bus',lat:39.2230,lng:9.0950,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Tuvixeddu_Cagliari.jpg/320px-Tuvixeddu_Cagliari.jpg',booking:null,info:'https://www.comune.cagliari.it',desc:"Plus grande nécropole punique du monde méditerranéen. Pépite absolue !",tips:'Accès libre et gratuit. Visite quasi déserte.'},
-  {id:'c6',name:'Flamants de Molentargius',cat:'nature',gem:true,emoji:'🦩',dur:'1h30',cost:'Gratuit',dist:'25 min taxi',lat:39.2244,lng:9.1576,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Stagno_di_Molentargius.jpg/320px-Stagno_di_Molentargius.jpg',booking:null,info:'https://www.parcomolentargius.it',desc:"11 000+ flamants roses et 180 espèces d\'oiseaux !",tips:'Taxi ~15€. Flamants présents toute l\'année.'},
-  {id:'c7',name:'Bottarga & Spécialités Sardes',cat:'shopping',gem:true,emoji:'🐟',dur:'30 min',cost:'10-30€',dist:'20 min à pied',lat:39.2215,lng:9.1224,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Bottarga_Sardinia.jpg/320px-Bottarga_Sardinia.jpg',booking:null,info:'https://www.sardegnaturismo.it',desc:"La bottarga (truffe de la mer) + Mirto, Cannonau, pecorino.",tips:'Acheter AU Marché San Benedetto uniquement.'},
-  {id:'c8',name:'Sebadas — Dessert Sarde',cat:'snack',gem:true,emoji:'🍮',dur:'30 min',cost:'3-8€',dist:'15 min à pied',lat:39.2135,lng:9.1133,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Sebadas_Sardinia.jpg/320px-Sebadas_Sardinia.jpg',booking:null,info:null,desc:"Beignets de pecorino frits, nappés de miel de myrte. La douceur sarde !",tips:'Dans tous les restaurants du quartier Castello.'},
-  {id:'c9',name:'Musée Archéologique National',cat:'culture',gem:false,emoji:'🏺',dur:'1h30',cost:'7€',dist:'20 min à pied',lat:39.2185,lng:9.1100,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/MNAS_Cagliari.jpg/640px-MNAS_Cagliari.jpg',booking:'https://www.museoarcheologicocagliari.beniculturali.it',info:'https://www.museoarcheologicocagliari.beniculturali.it',desc:"4000+ artefacts sur 7000 ans. Bronzetti nuragiques uniques au monde.",tips:'Fermé le lundi.'}
+  {id:'c6',name:'Flamants de Molentargius',cat:'nature',gem:true,emoji:'🦩',dur:'1h30',cost:'Gratuit',dist:'25 min taxi',lat:39.2244,lng:9.1576,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Stagno_di_Molentargius.jpg/320px-Stagno_di_Molentargius.jpg',booking:null,info:'https://www.parcomolentargius.it',desc:"11 000+ flamants roses et 180 espèces d\'oiseaux dans un parc naturel urbain !",tips:'Taxi ~15€. Flamants présents toute l\'année.'},
+  {id:'c7',name:'Bottarga & Spécialités Sardes',cat:'shopping',gem:true,emoji:'🐟',dur:'30 min',cost:'10-30€',dist:'20 min à pied',lat:39.2215,lng:9.1224,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Bottarga_Sardinia.jpg/320px-Bottarga_Sardinia.jpg',booking:null,info:'https://www.sardegnaturismo.it',desc:"La bottarga (truffe de la mer) + Mirto, Cannonau, pecorino sardo. Au Marché uniquement.",tips:'Acheter AU Marché San Benedetto uniquement.'},
+  {id:'c8',name:'Sebadas — Dessert Sarde',cat:'snack',gem:true,emoji:'🍮',dur:'30 min',cost:'3-8€',dist:'15 min à pied',lat:39.2135,lng:9.1133,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Sebadas_Sardinia.jpg/320px-Sebadas_Sardinia.jpg',booking:null,info:null,desc:"Beignets de pecorino frits, nappés de miel de myrte. La douceur emblématique sarde !",tips:'Dans tous les restaurants du quartier Castello.'},
+  {id:'c9',name:'Musée Archéologique National',cat:'culture',gem:false,emoji:'🏺',dur:'1h30',cost:'7€',dist:'20 min à pied',lat:39.2185,lng:9.1100,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/MNAS_Cagliari.jpg/640px-MNAS_Cagliari.jpg',booking:'https://www.museoarcheologicocagliari.beniculturali.it',info:'https://www.museoarcheologicocagliari.beniculturali.it',desc:"4000+ artefacts sur 7000 ans. Bronzetti nuragiques uniques au monde.",tips:'Fermé le lundi.'},
+  {id:'c10',name:'Anfiteatro Romano',cat:'monument',gem:false,emoji:'🏛️',dur:'1h',cost:'4€',dist:'20 min à pied',lat:39.2190,lng:9.1060,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Anfiteatro_Romano_di_Cagliari.jpg/640px-Anfiteatro_Romano_di_Cagliari.jpg',booking:null,info:'https://www.cagliari.it',desc:"Amphithéâtre romain du 2e siècle. Taillé dans la roche vive. Spectacle de gladiateurs.",tips:'Près du quartier Castello. Concerts en été.'},
+  {id:'c11',name:'Basilica di Bonaria',cat:'monument',gem:false,emoji:'⛪',dur:'45 min',cost:'Gratuit',dist:'20 min bus',lat:39.2090,lng:9.1110,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Santuario_di_Nostra_Signora_di_Bonaria.jpg/640px-Santuario_di_Nostra_Signora_di_Bonaria.jpg',booking:null,info:null,desc:"Sanctuaire de Notre-Dame de Bonaria, patronne des marins. Vue sur le port.",tips:'15 min à pied du centre. Très beau panorama sur le port.'},
+  {id:'c12',name:'Fregola al frutti di mare',cat:'restaurant',gem:true,emoji:'🍝',dur:'1h',cost:'12-20€',dist:'15 min à pied',lat:39.2157,lng:9.1097,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Fregola_Sardinia.jpg/320px-Fregola_Sardinia.jpg',booking:null,info:null,desc:"La fregola (pâte sarde ronde) aux fruits de mer = l\'emblème culinaire de Cagliari.",tips:'Trattoria Su Tzilleri ou Ristorante Antico Caffe.'},
+  {id:'c13',name:'Laguna di Santa Gilla',cat:'nature',gem:false,emoji:'🦢',dur:'1h',cost:'Gratuit',dist:'20 min bus',lat:39.2050,lng:9.0700,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Santa_Gilla_lagoon.jpg/320px-Santa_Gilla_lagoon.jpg',booking:null,info:null,desc:"Lagune sauvage avec flamants roses, hérons, aigrettes. À l\'opposé de Molentargius.",tips:'Bus depuis centre. Idéal avec jumelles.'},
+  {id:'c14',name:'Via Roma Shopping',cat:'shopping',gem:false,emoji:'🛍️',dur:'1h',cost:'Variable',dist:'15 min à pied',lat:39.2157,lng:9.1097,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Via_Roma_Cagliari.jpg/320px-Via_Roma_Cagliari.jpg',booking:null,info:null,desc:"L\'artère principale longeant le port. Boutiques de mode, parfumeries, souvenirs locaux.",tips:'H&M, Zara et boutiques sardes côte à côte.'},
+  {id:'c15',name:'Orto Botanico',cat:'nature',gem:false,emoji:'🌴',dur:'1h',cost:'3€',dist:'20 min à pied',lat:39.2185,lng:9.1083,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Orto_Botanico_Cagliari.jpg/320px-Orto_Botanico_Cagliari.jpg',booking:null,info:null,desc:"Jardin botanique historique fondé en 1866. 5 000 espèces. Oasis de fraîcheur en ville.",tips:'Accès par l\'université. Idéal lors de la chaleur.'},
+  {id:'c16',name:'Sunset Bastione San Remy',cat:'panorama',gem:true,emoji:'🌅',dur:'1h',cost:'Gratuit',dist:'15 min à pied',lat:39.2161,lng:9.1077,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Cagliari_sunset.jpg/320px-Cagliari_sunset.jpg',booking:null,info:null,desc:"Le coucher de soleil depuis le Bastione est l\'un des plus beaux de Méditerranée.",tips:'Arrivez 30 min avant. Apportez du vin local.'},
+  {id:'c17',name:'Gelato Sardo',cat:'snack',gem:false,emoji:'🍨',dur:'15 min',cost:'2-4€',dist:'15 min à pied',lat:39.2170,lng:9.1050,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Gelato_Italy.jpg/320px-Gelato_Italy.jpg',booking:null,info:null,desc:"Gelato artisanal aux saveurs sardes : mirto, pistache, figue de Barbarie, ricotta-miel.",tips:'Gelateria Emilio en face de l\'Hôtel de Ville = référence locale.'},
+  {id:'c18',name:'Passeggiata sur le port',cat:'panorama',gem:false,emoji:'🚶',dur:'45 min',cost:'Gratuit',dist:'10 min à pied',lat:39.2140,lng:9.1060,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cagliari_port.jpg/320px-Cagliari_port.jpg',booking:null,info:null,desc:"La promenade du port à l\'heure de la passeggiata (18h). Locaux, glaces, lumière dorée.",tips:'De 17h à 18h30. Café Svizzero face au port.'},
+  {id:'c19',name:'Fiori di Zucca Fritti',cat:'snack',gem:false,emoji:'🌻',dur:'20 min',cost:'3-6€',dist:'15 min à pied',lat:39.2165,lng:9.1070,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Fiori_di_zucca_fritti.jpg/320px-Fiori_di_zucca_fritti.jpg',booking:null,info:null,desc:"Fleurs de courgettes farcies et frites. Spécialité de rue sarde à déguster chaud.",tips:'Trouver dans les friterias du centre.'}
 ],
 rome:[
-  {id:'r1',name:'Colisée de Rome',cat:'monument',gem:false,emoji:'🏛️',dur:'2h',cost:'18€',dist:'90 min train+métro',lat:41.8902,lng:12.4922,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/640px-Colosseo_2020.jpg',booking:'https://www.coopculture.it/it/colosseo-e-shop.cfm',info:'https://www.coopculture.it',desc:"L\'amphithéâtre du monde antique. 2000 ans d\'histoire.",tips:'⚠️ RÉSERVER sur coopculture.it. Sans résa = 2h de file !'},
-  {id:'r2',name:'Vatican & Chapelle Sixtine',cat:'monument',gem:false,emoji:'✝️',dur:'3h',cost:'20€',dist:'90 min train',lat:41.9030,lng:12.4534,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Piazza_san_pietro.jpg/640px-Piazza_san_pietro.jpg',booking:'https://www.museivaticani.va/content/museivaticani/it/acquista-biglietti.html',info:'https://www.museivaticani.va',desc:"Basilique Saint-Pierre + Chapelle Sixtine de Michel-Ange.",tips:'Réserver IMPÉRATIVEMENT. Épaules et genoux couverts.'},
-  {id:'r3',name:'Fontaine de Trevi',cat:'monument',gem:false,emoji:'⛲',dur:'30 min',cost:'Gratuit',dist:'90 min train',lat:41.9009,lng:12.4833,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Fontana_di_Trevi_detail.jpg/640px-Fontana_di_Trevi_detail.jpg',booking:null,info:'https://www.turismoroma.it',desc:"La plus célèbre fontaine baroque du monde (1762).",tips:'Éviter 11h-16h. Combiner avec le Panthéon (10 min).'},
-  {id:'r4',name:'Panthéon',cat:'monument',gem:false,emoji:'🔵',dur:'45 min',cost:'5€',dist:'90 min train',lat:41.8986,lng:12.4769,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Pantheon_rome_2005may.jpg/640px-Pantheon_rome_2005may.jpg',booking:'https://www.pantheonroma.com/biglietti/',info:'https://www.pantheonroma.com',desc:"Le monument romain le mieux conservé (125 ap. J-C). L\'oculus unique.",tips:'Réserver en ligne (5€).'},
+  {id:'r1',name:'Colisée de Rome',cat:'monument',gem:false,emoji:'🏛️',dur:'2h',cost:'18€',dist:'90 min train+métro',lat:41.8902,lng:12.4922,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/640px-Colosseo_2020.jpg',booking:'https://www.coopculture.it/it/colosseo-e-shop.cfm',info:'https://www.coopculture.it',desc:"L\'amphithéâtre du monde antique. 2000 ans d\'histoire. 80 000 spectateurs à l\'époque.",tips:'⚠️ RÉSERVER sur coopculture.it. Sans résa = 2h de file !'},
+  {id:'r2',name:'Vatican & Chapelle Sixtine',cat:'monument',gem:false,emoji:'✝️',dur:'3h',cost:'20€',dist:'90 min train',lat:41.9030,lng:12.4534,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Piazza_san_pietro.jpg/640px-Piazza_san_pietro.jpg',booking:'https://www.museivaticani.va/content/museivaticani/it/acquista-biglietti.html',info:'https://www.museivaticani.va',desc:"Basilique Saint-Pierre + Chapelle Sixtine de Michel-Ange. Chef-d\'œuvre absolu.",tips:'Réserver IMPÉRATIVEMENT. Épaules et genoux couverts.'},
+  {id:'r3',name:'Fontaine de Trevi',cat:'monument',gem:false,emoji:'⛲',dur:'30 min',cost:'Gratuit',dist:'90 min train',lat:41.9009,lng:12.4833,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Fontana_di_Trevi_detail.jpg/640px-Fontana_di_Trevi_detail.jpg',booking:null,info:'https://www.turismoroma.it',desc:"La plus célèbre fontaine baroque du monde (1762). Dieu Océan en majesté.",tips:'Éviter 11h-16h. Combiner avec le Panthéon (10 min à pied).'},
+  {id:'r4',name:'Panthéon',cat:'monument',gem:false,emoji:'🔵',dur:'45 min',cost:'5€',dist:'90 min train',lat:41.8986,lng:12.4769,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Pantheon_rome_2005may.jpg/640px-Pantheon_rome_2005may.jpg',booking:'https://www.pantheonroma.com/biglietti/',info:'https://www.pantheonroma.com',desc:"Le monument romain le mieux conservé (125 ap. J-C). L\'oculus unique laisse entrer la pluie.",tips:'Réserver en ligne (5€). Gratuit le 1er dimanche du mois.'},
   {id:'r5',name:'Piazza Navona',cat:'panorama',gem:false,emoji:'🎨',dur:'45 min',cost:'Gratuit',dist:'90 min train',lat:41.8992,lng:12.4730,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Piazza_navona_HD.jpg/640px-Piazza_navona_HD.jpg',booking:null,info:'https://www.turismoroma.it',desc:"La plus belle piazza baroque de Rome. Fontaine des Quatre Fleuves du Bernin.",tips:'Café Tre Scalini : meilleure tartufo de Rome.'},
-  {id:'r6',name:'Ostia Antica — Le Pompéi de Rome',cat:'culture',gem:true,emoji:'🏚️',dur:'2h',cost:'12€',dist:'45 min train',lat:41.7479,lng:12.2954,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Ostia_Antica_-_Terme_di_Nettuno.jpg/640px-Ostia_Antica_-_Terme_di_Nettuno.jpg',booking:'https://www.ostiaantica.beniculturali.it/it/biglietti/',info:'https://www.ostiaantica.beniculturali.it',desc:"L\'ancienne Rome portuaire. 10x MOINS bondé que le Colisée !",tips:'Train Roma Ostiense. Excellent pour ados !'},
-  {id:'r7',name:'Trou de serrure — Chevaliers de Malte',cat:'panorama',gem:true,emoji:'🔭',dur:'20 min',cost:'Gratuit',dist:'90 min train',lat:41.8836,lng:12.4776,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Aventine_keyhole_Rome.jpg/320px-Aventine_keyhole_Rome.jpg',booking:null,info:'https://www.turismoroma.it',desc:"Secret absolu de Rome : le dôme Saint-Pierre parfaitement cadré dans un trou de serrure.",tips:'Piazza dei Cavalieri di Malta. Totalement gratuit.'},
+  {id:'r6',name:'Ostia Antica — Le Pompéi de Rome',cat:'culture',gem:true,emoji:'🏚️',dur:'2h',cost:'12€',dist:'45 min train',lat:41.7479,lng:12.2954,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Ostia_Antica_-_Terme_di_Nettuno.jpg/640px-Ostia_Antica_-_Terme_di_Nettuno.jpg',booking:'https://www.ostiaantica.beniculturali.it/it/biglietti/',info:'https://www.ostiaantica.beniculturali.it',desc:"L\'ancienne Rome portuaire. 10x MOINS bondé que le Colisée !",tips:'Train Roma Ostiense. Excellent pour les ados !'},
+  {id:'r7',name:'Trou de serrure des Chevaliers de Malte',cat:'panorama',gem:true,emoji:'🔭',dur:'20 min',cost:'Gratuit',dist:'90 min train',lat:41.8836,lng:12.4776,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Aventine_keyhole_Rome.jpg/320px-Aventine_keyhole_Rome.jpg',booking:null,info:'https://www.turismoroma.it',desc:"Secret absolu : le dôme Saint-Pierre parfaitement cadré dans un trou de serrure. Inoubliable.",tips:'Piazza dei Cavalieri di Malta. Totalement gratuit.'},
   {id:'r8',name:'Quartier Testaccio',cat:'culture',gem:true,emoji:'🍕',dur:'1h30',cost:'Gratuit',dist:'90 min train',lat:41.8780,lng:12.4770,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Testaccio_market_Rome.jpg/320px-Testaccio_market_Rome.jpg',booking:null,info:'https://www.turismoroma.it',desc:"Le quartier le plus authentique. Trapizzino, supplì, pizza al taglio. Zéro touristes.",tips:'Mercato Testaccio ouvert lun-sam.'},
-  {id:'r9',name:"Campo de' Fiori",cat:'marche',gem:false,emoji:'🌸',dur:'1h',cost:'Gratuit',dist:'90 min train',lat:41.8957,lng:12.4720,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Campo_dei_fiori_rome.jpg/640px-Campo_dei_fiori_rome.jpg',booking:null,info:'https://www.turismoroma.it',desc:"Marché coloré le matin. Fleurs, épices, produits locaux.",tips:'Lun-sam 8h-14h. À 10 min de Piazza Navona.'},
-  {id:'r10',name:'Gelato Artigianale Romain',cat:'snack',gem:true,emoji:'🍨',dur:'15 min',cost:'3-4€',dist:'90 min train',lat:41.8980,lng:12.4730,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Gelato_Rome.jpg/320px-Gelato_Rome.jpg',booking:null,info:'https://www.giolitti.it',desc:"Le vrai gelato romain. Giolitti = référence depuis 1900.",tips:'Chercher "Produzione Propria". Via Uffici del Vicario.'},
-  {id:'r11',name:'Pasta Cacio e Pepe',cat:'restaurant',gem:true,emoji:'🍝',dur:'1h',cost:'12-20€',dist:'90 min train',lat:41.8900,lng:12.4700,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Cacio_e_pepe.jpg/320px-Cacio_e_pepe.jpg',booking:'https://www.daenzo.com',info:'https://www.daenzo.com',desc:"La pasta romaine par excellence. Da Enzo (Trastevere) = référence.",tips:'Réserver en ligne.'},
-  {id:'r12',name:'Forte Michelangelo (Civitavecchia)',cat:'monument',gem:false,emoji:'🏯',dur:'45 min',cost:'Gratuit (ext.)',dist:'10 min à pied',lat:42.0941,lng:11.7899,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Forte_Michelangelo_Civitavecchia.jpg/320px-Forte_Michelangelo_Civitavecchia.jpg',booking:null,info:'https://www.comune.civitavecchia.rm.it',desc:"Forteresse Renaissance conçue par Bramante et Michel-Ange.",tips:'À 10 min à pied du port. Extérieur gratuit.'}
+  {id:'r9',name:"Campo de'Fiori",cat:'marche',gem:false,emoji:'🌸',dur:'1h',cost:'Gratuit',dist:'90 min train',lat:41.8957,lng:12.4720,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Campo_dei_fiori_rome.jpg/640px-Campo_dei_fiori_rome.jpg',booking:null,info:'https://www.turismoroma.it',desc:"Marché coloré le matin. Fleurs, épices, produits locaux. Ambiance romaine authentique.",tips:'Lun-Sam 8h-14h. À 10 min de Piazza Navona.'},
+  {id:'r10',name:'Gelato Artigianale Giolitti',cat:'snack',gem:true,emoji:'🍨',dur:'15 min',cost:'3-4€',dist:'90 min train',lat:41.8980,lng:12.4730,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Gelato_Rome.jpg/320px-Gelato_Rome.jpg',booking:null,info:'https://www.giolitti.it',desc:"Le vrai gelato romain. Giolitti = référence depuis 1900. Via Uffici del Vicario.",tips:'Chercher "Produzione Propria". Prendre pistache + stracciatella.'},
+  {id:'r11',name:'Pasta Cacio e Pepe',cat:'restaurant',gem:true,emoji:'🍝',dur:'1h',cost:'12-20€',dist:'90 min train',lat:41.8900,lng:12.4700,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Cacio_e_pepe.jpg/320px-Cacio_e_pepe.jpg',booking:'https://www.daenzo.com',info:'https://www.daenzo.com',desc:"La pasta romaine par excellence. Da Enzo (Trastevere) = référence depuis 1935.",tips:'Réserver en ligne. Commandez aussi l\'artichaut romain.'},
+  {id:'r12',name:'Forte Michelangelo (Civitavecchia)',cat:'monument',gem:false,emoji:'🏯',dur:'45 min',cost:'Gratuit (ext.)',dist:'10 min à pied',lat:42.0941,lng:11.7899,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Forte_Michelangelo_Civitavecchia.jpg/320px-Forte_Michelangelo_Civitavecchia.jpg',booking:null,info:'https://www.comune.civitavecchia.rm.it',desc:"Forteresse Renaissance conçue par Bramante et Michel-Ange. À 10 min du port.",tips:'Extérieur gratuit. Belle photo avec le port en fond.'},
+  {id:'r13',name:'Trastevere',cat:'culture',gem:true,emoji:'🏘️',dur:'1h30',cost:'Gratuit',dist:'90 min train',lat:41.8850,lng:12.4675,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Trastevere_Roma.jpg/640px-Trastevere_Roma.jpg',booking:null,info:'https://www.turismoroma.it',desc:"Le quartier le plus romantique de Rome. Ruelles médiévales, lierre sur les murs, terrasses.",tips:'Éviter 13h-15h (très bondé). Soir ou tôt le matin.'},
+  {id:'r14',name:'Jardins de Orangers (Aventin)',cat:'nature',gem:true,emoji:'🍊',dur:'30 min',cost:'Gratuit',dist:'90 min train',lat:41.8831,lng:12.4784,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Giardino_degli_aranci_Roma.jpg/640px-Giardino_degli_aranci_Roma.jpg',booking:null,info:null,desc:"Jardins suspendus avec la plus belle vue de Rome. Orangers en fleurs en mai.",tips:'Juste à côté du Trou de serrure. Combo parfait.'},
+  {id:'r15',name:'Supplì Romain',cat:'snack',gem:true,emoji:'🍱',dur:'15 min',cost:'2-3€',dist:'90 min train',lat:41.8780,lng:12.4770,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Suppli.jpg/320px-Suppli.jpg',booking:null,info:null,desc:"Boulette de riz frite au ragù + mozzarella fondue. Le street food romain par excellence.",tips:'Supplì al Telefono au Mercato Testaccio ou Supplì Roma.'},
+  {id:'r16',name:'Villa Borghese & Galerie',cat:'culture',gem:false,emoji:'🖼️',dur:'2h',cost:'13€',dist:'90 min train',lat:41.9138,lng:12.4921,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Galleria_Borghese.jpg/640px-Galleria_Borghese.jpg',booking:'https://borghese.gallery',info:'https://borghese.gallery',desc:"La galerie d\'art la plus belle de Rome. Bernin, Caravage, Raphaël. Jardins magnifiques.",tips:'RÉSERVATION OBLIGATOIRE. 2h max (règle stricte). Billets 15j à l\'avance.'},
+  {id:'r17',name:'Forum Romain',cat:'monument',gem:false,emoji:'🏛️',dur:'1h30',cost:'Inclus Colisée',dist:'90 min train',lat:41.8925,lng:12.4853,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Forum_Romanum_Rom%C3%A6_%28cropped%29.jpg/640px-Forum_Romanum_Rom%C3%A6_%28cropped%29.jpg',booking:'https://www.coopculture.it',info:'https://www.coopculture.it',desc:"Le cœur politique de la Rome antique. Temples, arcs de triomphe, Voie Sacrée.",tips:'Inclus dans le billet Colisée. Prévoir 1h30 supplémentaire.'},
+  {id:'r18',name:'Piazza del Popolo',cat:'panorama',gem:false,emoji:'🌹',dur:'30 min',cost:'Gratuit',dist:'90 min train',lat:41.9109,lng:12.4767,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Piazza_del_Popolo_%28Roma%29.jpg/640px-Piazza_del_Popolo_%28Roma%29.jpg',booking:null,info:null,desc:"La grande piazza d\'entrée dans Rome par le nord. Deux églises jumelles, obélisque égyptien.",tips:'Monte Pincio derrière = vue panoramique sur Rome.'},
+  {id:'r19',name:'Aperitivo Romain',cat:'restaurant',gem:false,emoji:'🍷',dur:'1h',cost:'8-15€',dist:'90 min train',lat:41.8992,lng:12.4730,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Aperitivo_Roma.jpg/320px-Aperitivo_Roma.jpg',booking:null,info:null,desc:"L\'Aperol Spritz ou Negroni romain à 18h avec petits buffets gratuits dans les bars branchés.",tips:'Campo de\' Fiori et Trastevere = meilleurs spots apéro.'}
 ]
 };
+
 
 // ===== STATE =====
 const sel=JSON.parse(localStorage.getItem('croisiere_v3')||'{}');
@@ -547,6 +678,22 @@ function findAttr(id){for(const k of Object.keys(ATTRACTIONS)){const f=ATTRACTIO
 function zone(pLat,pLng,lat,lng){const d=hav(pLat,pLng,lat,lng);if(d<0.8)return{l:'🟢 <10 min',bg:'#059669'};if(d<2.5)return{l:'🟡 10-20 min',bg:'#d97706'};if(d<5)return{l:'🟠 20-30 min',bg:'#ea580c'};return{l:'🔴 +30 min',bg:'#dc2626'};}
 function optimize(pLat,pLng,attrs){if(attrs.length<=1)return[...attrs];const rem=[...attrs],rt=[];let cL=pLat,cG=pLng;while(rem.length){let bi=0,bd=Infinity;rem.forEach((a,i)=>{const d=hav(cL,cG,a.lat,a.lng);if(d<bd){bd=d;bi=i;}});rt.push(rem[bi]);cL=rem[bi].lat;cG=rem[bi].lng;rem.splice(bi,1);}return rt;}
 
+// ===== GEOLOCATION NAVIGATION =====
+function navTo(destLat, destLng, mode, fallbackLat, fallbackLng){
+  const openMap=function(oLat,oLng){
+    window.open('https://www.google.com/maps/dir/?api=1&origin='+oLat+','+oLng+'&destination='+destLat+','+destLng+'&travelmode='+mode,'_blank');
+  };
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      function(pos){openMap(pos.coords.latitude,pos.coords.longitude);},
+      function(){openMap(fallbackLat,fallbackLng);},
+      {timeout:5000,enableHighAccuracy:true,maximumAge:60000}
+    );
+  } else {
+    openMap(fallbackLat,fallbackLng);
+  }
+}
+
 // ===== WEATHER =====
 function renderWeather(p){
   const el=document.getElementById('weather-'+p);if(!el)return;
@@ -559,14 +706,15 @@ function renderInsta(p){
   const el=document.getElementById('insta-'+p);if(!el)return;
   const spots=INSTA_SPOTS[p]||[];if(!spots.length)return;
   const pm=PORTS_META[p];
-  el.innerHTML=`<div class="section-block"><div class="section-hdr insta-hdr" onclick="toggleSec(this)"><span>📸 Spots Instagram</span><span>▼</span></div><div class="section-body">${spots.map(s=>`<div class="insta-item"><div class="insta-emoji">${s.emoji}</div><div class="insta-info"><div class="insta-name">${s.name}</div><div class="insta-tip">${s.tip}</div><a class="insta-map" href="https://www.google.com/maps/dir/?api=1&origin=${pm.portLat},${pm.portLng}&destination=${s.lat},${s.lng}&travelmode=walking" target="_blank">📍 Y aller</a></div></div>`).join('')}</div></div>`;
+  el.innerHTML=`<div class="section-block"><div class="section-hdr insta-hdr" onclick="toggleSec(this)"><span>📸 Spots Instagram</span><span>▼</span></div><div class="section-body">${spots.map(s=>`<div class="insta-item"><div class="insta-emoji">${s.emoji}</div><div class="insta-info"><div class="insta-name">${s.name}</div><div class="insta-tip">${s.tip}</div><button class="insta-map" onclick="navTo(${s.lat},${s.lng},'walking',${pm.portLat},${pm.portLng})">📍 Y aller</button></div></div>`).join('')}</div></div>`;
 }
 
 // ===== SHOPPING =====
 function renderShopping(p){
   const el=document.getElementById('shopping-'+p);if(!el)return;
   const shops=SHOPPING[p]||[];if(!shops.length)return;
-  el.innerHTML=`<div class="section-block"><div class="section-hdr shop-hdr" onclick="toggleSec(this)"><span>🛍️ Shopping & Mode</span><span>▼</span></div><div class="section-body">${shops.map(s=>`<div class="shop-item"><div class="shop-emoji">${s.emoji}</div><div class="shop-info"><div class="shop-name">${s.name}</div><div class="shop-type">${s.type}</div><div class="shop-brands">${s.brands}</div><div class="shop-dist">📍 ${s.dist} · 💡 ${s.tip}</div><a class="shop-map" href="https://www.google.com/maps/dir/?api=1&origin=${PORTS_META[p].portLat},${PORTS_META[p].portLng}&destination=${s.lat},${s.lng}&travelmode=transit" target="_blank">🗺️ Itinéraire</a></div></div>`).join('')}</div></div>`;
+  const pm=PORTS_META[p];
+  el.innerHTML=`<div class="section-block"><div class="section-hdr shop-hdr" onclick="toggleSec(this)"><span>🛍️ Shopping & Mode</span><span>▼</span></div><div class="section-body">${shops.map(s=>`<div class="shop-item"><div class="shop-emoji">${s.emoji}</div><div class="shop-info"><div class="shop-name">${s.name}</div><div class="shop-type">${s.type}</div><div class="shop-brands">${s.brands}</div><div class="shop-dist">📍 ${s.dist} · 💡 ${s.tip}</div><button class="shop-map" onclick="navTo(${s.lat},${s.lng},'transit',${pm.portLat},${pm.portLng})">🗺️ Itinéraire GPS</button></div></div>`).join('')}</div></div>`;
 }
 
 // ===== TRAPS & EXCURSIONS =====
@@ -605,7 +753,13 @@ function renderCards(port,filter){
 }
 
 // ===== FILTERS =====
-const PORT_CATS={marseille:['all','gem','monument','nature','culture','marche','restaurant','shopping','snack','panorama'],valencia:['all','gem','monument','culture','marche','plage','restaurant','snack','shopping','nature'],ibiza:['all','gem','monument','plage','marche','culture','nature','shopping','snack','panorama'],cagliari:['all','gem','panorama','culture','monument','plage','marche','nature','snack','shopping'],rome:['all','gem','monument','culture','marche','panorama','restaurant','snack','nature']};
+const PORT_CATS={
+  marseille:['all','gem','monument','nature','culture','plage','marche','restaurant','shopping','snack','panorama'],
+  valencia:['all','gem','monument','culture','marche','plage','restaurant','snack','shopping','nature'],
+  ibiza:['all','gem','monument','plage','marche','culture','nature','shopping','snack','panorama'],
+  cagliari:['all','gem','panorama','culture','monument','plage','marche','nature','snack','shopping','restaurant'],
+  rome:['all','gem','monument','culture','marche','panorama','restaurant','snack','nature']
+};
 const CLABELS={'all':'Tout','gem':'💎 Pépites','monument':'🏛️ Monuments','plage':'🏖️ Plages','marche':'🛒 Marchés','restaurant':'🍽️ Restos','panorama':'🌄 Panoramas','nature':'🌿 Nature','culture':'🎭 Culture','snack':'🍦 Snacks','shopping':'🛍️ Shopping'};
 function renderFilters(p){const c=document.getElementById('cat-'+p);if(!c)return;c.innerHTML=(PORT_CATS[p]||['all']).map(k=>`<button class="cpill${k==='all'?' active':''}" onclick="filterP('${p}','${k}',this)">${CLABELS[k]||k}</button>`).join('');}
 function filterP(p,cat,btn){document.getElementById('cat-'+p).querySelectorAll('.cpill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderCards(p,cat);}
@@ -617,7 +771,8 @@ function openDetail(id,port){
   document.getElementById('mTitle').textContent=a.emoji+' '+a.name;
   document.getElementById('mSub').innerHTML=`<strong>${CATS[a.cat]||a.cat}${a.gem?' 💎 Pépite':''}</strong><br><span style="color:#374151;display:block;margin-top:4px">${a.desc}</span>${a.tips?`<div style="margin-top:8px;background:#fff7ed;padding:7px 10px;border-radius:8px;font-size:.73rem;color:#92400e">💡 ${a.tips}</div>`:''}${(a.info||a.booking)?`<div style="margin-top:7px;display:flex;gap:10px">${a.info?`<a href="${a.info}" target="_blank" style="font-size:.75rem;color:var(--sea);font-weight:600">🌐 Site officiel</a>`:''}${a.booking?`<a href="${a.booking}" target="_blank" style="font-size:.75rem;color:#059669;font-weight:700">🎟️ Réserver</a>`:''}</div>`:''}`;
   document.getElementById('mBody').innerHTML=`<button class="mtoggle" id="mt-${id}" onclick="toggleSel('${id}','${port}')" style="background:${isSel?'#fee2e2':'#d1fae5'};color:${isSel?'#991b1b':'#065f46'}">${isSel?'✕ Retirer de mon plan':'✓ Ajouter à mon plan'}</button>
-    <div class="nav-grid">${[{m:'walking',i:'🚶',l:'À pied'},{m:'transit',i:'🚌',l:'Bus/Tram'},{m:'driving',i:'🚕',l:'Taxi'},{m:'transit',i:'🚆',l:'Train'}].map(x=>`<a class="nbtn" href="https://www.google.com/maps/dir/?api=1&origin=${pm.portLat},${pm.portLng}&destination=${a.lat},${a.lng}&travelmode=${x.m}" target="_blank"><span class="ni">${x.i}</span><div class="nd">${x.l}<br><small>Depuis le port</small></div></a>`).join('')}</div>`;
+    <div style="font-size:.72rem;color:var(--gray);margin-bottom:6px;text-align:center">📍 Navigation depuis votre position GPS</div>
+    <div class="nav-grid">${[{m:'walking',i:'🚶',l:'À pied'},{m:'transit',i:'🚌',l:'Bus/Tram'},{m:'driving',i:'🚕',l:'Taxi'},{m:'transit',i:'🚆',l:'Train'}].map(x=>`<button class="nbtn" onclick="navTo(${a.lat},${a.lng},'${x.m}',${pm.portLat},${pm.portLng})"><span class="ni">${x.i}</span><div class="nd">${x.l}<br><small>Depuis GPS</small></div></button>`).join('')}</div>`;
   document.getElementById('overlay').classList.add('open');
   document.getElementById('navModal').classList.add('open');
 }
@@ -707,6 +862,96 @@ function initAlertBtns(){
   });
 }
 
+// ===== AUTOUR DE MOI =====
+let nearbyUserLat=null,nearbyUserLng=null,nearbyActiveCat='all';
+
+function openNearby(){
+  document.getElementById('nearbyModal').classList.add('open');
+  document.getElementById('nearbyStatus').style.display='block';
+  document.getElementById('nearbyStatus').textContent='🔍 Localisation GPS en cours...';
+  document.getElementById('nearbyResults').innerHTML='<div class="nearby-status" id="nearbyStatus">🔍 Localisation GPS en cours...</div>';
+  buildNearbyCats();
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      function(pos){
+        nearbyUserLat=pos.coords.latitude;
+        nearbyUserLng=pos.coords.longitude;
+        refreshNearby();
+      },
+      function(err){
+        // Fallback: detect current port from date
+        const curPort=getCurrentPort();
+        if(curPort){
+          nearbyUserLat=PORTS_META[curPort.pk].portLat;
+          nearbyUserLng=PORTS_META[curPort.pk].portLng;
+        } else {
+          nearbyUserLat=PORTS_META['marseille'].portLat;
+          nearbyUserLng=PORTS_META['marseille'].portLng;
+        }
+        document.getElementById('nearbyResults').innerHTML='<div class="nearby-status">⚠️ GPS indisponible — position du port utilisée</div>';
+        refreshNearby();
+      },
+      {timeout:8000,enableHighAccuracy:true,maximumAge:30000}
+    );
+  } else {
+    document.getElementById('nearbyResults').innerHTML='<div class="nearby-status">❌ Géolocalisation non supportée par ce navigateur</div>';
+  }
+}
+
+function closeNearby(){
+  document.getElementById('nearbyModal').classList.remove('open');
+}
+
+function buildNearbyCats(){
+  const cats=['all','monument','plage','marche','restaurant','panorama','nature','culture','snack','shopping'];
+  const labels={'all':'Tout','monument':'🏛️','plage':'🏖️','marche':'🛒','restaurant':'🍽️','panorama':'🌄','nature':'🌿','culture':'🎭','snack':'🍦','shopping':'🛍️'};
+  document.getElementById('nearbyCats').innerHTML=cats.map(k=>`<button class="cpill${k===nearbyActiveCat?' active':''}" onclick="nearbyFilterCat('${k}',this)">${labels[k]||k}</button>`).join('');
+}
+
+function nearbyFilterCat(cat,btn){
+  nearbyActiveCat=cat;
+  document.getElementById('nearbyCats').querySelectorAll('.cpill').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  refreshNearby();
+}
+
+function refreshNearby(){
+  if(nearbyUserLat===null)return;
+  const radius=parseFloat(document.getElementById('nearbyRadius').value)||1;
+  const portSel=document.getElementById('nearbyPort').value;
+  
+  let allAttrs=[];
+  const ports=portSel==='auto'?Object.keys(ATTRACTIONS):[portSel];
+  ports.forEach(pk=>{
+    (ATTRACTIONS[pk]||[]).forEach(a=>{
+      const d=hav(nearbyUserLat,nearbyUserLng,a.lat,a.lng);
+      allAttrs.push({...a,dist_km:d,port:pk});
+    });
+  });
+  
+  allAttrs.sort((a,b)=>a.dist_km-b.dist_km);
+  const filtered=allAttrs.filter(a=>a.dist_km<=radius&&(nearbyActiveCat==='all'||a.cat===nearbyActiveCat));
+  
+  if(!filtered.length){
+    document.getElementById('nearbyResults').innerHTML=`<div class="nearby-status">😕 Aucun point d'intérêt dans ${radius<1?radius*1000+'m':radius+'km'}.<br>Élargissez le rayon ou changez de port.</div>`;
+    return;
+  }
+  
+  document.getElementById('nearbyResults').innerHTML=`<div style="font-size:.7rem;color:var(--gray);margin-bottom:8px">📍 ${filtered.length} lieu(x) trouvé(s) dans ${radius<1?radius*1000+'m':radius+'km'}</div>`+
+    filtered.map(a=>{
+      const distStr=a.dist_km<1?(Math.round(a.dist_km*1000))+'m':(a.dist_km.toFixed(1))+'km';
+      return`<div class="nearby-item" onclick="closeNearby();showPort('${a.port}');setTimeout(()=>openDetail('${a.id}','${a.port}'),300)">
+        <div class="nearby-emoji">${a.emoji}</div>
+        <div class="nearby-info">
+          <div class="nearby-name">${a.gem?'💎 ':''}${a.name}</div>
+          <div class="nearby-meta">${CATS[a.cat]||a.cat} · ${a.dur} · ${a.cost}</div>
+        </div>
+        <div class="nearby-dist">${distStr}</div>
+        <button class="nearby-nav-btn" onclick="event.stopPropagation();navTo(${a.lat},${a.lng},'walking',${nearbyUserLat},${nearbyUserLng})">🗺️</button>
+      </div>`;
+    }).join('');
+}
+
 // ===== ITINERARY =====
 function genPlan(pk){
   const pm=PORTS_META[pk];
@@ -763,7 +1008,7 @@ function renderPlan(){
     const pm=PORTS_META[pk];
     const opt=optimize(pm.portLat,pm.portLng,byPort[pk].map(id=>findAttr(id)).filter(Boolean));
     html+=`<button class="plan-itin-btn" onclick="showItin('${pk}')">🗓️ Générer itinéraire optimisé — ${pm.name}</button><div class="pgroup"><div class="pghdr"><span>${pm.name}</span><span class="phrs">⏰ ${pm.arrivalTime} – ${pm.departureTime}</span></div>`;
-    opt.forEach(a=>{html+=`<div class="pitem"><div class="pemoji">${a.emoji}</div><div class="pinfo"><div class="pname">${a.gem?'💎 ':''}${a.name}</div><div class="pmeta">${a.dist} · ${a.dur} · ${a.cost}</div></div><a class="pnav" href="https://www.google.com/maps/dir/?api=1&origin=${pm.portLat},${pm.portLng}&destination=${a.lat},${a.lng}&travelmode=transit" target="_blank">🗺️</a><button class="pdel" onclick="toggleSel('${a.id}','${pk}')">✕</button></div>`;});
+    opt.forEach(a=>{html+=`<div class="pitem"><div class="pemoji">${a.emoji}</div><div class="pinfo"><div class="pname">${a.gem?'💎 ':''}${a.name}</div><div class="pmeta">${a.dist} · ${a.dur} · ${a.cost}</div></div><button class="pnav" onclick="navTo(${a.lat},${a.lng},'transit',${pm.portLat},${pm.portLng})">🗺️</button><button class="pdel" onclick="toggleSel('${a.id}','${pk}')">✕</button></div>`;});
     html+=`</div>`;
   });
   el.innerHTML=html;
@@ -811,6 +1056,12 @@ function showPort(k){
   const el=document.getElementById(k);if(el)el.classList.add('active');
   document.querySelectorAll(`[onclick*="'${k}'"]`).forEach(b=>b.classList.add('active'));
   if(k==='plan')renderPlan();
+  // Show nearby FAB only on port pages
+  const fab=document.getElementById('nearbyFab');
+  if(fab){
+    const portPages=['marseille','valencia','ibiza','cagliari','rome'];
+    fab.style.display=portPages.includes(k)?'flex':'none';
+  }
   window.scrollTo(0,0);
 }
 
