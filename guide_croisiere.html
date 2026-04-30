@@ -403,11 +403,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 const CATS={monument:'🏛️ Monument',plage:'🏖️ Plage',marche:'🛒 Marché',restaurant:'🍽️ Resto',panorama:'🌄 Panorama',nature:'🌿 Nature',culture:'🎭 Culture',snack:'🍦 Snack',shopping:'🛍️ Shopping'};
 
 const PORTS_META={
-  marseille:{name:'Marseille 🇫🇷',date:'Mar 29 Avr',arrivalTime:'07:00',departureTime:'18:00',portLat:43.3037,portLng:5.3686},
-  valencia:{name:'Valencia 🇪🇸',date:'Mer 30 Avr',arrivalTime:'10:00',departureTime:'20:00',portLat:39.4576,portLng:-0.3101},
-  ibiza:{name:'Ibiza 🏝️',date:'Jeu 1 Mai',arrivalTime:'11:30',departureTime:'23:59',portLat:38.9067,portLng:1.4358},
-  cagliari:{name:'Cagliari 🇮🇹',date:'Sam 3 Mai',arrivalTime:'08:00',departureTime:'17:00',portLat:39.2121,portLng:9.1098},
-  rome:{name:'Rome 🏛️',date:'Dim 4 Mai',arrivalTime:'08:00',departureTime:'19:00',portLat:42.0930,portLng:11.7935}
+  marseille:{name:'Marseille 🇫🇷',date:'Mar 29 Avr',arrivalTime:'07:00',departureTime:'18:00',portLat:43.2975,portLng:5.3555},
+  valencia:{name:'Valencia 🇪🇸',date:'Mer 30 Avr',arrivalTime:'10:00',departureTime:'20:00',portLat:39.4420,portLng:-0.3215},
+  ibiza:{name:'Ibiza 🏝️',date:'Jeu 1 Mai',arrivalTime:'11:30',departureTime:'23:59',portLat:38.9076,portLng:1.4321},
+  cagliari:{name:'Cagliari 🇮🇹',date:'Sam 3 Mai',arrivalTime:'08:00',departureTime:'17:00',portLat:39.2222,portLng:9.1083},
+  rome:{name:'Rome 🏛️',date:'Dim 4 Mai',arrivalTime:'08:00',departureTime:'19:00',portLat:42.0908,portLng:11.7948}
 };
 
 const PORT_DATES={
@@ -612,7 +612,7 @@ marseille:[
 valencia:[
   {id:'v1',name:'Cité des Arts et Sciences',cat:'monument',gem:false,emoji:'🔭',dur:'3h',cost:'22-30€',dist:'10 min taxi',lat:39.4538,lng:-0.3503,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Ciudad_de_las_Artes_y_las_Ciencias_-_01.jpg/640px-Ciudad_de_las_Artes_y_las_Ciencias_-_01.jpg',booking:'https://www.cac.es/es/comprar-entradas.html',info:'https://www.cac.es',desc:"Chef-d\'œuvre futuriste de Calatrava. Musée des Sciences + Planétarium spectaculaire.",tips:'Réserver en ligne. Combo Science+Planétarium = 22€.'},
   {id:'v2',name:'Oceanogràfic Valencia',cat:'culture',gem:false,emoji:'🦈',dur:'3h',cost:'30€',dist:'10 min taxi',lat:39.4540,lng:-0.3503,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Oceanogr%C3%A0fic_de_Val%C3%A8ncia.jpg/640px-Oceanogr%C3%A0fic_de_Val%C3%A8ncia.jpg',booking:'https://www.oceanografic.org/entradas/',info:'https://www.oceanografic.org',desc:"Le plus grand aquarium d\'Europe. Tunnel sous-marin avec requins et dauphins !",tips:'Réserver. Spectacle dauphins inclus.'},
-  {id:'v3',name:'Marché Central Valencia',cat:'marche',gem:false,emoji:'🏪',dur:'1h',cost:'Gratuit',dist:'20 min bus',lat:43.2985,lng:-0.3780,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Valencia_Mercado_Central.jpg/640px-Valencia_Mercado_Central.jpg',booking:null,info:'https://www.mercadocentralvalencia.es',desc:"Le plus grand marché couvert de produits frais d\'Europe. Architecture Art Nouveau 1928.",tips:'Ouvert lun-sam 7h30-15h. Goûter horchata et fartons.'},
+  {id:'v3',name:'Marché Central Valencia',cat:'marche',gem:false,emoji:'🏪',dur:'1h',cost:'Gratuit',dist:'20 min bus',lat:39.4740,lng:-0.3784,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Valencia_Mercado_Central.jpg/640px-Valencia_Mercado_Central.jpg',booking:null,info:'https://www.mercadocentralvalencia.es',desc:"Le plus grand marché couvert de produits frais d\'Europe. Architecture Art Nouveau 1928.",tips:'Ouvert lun-sam 7h30-15h. Goûter horchata et fartons.'},
   {id:'v4',name:'La Lonja de la Seda (UNESCO)',cat:'monument',gem:false,emoji:'🏛️',dur:'45 min',cost:'2€',dist:'25 min bus',lat:39.4728,lng:-0.3791,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Lonja_de_Valencia%2C_exterior.jpg/640px-Lonja_de_Valencia%2C_exterior.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"Chef-d\'œuvre gothique 15e s. classé UNESCO. Colonnes hélicoïdales époustouflantes.",tips:'Juste à côté du Marché Central.'},
   {id:'v5',name:'Plage Malvarrosa',cat:'plage',gem:false,emoji:'🏖️',dur:'2h',cost:'Gratuit',dist:'15 min tram',lat:39.4782,lng:-0.3233,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Playa_Malvarrosa_%28Valencia%29.jpg/640px-Playa_Malvarrosa_%28Valencia%29.jpg',booking:null,info:'https://www.visitvalencia.com',desc:"3 km de sable doré, eau propre, restaurants et bars de plage de qualité.",tips:'Tram T4 depuis la gare. Bonne eau toute la journée.'},
   {id:'v6',name:'Paella Valenciana authentique',cat:'restaurant',gem:false,emoji:'🥘',dur:'1h30',cost:'15-25€',dist:'15 min tram',lat:39.4780,lng:-0.3240,img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Paella_Valenciana_original.jpg/640px-Paella_Valenciana_original.jpg',booking:'https://www.casacarmela.com',info:'https://www.casacarmela.com',desc:"La vraie paella valenciana depuis 1922. Casa Carmela = référence absolue. Poulet + lapin.",tips:'MIDI uniquement. Jamais de fruits de mer dans la vraie paella !'},
@@ -700,12 +700,12 @@ function save(){localStorage.setItem('croisiere_v3',JSON.stringify(sel));}
 
 // ===== UTILS =====
 function hav(a,b,c,d){const R=6371,dL=(c-a)*Math.PI/180,dG=(d-b)*Math.PI/180,x=Math.sin(dL/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dG/2)**2;return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));}
-function tMins(km){if(km<0.6)return 8;if(km<1.5)return 12;if(km<3)return 18;if(km<6)return 22;if(km<15)return 30;return 45;}
+function tMins(km){if(km<0.5)return 5;if(km<1.5)return 10;if(km<4)return 15;if(km<10)return 22;if(km<20)return 35;return 50;}
 function parseDur(s){const hm=s.match(/(\d+)h(\d+)?/);if(hm)return+hm[1]*60+(+hm[2]||0);const m=s.match(/(\d+)\s*min/);if(m)return+m[1];if(/[Jj]ourn/.test(s))return 420;return 60;}
 function parseCost(s){if(!s||/gratuit|free/i.test(s))return 0;const r=s.match(/(\d+)[^\d]+(\d+)/);if(r)return(+r[1]+ +r[2])/2;const n=s.match(/(\d+)/);return n?+n[1]:0;}
 function fmt(m){return`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;}
 function findAttr(id){for(const k of Object.keys(ATTRACTIONS)){const f=ATTRACTIONS[k].find(a=>a.id===id);if(f)return f;}return null;}
-function zone(pLat,pLng,lat,lng){const d=hav(pLat,pLng,lat,lng);if(d<0.8)return{l:'🟢 <10 min',bg:'#059669'};if(d<2.5)return{l:'🟡 10-20 min',bg:'#d97706'};if(d<5)return{l:'🟠 20-30 min',bg:'#ea580c'};return{l:'🔴 +30 min',bg:'#dc2626'};}
+function zone(pLat,pLng,lat,lng){const d=hav(pLat,pLng,lat,lng);if(d<0.5)return{l:'🟢 <10 min',bg:'#059669'};if(d<4)return{l:'🟡 10-20 min',bg:'#d97706'};if(d<10)return{l:'🟠 20-40 min',bg:'#ea580c'};return{l:'🔴 +40 min',bg:'#dc2626'};}
 function optimize(pLat,pLng,attrs){if(attrs.length<=1)return[...attrs];const rem=[...attrs],rt=[];let cL=pLat,cG=pLng;while(rem.length){let bi=0,bd=Infinity;rem.forEach((a,i)=>{const d=hav(cL,cG,a.lat,a.lng);if(d<bd){bd=d;bi=i;}});rt.push(rem[bi]);cL=rem[bi].lat;cG=rem[bi].lng;rem.splice(bi,1);}return rt;}
 
 // ===== GEOLOCATION NAVIGATION =====
